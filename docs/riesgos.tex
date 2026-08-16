@@ -1,0 +1,286 @@
+% =====================================================================
+%  riesgos.tex  --  Lista de Riesgos de LEIP
+%  ARCHIVO UNICO: no necesita ningun otro archivo.
+%  Compilar en Overleaf con pdfLaTeX (dos pasadas por el indice).
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------------
+%  DATOS DEL PROYECTO
+% ---------------------------------------------------------------------
+\newcommand{\proyectoNombre}{LEIP}
+\newcommand{\proyectoNombreLargo}{LatAm Economic Intelligence Platform}
+\newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
+\newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
+\newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
+\newcommand{\docVersion}{1.0}
+\newcommand{\docTitulo}{Lista de Riesgos}
+\newcommand{\docFecha}{Agosto 2026}
+
+% ---------------------------------------------------------------------
+%  PREAMBULO
+% ---------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}\usepackage{microtype}}{}
+
+\IfFileExists{spanish.ldf}{%
+  \usepackage[spanish,es-tabla,es-noquoting]{babel}%
+}{%
+  \usepackage[english]{babel}%
+  \renewcommand{\contentsname}{\'Indice}%
+  \renewcommand{\listfigurename}{\'Indice de figuras}%
+  \renewcommand{\listtablename}{\'Indice de tablas}%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\figurename}{Figura}%
+}
+
+\usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\setlist{noitemsep,topsep=4pt}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\urlstyle{same}
+
+\definecolor{leipAzul}{HTML}{1F4E79}
+\definecolor{leipGris}{HTML}{5A5A5A}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{leipGris}\proyectoNombre{} --- \docTitulo}
+\fancyhead[R]{\small\color{leipGris} v\docVersion}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
+
+% --- Portada -----------------------------------------------------------
+\newcommand{\portada}[1]{%
+  \begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\Large \proyectoUniversidad\par}
+  {\large \proyectoFacultad\par}
+  {\large \proyectoCarrera\par}
+  \vspace{3cm}
+  {\Huge\bfseries\color{leipAzul} #1\par}
+  \vspace{0.8cm}
+  {\Large \proyectoNombre{} --- \proyectoNombreLargo\par}
+  \vspace{2cm}
+  {\large Versi\'on \docVersion\par}
+  {\large \docFecha\par}
+  \vfill
+  {\large\bfseries Integrantes\par}
+  \vspace{0.3cm}
+  \begin{tabular}{c}
+    Sebastian Forische \\
+    Armando Hernandez de la Vega \\
+    Luana Acu\~na \\
+    Bruno Sebastian Olivera Viera Gomez \\
+  \end{tabular}
+  \vspace{1.5cm}
+  \end{titlepage}
+}
+
+% --- Historial de revisiones -------------------------------------------
+\newenvironment{historial}{%
+  \section*{Historial de revisiones}
+  \addcontentsline{toc}{section}{Historial de revisiones}
+  \begin{tabular}{@{}l l p{0.52\textwidth} l@{}}
+  \toprule
+  \textbf{Versi\'on} & \textbf{Fecha} & \textbf{Descripci\'on} & \textbf{Autor} \\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+  \bigskip
+}
+
+% =====================================================================
+%  ENTORNO PARA DESCRIBIR UN RIESGO
+% ---------------------------------------------------------------------
+%  Uso:
+%
+%  \begin{riesgo}{Titulo del riesgo}
+%    \rdescripcion{En que consiste}
+%    \rcausa{Que lo origina}
+%    \rimpacto{Que consecuencia tiene si ocurre}
+%    \rprobabilidad{}      % segun la escala de la seccion 2
+%    \rnivel{}             % probabilidad x impacto
+%    \rmitigacion{Que se hace para reducirlo}
+%    \rcontingencia{Que se hace si igual ocurre}
+%    \rresponsable{}
+%  \end{riesgo}
+%
+%  El codigo (R-01, R-02, ...) se numera solo.
+% =====================================================================
+
+\newcounter{rcounter}
+\newcommand{\dosdig}[1]{\ifnum\value{#1}<10 0\fi\arabic{#1}}
+
+\newcommand{\rcampo}[2]{%
+  \par\noindent
+  \begin{tabularx}{\textwidth}{@{}>{\bfseries}p{3.4cm} X@{}}
+    #1 & #2
+  \end{tabularx}\par\smallskip
+}
+
+\newcommand{\rdescripcion}[1]{\rcampo{Descripci\'on}{#1}}
+\newcommand{\rcausa}[1]{\rcampo{Causa}{#1}}
+\newcommand{\rimpacto}[1]{\rcampo{Impacto}{#1}}
+\newcommand{\rprobabilidad}[1]{\rcampo{Probabilidad}{#1}}
+\newcommand{\rnivel}[1]{\rcampo{Nivel}{#1}}
+\newcommand{\rmitigacion}[1]{\rcampo{Mitigaci\'on}{#1}}
+\newcommand{\rcontingencia}[1]{\rcampo{Contingencia}{#1}}
+\newcommand{\rresponsable}[1]{\rcampo{Responsable}{#1}}
+
+\newenvironment{riesgo}[1]{%
+  \refstepcounter{rcounter}%
+  \subsection*{\color{leipAzul}R-\dosdig{rcounter}\quad #1}
+  \addcontentsline{toc}{subsection}{R-\dosdig{rcounter}\quad #1}
+  \vspace{-0.4em}
+  {\color{leipGris}\hrule height 0.5pt}
+  \smallskip
+}{%
+  \bigskip
+}
+
+\begin{document}
+
+\portada{Lista de Riesgos}
+
+\tableofcontents
+\bigskip
+
+\begin{historial}
+1.0 & 26/06/2026 & Contenido inicial derivado del anteproyecto & Equipo \\
+\end{historial}
+\clearpage
+
+% =====================================================================
+\section{Introducci\'on}
+
+\subsection{Objetivo del documento}
+
+\subsection{Alcance}
+
+% =====================================================================
+\section{Par\'ametros de evaluaci\'on}
+
+\subsection{Escala de probabilidad}
+
+\subsection{Escala de impacto}
+
+\subsection{C\'alculo del nivel de riesgo}
+
+% =====================================================================
+\section{Riesgos identificados}
+
+Durante el desarrollo de \proyectoNombre{} se identifican riesgos t\'ecnicos,
+legales y de mercado que pueden afectar la construcci\'on y validaci\'on del
+producto.
+
+\subsection*{Riesgos t\'ecnicos}
+
+\begin{riesgo}{Cambios en las fuentes oficiales}
+\rdescripcion{Los bancos centrales pueden modificar formatos, archivos o
+servicios de datos sin previo aviso.}
+\rcausa{}
+\rimpacto{}
+\rprobabilidad{}
+\rnivel{}
+\rmitigacion{Se aplicar\'an validaciones autom\'aticas antes de publicar
+informaci\'on.}
+\rcontingencia{}
+\rresponsable{}
+\end{riesgo}
+
+\begin{riesgo}{Errores o inconsistencias en los datos}
+\rdescripcion{Diferencias de fechas, unidades, nombres u horizontes pueden
+afectar la comparabilidad.}
+\rcausa{}
+\rimpacto{}
+\rprobabilidad{}
+\rnivel{}
+\rmitigacion{Se aplicar\'an procesos de normalizaci\'on, trazabilidad y control
+de calidad antes de alimentar la capa de inteligencia.}
+\rcontingencia{}
+\rresponsable{}
+\end{riesgo}
+
+\subsection*{Riesgos legales}
+
+\begin{riesgo}{Riesgo legal por uso de fuentes}
+\rdescripcion{No todas las fuentes permiten el mismo nivel de uso,
+transformaci\'on o comercializaci\'on.}
+\rcausa{}
+\rimpacto{}
+\rprobabilidad{}
+\rnivel{}
+\rmitigacion{}
+\rcontingencia{}
+\rresponsable{}
+\end{riesgo}
+
+\subsection*{Riesgos de mercado}
+
+\begin{riesgo}{Baja adopci\'on del p\'ublico objetivo}
+\rdescripcion{El producto puede ser percibido como \'util, pero no
+suficientemente necesario.}
+\rcausa{}
+\rimpacto{}
+\rprobabilidad{}
+\rnivel{}
+\rmitigacion{Se probar\'a el MVP con usuarios reales, se medir\'a el uso
+recurrente y se ajustar\'an las m\'etricas.}
+\rcontingencia{}
+\rresponsable{}
+\end{riesgo}
+
+% ---------------------------------------------------------------------
+%  PLANTILLA: copiá este bloque para cada riesgo nuevo.
+% ---------------------------------------------------------------------
+%  \begin{riesgo}{Titulo del riesgo}
+%  \rdescripcion{}
+%  \rcausa{}
+%  \rimpacto{}
+%  \rprobabilidad{}
+%  \rnivel{}
+%  \rmitigacion{}
+%  \rcontingencia{}
+%  \rresponsable{}
+%  \end{riesgo}
+
+% =====================================================================
+\section{Tabla de evaluaci\'on}
+
+\begin{tabularx}{\textwidth}{@{}l X c c c@{}}
+\toprule
+\textbf{C\'odigo} & \textbf{Riesgo} & \textbf{Prob.} & \textbf{Impacto} & \textbf{Nivel} \\
+\midrule
+R-01 & Cambios en las fuentes oficiales     &  &  &  \\
+R-02 & Errores o inconsistencias en los datos &  &  &  \\
+R-03 & Riesgo legal por uso de fuentes      &  &  &  \\
+R-04 & Baja adopci\'on del p\'ublico objetivo &  &  &  \\
+\bottomrule
+\end{tabularx}
+
+% =====================================================================
+\section{Matriz de riesgos}
+
+% =====================================================================
+\section{Seguimiento}
+
+\end{document}

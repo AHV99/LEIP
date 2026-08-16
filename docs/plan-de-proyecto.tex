@@ -1,0 +1,284 @@
+% =====================================================================
+%  plan-de-proyecto.tex  --  Plan de Proyecto de LEIP
+%  ARCHIVO UNICO: no necesita ningun otro archivo.
+%  Compilar en Overleaf con pdfLaTeX (dos pasadas por el indice).
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------------
+%  DATOS DEL PROYECTO
+% ---------------------------------------------------------------------
+\newcommand{\proyectoNombre}{LEIP}
+\newcommand{\proyectoNombreLargo}{LatAm Economic Intelligence Platform}
+\newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
+\newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
+\newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
+\newcommand{\docVersion}{1.0}
+\newcommand{\docTitulo}{Plan de Proyecto}
+\newcommand{\docFecha}{Agosto 2026}
+
+% ---------------------------------------------------------------------
+%  PREAMBULO
+% ---------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}\usepackage{microtype}}{}
+
+\IfFileExists{spanish.ldf}{%
+  \usepackage[spanish,es-tabla,es-noquoting]{babel}%
+}{%
+  \usepackage[english]{babel}%
+  \renewcommand{\contentsname}{\'Indice}%
+  \renewcommand{\listfigurename}{\'Indice de figuras}%
+  \renewcommand{\listtablename}{\'Indice de tablas}%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\figurename}{Figura}%
+}
+
+\usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\setlist{noitemsep,topsep=4pt}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\urlstyle{same}
+
+\definecolor{leipAzul}{HTML}{1F4E79}
+\definecolor{leipGris}{HTML}{5A5A5A}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{leipGris}\proyectoNombre{} --- \docTitulo}
+\fancyhead[R]{\small\color{leipGris} v\docVersion}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
+
+% --- Portada -----------------------------------------------------------
+\newcommand{\portada}[1]{%
+  \begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\Large \proyectoUniversidad\par}
+  {\large \proyectoFacultad\par}
+  {\large \proyectoCarrera\par}
+  \vspace{3cm}
+  {\Huge\bfseries\color{leipAzul} #1\par}
+  \vspace{0.8cm}
+  {\Large \proyectoNombre{} --- \proyectoNombreLargo\par}
+  \vspace{2cm}
+  {\large Versi\'on \docVersion\par}
+  {\large \docFecha\par}
+  \vfill
+  {\large\bfseries Integrantes\par}
+  \vspace{0.3cm}
+  \begin{tabular}{c}
+    Sebastian Forische \\
+    Armando Hernandez de la Vega \\
+    Luana Acu\~na \\
+    Bruno Sebastian Olivera Viera Gomez \\
+  \end{tabular}
+  \vspace{1.5cm}
+  \end{titlepage}
+}
+
+% --- Historial de revisiones -------------------------------------------
+\newenvironment{historial}{%
+  \section*{Historial de revisiones}
+  \addcontentsline{toc}{section}{Historial de revisiones}
+  \begin{tabular}{@{}l l p{0.52\textwidth} l@{}}
+  \toprule
+  \textbf{Versi\'on} & \textbf{Fecha} & \textbf{Descripci\'on} & \textbf{Autor} \\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+  \bigskip
+}
+
+% =====================================================================
+%  ENTORNO PARA DESCRIBIR UN SPRINT
+% ---------------------------------------------------------------------
+%  Uso:
+%
+%  \begin{sprint}{1}{Del 01/09 al 21/09}
+%    \sobjetivo{Objetivo del sprint}
+%    \salcance{Que casos de uso o requerimientos entran}
+%    \sentregable{Que se entrega al cierre}
+%    \sriesgos{Que riesgos de la Lista de Riesgos se mitigan}
+%  \end{sprint}
+% =====================================================================
+
+\newcommand{\scampo}[2]{%
+  \par\noindent
+  \begin{tabularx}{\textwidth}{@{}>{\bfseries}p{3.4cm} X@{}}
+    #1 & #2
+  \end{tabularx}\par\smallskip
+}
+
+\newcommand{\sobjetivo}[1]{\scampo{Objetivo}{#1}}
+\newcommand{\salcance}[1]{\scampo{Alcance}{#1}}
+\newcommand{\sentregable}[1]{\scampo{Entregable}{#1}}
+\newcommand{\sriesgos}[1]{\scampo{Riesgos que mitiga}{#1}}
+
+\newenvironment{sprint}[2]{%
+  \subsection*{\color{leipAzul}Sprint #1\quad\normalsize\color{leipGris}#2}
+  \addcontentsline{toc}{subsection}{Sprint #1}
+  \vspace{-0.4em}
+  {\color{leipGris}\hrule height 0.5pt}
+  \smallskip
+}{%
+  \bigskip
+}
+
+% --- Figura con fallback si la imagen todavia no existe ----------------
+\newcommand{\figuraLEIP}[4]{%
+  \begin{figure}[htbp]
+  \centering
+  \IfFileExists{#1}{\includegraphics[width=#4\textwidth]{#1}}{%
+    \fbox{\parbox[c][3.5cm][c]{0.8\textwidth}{\centering\color{leipGris}%
+      \small\texttt{#1}}}%
+  }
+  \caption{#2}
+  \label{#3}
+  \end{figure}
+}
+
+\begin{document}
+
+\portada{Plan de Proyecto}
+
+\tableofcontents
+\bigskip
+
+\begin{historial}
+1.0 & 26/06/2026 & Contenido inicial derivado del anteproyecto & Equipo \\
+\end{historial}
+\clearpage
+
+% =====================================================================
+\section{Introducci\'on}
+
+\subsection{Objetivo del documento}
+
+\subsection{Alcance}
+
+% =====================================================================
+\section{Marco de trabajo}
+
+El equipo trabaja bajo una metodolog\'ia \'agil (Scrum), con iteraciones cortas
+(\emph{sprints}) para la planificaci\'on, desarrollo, validaci\'on y revisi\'on
+continua del proyecto, manteniendo tambi\'en un tablero de \emph{backlog}.
+
+\subsection{Duraci\'on de los sprints}
+
+\subsection{Ceremonias}
+
+\subsection{Definici\'on de terminado}
+
+% =====================================================================
+\section{Equipo y responsabilidades}
+
+\begin{table}[htbp]
+\centering
+\caption{Responsables por \'area}
+\label{tab:equipo}
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\textbf{\'Area} & \textbf{Encargado} \\
+\midrule
+Gesti\'on del proyecto          & Bruno Olivera, Luana Acu\~na \\
+An\'alisis de requerimientos    & Armando Hernandez, Bruno Olivera \\
+Dise\~no de la interfaz         & Bruno Olivera, Sebastian Forische \\
+Desarrollo frontend             & Luana Acu\~na, Bruno Olivera \\
+Desarrollo backend              & Sebastian Forische, Luana Acu\~na, Bruno Olivera \\
+Infraestructura                 & Sebastian Forische, Luana Acu\~na \\
+QA                              & Armando Hernandez, Luana Acu\~na \\
+\emph{Database Administrator}   & Sebastian Forische \\
+Procesamiento de datos con LLM  & Armando Hernandez, Sebastian Forische \\
+\emph{Product Owner}            & Armando Hernandez \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Roles de Scrum}
+
+% =====================================================================
+\section{Product backlog}
+
+\begin{tabularx}{\textwidth}{@{}l X c c@{}}
+\toprule
+\textbf{ID} & \textbf{Historia de usuario} & \textbf{Requerimientos} & \textbf{Prioridad} \\
+\midrule
+ &  &  &  \\
+ &  &  &  \\
+ &  &  &  \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Criterios de priorizaci\'on}
+
+% =====================================================================
+\section{Planificaci\'on de sprints}
+
+% ---------------------------------------------------------------------
+%  PLANTILLA: copiá este bloque para cada sprint.
+% ---------------------------------------------------------------------
+\begin{sprint}{0}{Fechas}
+
+\sobjetivo{}
+\salcance{}
+\sentregable{}
+\sriesgos{}
+
+\end{sprint}
+
+% =====================================================================
+\section{Cronograma}
+
+\figuraLEIP{img/cronograma.png}{Cronograma del proyecto}{fig:cronograma}{0.95}
+
+% =====================================================================
+\section{Estimaci\'on}
+
+\subsection{M\'etodo de estimaci\'on}
+
+\subsection{Velocidad del equipo}
+
+% =====================================================================
+\section{Gesti\'on de cambios}
+
+% =====================================================================
+\section{Comunicaci\'on y reuniones}
+
+% =====================================================================
+\section{Herramientas}
+
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\textbf{Herramienta} & \textbf{Uso} \\
+\midrule
+ &  \\
+ &  \\
+ &  \\
+\bottomrule
+\end{tabularx}
+
+% =====================================================================
+\section{Criterio de aceptaci\'on del proyecto}
+
+% =====================================================================
+\section{Gesti\'on de riesgos}
+
+\end{document}

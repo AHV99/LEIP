@@ -1,0 +1,335 @@
+% =====================================================================
+%  arquitectura.tex  --  Notas de Arquitectura y Diseno de LEIP
+%  ARCHIVO UNICO: no necesita ningun otro archivo.
+%  Compilar en Overleaf con pdfLaTeX (dos pasadas por el indice).
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------------
+%  DATOS DEL PROYECTO
+% ---------------------------------------------------------------------
+\newcommand{\proyectoNombre}{LEIP}
+\newcommand{\proyectoNombreLargo}{LatAm Economic Intelligence Platform}
+\newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
+\newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
+\newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
+\newcommand{\docVersion}{1.0}
+\newcommand{\docTitulo}{Arquitectura y Dise\~no}
+\newcommand{\docFecha}{Agosto 2026}
+
+% ---------------------------------------------------------------------
+%  PREAMBULO
+% ---------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}\usepackage{microtype}}{}
+
+\IfFileExists{spanish.ldf}{%
+  \usepackage[spanish,es-tabla,es-noquoting]{babel}%
+}{%
+  \usepackage[english]{babel}%
+  \renewcommand{\contentsname}{\'Indice}%
+  \renewcommand{\listfigurename}{\'Indice de figuras}%
+  \renewcommand{\listtablename}{\'Indice de tablas}%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\figurename}{Figura}%
+}
+
+\usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\setlist{noitemsep,topsep=4pt}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\urlstyle{same}
+
+\definecolor{leipAzul}{HTML}{1F4E79}
+\definecolor{leipGris}{HTML}{5A5A5A}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{leipGris}\proyectoNombre{} --- \docTitulo}
+\fancyhead[R]{\small\color{leipGris} v\docVersion}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
+
+% --- Portada -----------------------------------------------------------
+\newcommand{\portada}[1]{%
+  \begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\Large \proyectoUniversidad\par}
+  {\large \proyectoFacultad\par}
+  {\large \proyectoCarrera\par}
+  \vspace{3cm}
+  {\Huge\bfseries\color{leipAzul} #1\par}
+  \vspace{0.8cm}
+  {\Large \proyectoNombre{} --- \proyectoNombreLargo\par}
+  \vspace{2cm}
+  {\large Versi\'on \docVersion\par}
+  {\large \docFecha\par}
+  \vfill
+  {\large\bfseries Integrantes\par}
+  \vspace{0.3cm}
+  \begin{tabular}{c}
+    Sebastian Forische \\
+    Armando Hernandez de la Vega \\
+    Luana Acu\~na \\
+    Bruno Sebastian Olivera Viera Gomez \\
+  \end{tabular}
+  \vspace{1.5cm}
+  \end{titlepage}
+}
+
+% --- Historial de revisiones -------------------------------------------
+\newenvironment{historial}{%
+  \section*{Historial de revisiones}
+  \addcontentsline{toc}{section}{Historial de revisiones}
+  \begin{tabular}{@{}l l p{0.52\textwidth} l@{}}
+  \toprule
+  \textbf{Versi\'on} & \textbf{Fecha} & \textbf{Descripci\'on} & \textbf{Autor} \\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+  \bigskip
+}
+
+% =====================================================================
+%  ENTORNO PARA DOCUMENTAR UNA DECISION DE ARQUITECTURA
+% ---------------------------------------------------------------------
+%  Uso:
+%
+%  \begin{decision}{DA-01}{Titulo de la decision}
+%    \dacontexto{Que problema obliga a decidir}
+%    \dadecision{Que se decidio}
+%    \dajustificacion{Por que}
+%    \dasupuestos{En que supuestos se apoya}
+%    \darnf{RNF-01, RNF-04}
+%    \daalternativas{Que otras opciones se evaluaron y por que se descartaron}
+%    \daconsecuencias{Que implica hacia adelante}
+%  \end{decision}
+% =====================================================================
+
+\newcommand{\dacampo}[2]{%
+  \par\noindent
+  \begin{tabularx}{\textwidth}{@{}>{\bfseries}p{3.4cm} X@{}}
+    #1 & #2
+  \end{tabularx}\par\smallskip
+}
+
+\newcommand{\dacontexto}[1]{\dacampo{Contexto}{#1}}
+\newcommand{\dadecision}[1]{\dacampo{Decisi\'on}{#1}}
+\newcommand{\dajustificacion}[1]{\dacampo{Justificaci\'on}{#1}}
+\newcommand{\dasupuestos}[1]{\dacampo{Supuestos}{#1}}
+\newcommand{\darnf}[1]{\dacampo{Responde a}{#1}}
+\newcommand{\daalternativas}[1]{\dacampo{Alternativas}{#1}}
+\newcommand{\daconsecuencias}[1]{\dacampo{Consecuencias}{#1}}
+
+\newenvironment{decision}[2]{%
+  \subsection*{\color{leipAzul}#1\quad #2}
+  \addcontentsline{toc}{subsection}{#1\quad #2}
+  \vspace{-0.4em}
+  {\color{leipGris}\hrule height 0.5pt}
+  \smallskip
+}{%
+  \bigskip
+}
+
+% --- Figura con fallback si la imagen todavia no existe ----------------
+\newcommand{\figuraLEIP}[4]{%
+  \begin{figure}[htbp]
+  \centering
+  \IfFileExists{#1}{\includegraphics[width=#4\textwidth]{#1}}{%
+    \fbox{\parbox[c][3.5cm][c]{0.8\textwidth}{\centering\color{leipGris}%
+      \small\texttt{#1}}}%
+  }
+  \caption{#2}
+  \label{#3}
+  \end{figure}
+}
+
+\begin{document}
+
+\portada{Arquitectura y Dise\~no}
+
+\tableofcontents
+\bigskip
+
+\begin{historial}
+1.0 & 26/06/2026 & Contenido inicial derivado del anteproyecto & Equipo \\
+\end{historial}
+\clearpage
+
+% =====================================================================
+\section{Introducci\'on}
+
+\subsection{Objetivo del documento}
+
+\subsection{Alcance}
+
+\subsection{Convenciones}
+
+% =====================================================================
+\section{Vista general de la arquitectura}
+
+\figuraLEIP{img/arquitectura.png}{Arquitectura de \proyectoNombre{}}{fig:arquitectura}{0.95}
+
+% =====================================================================
+\section{Componentes}
+
+\subsection{Backend --- Node.js}
+
+El backend se desarrollar\'a utilizando Node.js y expondr\'a una API REST
+encargada de centralizar la l\'ogica de negocio, la autenticaci\'on, los permisos
+por m\'odulo, las suscripciones y la comunicaci\'on entre el frontend, la base de
+datos y los servicios de procesamiento. Tambi\'en ofrecer\'a una API
+institucional autenticada.
+
+\subsection{M\'odulo de procesamiento de datos --- Python}
+
+El procesamiento de datos se implementar\'a en Python, utilizando principalmente
+Pandas y \emph{jobs} programados. Esta capa obtendr\'a informaci\'on desde API,
+Excel, CSV, PDF, HTML o JSON; validar\'a su contenido, normalizar\'a variables,
+unidades y fechas, y enviar\'a los registros inconsistentes a cuarentena antes de
+publicarlos.
+
+\subsection{M\'odulo de inteligencia --- Python}
+
+La capa de inteligencia se implementar\'a en Python mediante un motor
+determin\'istico de m\'etricas y un grafo de dependencias para los cruces entre
+m\'odulos. Calcular\'a cambios, momentum, divergencias regionales, percentiles
+hist\'oricos, sorpresas, persistencia y distancia frente a metas.
+
+\subsection{Frontend --- React}
+
+El frontend ser\'a desarrollado con React y utilizar\'a componentes reutilizables
+para construir \emph{dashboards}, comparadores, fichas por pa\'is, alertas,
+\emph{briefings} y paneles administrativos. La interfaz adaptar\'a las
+funcionalidades visibles seg\'un los permisos y m\'odulos contratados.
+
+% =====================================================================
+\section{Arquitectura de datos}
+
+\subsection{Patr\'on Medallion}
+
+La informaci\'on se organizar\'a mediante el patr\'on Medallion:
+
+\begin{itemize}
+  \item \textbf{Bronze:} conservar\'a archivos y respuestas originales e
+        inmutables.
+  \item \textbf{Silver:} almacenar\'a datos validados, normalizados y trazables.
+  \item \textbf{Gold:} contendr\'a m\'etricas, cruces y se\~nales preparadas para
+        \emph{dashboards}, alertas, \emph{briefings}, exportaciones y APIs.
+  \item \textbf{Cuarentena:} recibir\'a los registros dudosos antes de que puedan
+        publicarse.
+\end{itemize}
+
+\subsection{Base de datos --- PostgreSQL}
+
+PostgreSQL almacenar\'a datos normalizados, m\'etricas, hist\'oricos, revisiones,
+usuarios, organizaciones, permisos y registros de auditor\'ia. Los archivos
+originales de la capa Bronze se conservar\'an por separado en almacenamiento de
+objetos.
+
+\subsection{Almacenamiento de objetos --- Azure Blob Storage}
+
+Azure Blob Storage almacenar\'a los archivos originales, documentos hist\'oricos,
+datos en cuarentena y exportaciones, permitiendo conservar una copia verificable
+de cada fuente sin sobrecargar la base de datos principal.
+
+\subsection{Modelo de datos}
+
+\subsection{Modelo de revisiones e hist\'oricos}
+
+% =====================================================================
+\section{Uso de modelos de lenguaje}
+
+\subsection{Extractor estructurado}
+
+Para resolver la heterogeneidad de formatos entre fuentes, se incorpora un
+componente LLM como extractor estructurado: recibe el HTML o archivo publicado
+por el banco central, lo limpia y devuelve un JSON normalizado con las
+expectativas en el formato interno de \proyectoNombre{}, independientemente de
+c\'omo cada banco central publique su informaci\'on.
+
+\subsection{Generaci\'on del resumen del radar}
+
+Una vez calculadas las m\'etricas, un componente LLM recibe esos resultados ya
+procesados y genera autom\'aticamente el resumen descriptivo del radar de
+expectativas.
+
+\subsection{Validaci\'on y manejo de errores}
+
+% =====================================================================
+\section{Seguridad y aislamiento}
+
+La plataforma expondr\'a \'unicamente el frontend y los \emph{endpoints}
+necesarios. Incorporar\'a autenticaci\'on, recuperaci\'on de acceso, sesiones o
+\emph{tokens} seguros, validaci\'on de solicitudes, gesti\'on de secretos fuera
+del c\'odigo, auditor\'ia, roles y permisos por usuario, organizaci\'on, plan,
+m\'odulo y pa\'is, adem\'as de aislamiento multi-\emph{tenant} para las fuentes
+privadas.
+
+\subsection{Estrategia de aislamiento multi-\emph{tenant}}
+
+% =====================================================================
+\section{Infraestructura y despliegue}
+
+\subsection{Azure Container Apps}
+
+La infraestructura estar\'a basada en contenedores Docker, desplegados mediante
+Azure Container Apps, permitiendo desacoplar los distintos componentes del
+sistema y facilitar tanto el despliegue como la escalabilidad.
+
+\subsection{Integraci\'on y despliegue continuo}
+
+Se incorporar\'a un proceso de Integraci\'on y Despliegue Continuo (CI/CD)
+mediante GitHub Actions.
+
+\subsection{Control de versiones}
+
+El proyecto utilizar\'a GitHub como sistema de control de versiones y
+colaboraci\'on, permitiendo administrar el c\'odigo fuente, gestionar
+incidencias, realizar revisiones de c\'odigo y mantener un historial completo de
+los cambios realizados durante el desarrollo.
+
+\subsection{Diagrama de despliegue}
+
+% =====================================================================
+\section{Decisiones de arquitectura}
+
+% ---------------------------------------------------------------------
+%  PLANTILLA: copiá este bloque para cada decisión.
+% ---------------------------------------------------------------------
+\begin{decision}{DA-00}{T\'itulo de la decisi\'on}
+
+\dacontexto{}
+\dadecision{}
+\dajustificacion{}
+\dasupuestos{}
+\darnf{}
+\daalternativas{}
+\daconsecuencias{}
+
+\end{decision}
+
+% =====================================================================
+\section{Dise\~no}
+
+% =====================================================================
+\section{Bibliograf\'ia}
+
+\end{document}

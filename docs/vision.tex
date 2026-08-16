@@ -1,0 +1,911 @@
+% =====================================================================
+%  vision.tex  --  Documento de Vision de LEIP
+%  ARCHIVO UNICO: no necesita ningun otro archivo.
+%  Compilar en Overleaf con pdfLaTeX.
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------------
+%  DATOS DEL PROYECTO  (tocá solo esto para actualizar el documento)
+% ---------------------------------------------------------------------
+\newcommand{\proyectoNombre}{LEIP}
+\newcommand{\proyectoNombreLargo}{LatAm Economic Intelligence Platform}
+\newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
+\newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
+\newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
+\newcommand{\docVersion}{1.0}
+\newcommand{\docTitulo}{Visi\'on}
+\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\equipoLista}{%
+  Sebastian Forische \and
+  Armando Hernandez de la Vega \and
+  Luana Acu\~na \and
+  Bruno Sebastian Olivera Viera Gomez%
+}
+\newcommand{\modMacro}{Macro Expectations Intelligence}
+\newcommand{\modPrecios}{Prices \& Inflation Intelligence}
+\newcommand{\modActividad}{Real Activity Intelligence}
+
+% ---------------------------------------------------------------------
+%  PREAMBULO  (estilos y comandos; normalmente no hace falta tocarlo)
+% ---------------------------------------------------------------------
+% =====================================================================
+%  preamble.tex — Paquetes, estilo y comandos. Compartido por TODOS los docs.
+% =====================================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% microtype requiere fuentes escalables; va junto con lmodern.
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}\usepackage{microtype}}{}
+
+% --- Idioma -------------------------------------------------------------
+% Si babel-spanish está instalado (Overleaf, TeX Live completo) lo usa.
+% Si no, cae a inglés y renombra los títulos a mano para no romper el build.
+\IfFileExists{spanish.ldf}{%
+  \usepackage[spanish,es-tabla,es-noquoting]{babel}%
+}{%
+  \usepackage[english]{babel}%
+  \renewcommand{\contentsname}{\'Indice}%
+  \renewcommand{\listfigurename}{\'Indice de figuras}%
+  \renewcommand{\listtablename}{\'Indice de tablas}%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\figurename}{Figura}%
+  \renewcommand{\refname}{Referencias}%
+  \renewcommand{\abstractname}{Resumen}%
+}
+
+% --- Página -------------------------------------------------------------
+\usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+
+% --- Tablas y listas ----------------------------------------------------
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\setlist{noitemsep,topsep=4pt}
+
+% --- Gráficos y color ---------------------------------------------------
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+% --- Enlaces ------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\urlstyle{same}
+
+% --- Paleta -------------------------------------------------------------
+\definecolor{leipAzul}{HTML}{1F4E79}
+\definecolor{leipGris}{HTML}{5A5A5A}
+\definecolor{leipAmbar}{HTML}{B8860B}
+\definecolor{leipAmbarBg}{HTML}{FFF8E1}
+
+% --- Encabezado y pie ---------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{leipGris}\proyectoNombre{} --- \docTitulo}
+\fancyhead[R]{\small\color{leipGris} v\docVersion}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% --- Títulos de sección -------------------------------------------------
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
+
+% =====================================================================
+%  COMANDOS PROPIOS
+% =====================================================================
+
+% --- Portada estándar ---------------------------------------------------
+% Uso: \portada{Visión}
+\newcommand{\portada}[1]{%
+  \begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\Large \proyectoUniversidad\par}
+  {\large \proyectoFacultad\par}
+  {\large \proyectoCarrera\par}
+  \vspace{3cm}
+  {\Huge\bfseries\color{leipAzul} #1\par}
+  \vspace{0.8cm}
+  {\Large \proyectoNombre{} --- \proyectoNombreLargo\par}
+  \vspace{2cm}
+  {\large Versi\'on \docVersion\par}
+  {\large \docFecha\par}
+  \vfill
+  {\large\bfseries Integrantes\par}
+  \vspace{0.3cm}
+  \begin{tabular}{c}
+    Sebastian Forische \\
+    Armando Hernandez de la Vega \\
+    Luana Acu\~na \\
+    Bruno Sebastian Olivera Viera Gomez \\
+  \end{tabular}
+  \vspace{1.5cm}
+  \end{titlepage}
+}
+
+% --- Historial de revisiones -------------------------------------------
+% Uso: \begin{historial} 1.0 & 26/06/2026 & Versión inicial & Armando \\ \end{historial}
+% Nota: usa tabular con p{} y NO tabularx. tabularx necesita leer el cuerpo
+% completo de la tabla de una sola vez, y no tolera que \begin y \end queden
+% en macros distintas.
+\newenvironment{historial}{%
+  \section*{Historial de revisiones}
+  \addcontentsline{toc}{section}{Historial de revisiones}
+  \begin{tabular}{@{}l l p{0.52\textwidth} l@{}}
+  \toprule
+  \textbf{Versi\'on} & \textbf{Fecha} & \textbf{Descripci\'on} & \textbf{Autor} \\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+  \clearpage
+}
+
+% --- Marcador de contenido pendiente -----------------------------------
+% Uso: \pendiente{resumen corto}{texto completo, puede traer listas}
+%   - el resumen corto va al listado del final: debe ser texto plano
+%   - el texto completo va al recuadro en el cuerpo del documento
+% Para la entrega final: \pendientesfalse oculta los recuadros del PDF,
+% pero el listado del final sigue mostrando qué quedó abierto.
+\newif\ifpendientes
+\pendientestrue
+
+\makeatletter
+\newcommand{\listofpendientes}{%
+  \section*{Pendientes de este documento}
+  \addcontentsline{toc}{section}{Pendientes de este documento}
+  \@starttoc{pnd}%
+}
+\newcommand{\pendiente}[2]{%
+  \addcontentsline{pnd}{section}{\protect\numberline{}#1}%
+  \ifpendientes
+    \begin{tcolorbox}[breakable,colback=leipAmbarBg,colframe=leipAmbar,
+                      boxrule=0.6pt,left=6pt,right=6pt,top=4pt,bottom=4pt]
+      \textbf{\color{leipAmbar}PENDIENTE.}\ #2
+    \end{tcolorbox}
+  \fi
+}
+\makeatother
+
+% --- Identificadores de requerimientos ---------------------------------
+% Se usan en alcance.tex; van acá para que la numeración sea única.
+\newcounter{rfcounter}
+\newcommand{\rf}[2]{% \rf{etiqueta}{texto}
+  \refstepcounter{rfcounter}%
+  \label{rf:#1}%
+  \textbf{RF-\arabic{rfcounter}}\quad #2\par\smallskip
+}
+\newcounter{rnfcounter}
+\newcommand{\rnf}[2]{%
+  \refstepcounter{rnfcounter}%
+  \label{rnf:#1}%
+  \textbf{RNF-\arabic{rnfcounter}}\quad #2\par\smallskip
+}
+
+% --- Figura con fallback si la imagen todavía no existe ----------------
+% Uso: \figuraLEIP{img/arquitectura.png}{Arquitectura de LEIP}{fig:arq}{0.9}
+\newcommand{\figuraLEIP}[4]{%
+  \begin{figure}[htbp]
+  \centering
+  \IfFileExists{#1}{\includegraphics[width=#4\textwidth]{#1}}{%
+    \fbox{\parbox[c][4cm][c]{0.8\textwidth}{\centering\color{leipAmbar}%
+      \textbf{[Figura pendiente]}\\[4pt]\small\texttt{#1}}}%
+  }
+  \caption{#2}
+  \label{#3}
+  \end{figure}
+}
+
+\begin{document}
+
+
+\portada{Visi\'on}
+
+\tableofcontents
+\clearpage
+
+\begin{historial}
+1.0 & 26/06/2026 & Contenido inicial derivado del anteproyecto & Equipo \\
+\end{historial}
+
+% =====================================================================
+\section{Introducci\'on}
+
+\subsection{Prop\'osito}
+
+Este documento re\'une, analiza y define las necesidades de alto nivel de los
+usuarios y las capacidades de \proyectoNombre{} (\proyectoNombreLargo).
+Se enfoca en \emph{qu\'e} necesitan los usuarios objetivo y \emph{por qu\'e}
+existen esas necesidades. El detalle de \emph{c\'omo} el sistema las satisface
+se especifica en el Documento de Alcance (requerimientos funcionales y no
+funcionales), en la Especificaci\'on de Casos de Uso y en las Notas de
+Arquitectura y Dise\~no.
+
+\subsection{Alcance del documento}
+
+El documento cubre el posicionamiento del producto, el problema que resuelve,
+los usuarios e interesados, las capacidades previstas para el MVP, el modelo de
+negocio y las restricciones que condicionan el desarrollo. No incluye
+especificaci\'on t\'ecnica ni dise\~no de soluci\'on.
+
+\subsection{Definiciones y acr\'onimos}
+
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{T\'ermino} & \textbf{Definici\'on} \\
+\midrule
+LEIP        & \proyectoNombreLargo. Nombre del producto. \\
+MVP         & \emph{Minimum Viable Product}. Alcance m\'inimo con valor para el usuario. \\
+Data Hub    & Repositorio central de datos normalizados y trazables de la plataforma. \\
+Medallion   & Patr\'on de arquitectura de datos por capas: Bronze, Silver y Gold. \\
+Bronze      & Capa de archivos y respuestas originales, inmutables, tal como los publica la fuente. \\
+Silver      & Capa de datos validados, normalizados y trazables. \\
+Gold        & Capa de m\'etricas, cruces y se\~nales listas para consumo. \\
+Cuarentena  & Repositorio de registros dudosos, retenidos antes de su publicaci\'on. \\
+Entitlement & Derecho de acceso de una cuenta a un m\'odulo, pa\'is o funcionalidad seg\'un su plan. \\
+Radar       & Publicaci\'on peri\'odica con los principales cambios econ\'omicos de la regi\'on. \\
+Briefing    & Lectura anal\'itica verificable derivada de m\'etricas ya calculadas. \\
+Momentum    & M\'etrica de aceleraci\'on o desaceleraci\'on de una serie respecto de su tendencia. \\
+Sorpresa    & Diferencia entre el valor esperado por el mercado y el valor efectivamente observado. \\
+Persistencia & Medida de cu\'anto se sostiene en el tiempo la direcci\'on de una revisi\'on. \\
+Divergencia regional & Dispersi\'on de una misma variable entre los pa\'ises cubiertos. \\
+Revisi\'on  & Modificaci\'on posterior de un dato ya publicado por el organismo emisor. \\
+BCB         & Banco Central do Brasil. \\
+Banxico     & Banco de M\'exico. \\
+BCU         & Banco Central del Uruguay. \\
+BCCh        & Banco Central de Chile. \\
+SIE         & Sistema de Informaci\'on Econ\'omica de Banxico. \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Referencias}
+
+\begin{itemize}
+  \item Bolet\'in Focus --- Banco Central do Brasil (expectativas de mercado, frecuencia semanal).
+  \item Encuesta de expectativas / SIE --- Banco de M\'exico (frecuencia quincenal o mensual).
+  \item Encuestas de expectativas econ\'omicas --- Banco Central del Uruguay (frecuencia mensual).
+  \item Encuesta de Expectativas Econ\'omicas --- Banco Central de Chile (fuera del alcance del MVP).
+  \item Encuesta de validaci\'on del problema:
+        \url{https://docs.google.com/forms/d/e/1FAIpQLSe4jNRspwc_cyIJii9npmMjpXSXsAxOBzT6vkGCEi5vW80DEQ/viewform}
+\end{itemize}
+
+\pendiente{Completar referencias con URL, fecha y condiciones de uso de cada organismo}{Completar las referencias con URL, fecha de consulta y condiciones de
+uso publicadas de cada organismo. Las condiciones de uso son insumo directo de la
+secci\'on de Restricciones.}
+
+% =====================================================================
+\section{Oportunidad y contexto}
+
+\subsection{Origen de la idea}
+
+La idea de \proyectoNombre{} surge de una necesidad observada en el trabajo con
+informaci\'on econ\'omica y financiera de Am\'erica Latina. Los organismos
+oficiales publican datos relevantes, pero \'estos se encuentran dispersos entre
+m\'ultiples fuentes, formatos, unidades, nombres, frecuencias y metodolog\'ias.
+
+En la pr\'actica, esa fragmentaci\'on obliga a analistas, investigadores y
+equipos financieros a invertir tiempo en buscar publicaciones, descargar
+archivos, limpiar datos, mantener planillas o \emph{scripts} internos y adaptar
+las series antes de poder analizarlas y compararlas entre pa\'ises.
+
+A partir de esta observaci\'on surge \proyectoNombre{}, una plataforma SaaS de
+inteligencia econ\'omica que transforma informaci\'on oficial, dispersa y
+heterog\'enea en m\'etricas comparables, trazables y listas para el an\'alisis.
+La infraestructura de ingesta y normalizaci\'on funciona como base habilitante,
+mientras que el valor diferencial se concentra en la capa de inteligencia, la
+navegaci\'on comparable y la distribuci\'on recurrente de se\~nales.
+
+\subsection{Organizaci\'on del dominio}
+
+La visi\'on organiza la informaci\'on en m\'odulos de expectativas
+macroecon\'omicas, precios e inflaci\'on, actividad econ\'omica, riesgo fiscal,
+sector externo y condiciones monetarias y financieras, dejando los activos de
+mercado para una fase posterior. Los m\'odulos pueden relacionarse entre s\'i
+para comparar, por ejemplo, inflaci\'on esperada frente a observada, riesgo
+fiscal frente a tasas soberanas, o reservas frente a presi\'on cambiaria.
+
+\subsection{Contexto del proyecto y del negocio}
+
+Para el MVP, \proyectoNombre{} se enfoca en informaci\'on oficial de Brasil,
+M\'exico y Uruguay, y desarrolla inicialmente los m\'odulos de expectativas
+macroecon\'omicas, precios e inflaci\'on y actividad econ\'omica. Chile se
+considera relevante, pero queda bloqueado comercialmente hasta obtener permiso
+de uso.
+
+\begin{table}[htbp]
+\centering
+\caption{Fuentes iniciales del m\'odulo de expectativas}
+\label{tab:fuentes}
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Pa\'is} & \textbf{Fuente considerada} & \textbf{Frecuencia y estado} \\
+\midrule
+Brasil  & Bolet\'in Focus (BCB)            & Semanal. Mercado prioritario por escala institucional. \\
+M\'exico & Encuesta de expectativas / SIE (Banxico) & Quincenal o mensual. Segundo mercado objetivo. \\
+Uruguay & Encuestas de expectativas (BCU)  & Mensual. Laboratorio de adopci\'on y validaci\'on. \\
+Chile   & Encuesta de Expectativas Econ\'omicas (BCCh) & Mensual. Bloqueado sin permiso para redistribuci\'on comercial. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+El contexto competitivo incluye terminales financieras, bases macro
+especializadas, informes de terceros y planillas propias de analistas.
+\proyectoNombre{} no busca reemplazar estas herramientas, sino resolver la
+fragmentaci\'on regional mediante datos oficiales normalizados, m\'etricas
+comparables y cruces entre dominios econ\'omicos.
+
+% =====================================================================
+\section{Declaraci\'on del problema}
+
+\subsection{Problema identificado}
+
+Quienes trabajan con informaci\'on econ\'omica de Am\'erica Latina necesitan
+consultar fuentes oficiales de distintos pa\'ises sin ingresar manualmente a
+cada organismo. Tambi\'en requieren comparar variables y per\'iodos bajo
+criterios consistentes, seguir revisiones hist\'oricas y reducir el trabajo
+operativo de descarga, limpieza y ordenamiento.
+
+El problema principal es que las fuentes oficiales publican la informaci\'on en
+formatos diversos ---API, Excel, CSV, PDF, HTML o JSON--- y bajo nombres,
+unidades, frecuencias, coberturas y metodolog\'ias que no siempre son
+equivalentes. Por eso la informaci\'on debe validarse y normalizarse antes de
+poder compararla.
+
+Aunque existen herramientas de an\'alisis econ\'omico y financiero, muchas son
+costosas, generalistas o dependen de procesos manuales.
+
+\subsection{Enunciado formal}
+
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+El problema de & la fragmentaci\'on de la informaci\'on econ\'omica oficial de
+Am\'erica Latina entre m\'ultiples fuentes, formatos, unidades, frecuencias y
+metodolog\'ias no equivalentes. \\
+\addlinespace
+Afecta a & analistas macroecon\'omicos, equipos de investigaci\'on, tesorer\'ias,
+consultoras, fondos de inversi\'on, brokers, acad\'emicos e investigadores que
+trabajan de forma recurrente con datos de la regi\'on. \\
+\addlinespace
+Cuyo impacto es & tiempo operativo recurrente dedicado a buscar, descargar,
+limpiar y reconciliar datos; riesgo de error en la comparaci\'on entre pa\'ises;
+imposibilidad pr\'actica de seguir revisiones hist\'oricas; y dependencia de
+planillas o \emph{scripts} internos que hay que mantener. \\
+\addlinespace
+Una soluci\'on exitosa & entregar\'ia informaci\'on oficial ya normalizada y
+comparable entre pa\'ises, con trazabilidad de origen y versi\'on, seguimiento
+expl\'icito de revisiones, y m\'etricas y cruces listos para el an\'alisis, sin
+que el usuario deba mantener procesos propios de descarga y limpieza. \\
+\bottomrule
+\end{tabularx}
+\caption{Declaraci\'on del problema}
+\label{tab:problema}
+\end{table}
+
+\subsection{Validez del problema}
+
+\begin{table}[htbp]
+\centering
+\caption{Condiciones de problema v\'alido}
+\label{tab:validez}
+\begin{tabularx}{\textwidth}{l X l}
+\toprule
+\textbf{Condici\'on} & \textbf{Aplicaci\'on en \proyectoNombre{}} & \textbf{Estado} \\
+\midrule
+Masivo dentro del nicho &
+Debe afectar a suficientes analistas, equipos de investigaci\'on, consultoras y
+tesorer\'ias que trabajen con expectativas macroecon\'omicas. &
+Validado con encuestas \\
+\addlinespace
+Doloroso &
+Debe ser frecuente y costoso en tiempo como para justificar pago o adopci\'on
+institucional. &
+A validar con encuestas y entrevistas \\
+\addlinespace
+Mal resuelto &
+Las soluciones actuales existen, pero son caras, gen\'ericas, manuales o no
+est\'an centradas en expectativas oficiales. &
+Hip\'otesis con evidencia secundaria \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\pendiente{Validar las condiciones 'doloroso' y 'mal resuelto': sostienen la disposicion a pagar}{Las condiciones \emph{doloroso} y \emph{mal resuelto} siguen sin
+validar. Son las dos que sostienen la disposici\'on a pagar: mientras est\'en
+abiertas, el modelo de negocio de la secci\'on \ref{sec:negocio} es una
+hip\'otesis, no un plan. Cerrarlas es la prioridad de la pr\'oxima iteraci\'on.}
+
+% =====================================================================
+\section{Posicionamiento del producto}
+
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+Para & analistas, equipos de investigaci\'on, tesorer\'ias, consultoras y fondos
+que trabajan de forma recurrente con informaci\'on econ\'omica de Am\'erica Latina, \\
+\addlinespace
+Que & necesitan consultar, comparar y seguir expectativas y variables
+macroecon\'omicas de varios pa\'ises sin mantener procesos propios de descarga,
+limpieza y normalizaci\'on, \\
+\addlinespace
+\proyectoNombre{} es & una plataforma SaaS de inteligencia econ\'omica regional \\
+\addlinespace
+Que & transforma informaci\'on oficial dispersa en m\'etricas comparables y
+trazables, con seguimiento de revisiones y cruces entre dominios econ\'omicos, \\
+\addlinespace
+A diferencia de & las terminales financieras generalistas, las bases macro
+especializadas, los paneles privados en PDF y las planillas internas, \\
+\addlinespace
+Nuestro producto & se especializa en informaci\'on oficial de Am\'erica Latina y
+en la din\'amica de sus revisiones, entregando comparabilidad regional lista
+para usar a una fracci\'on del costo y la complejidad de las alternativas. \\
+\bottomrule
+\end{tabularx}
+\caption{Declaraci\'on de posicionamiento}
+\label{tab:posicionamiento}
+\end{table}
+
+% =====================================================================
+\section{Mercado, usuarios e interesados}
+
+\subsection{Mercado objetivo}
+
+El mercado objetivo de \proyectoNombre{} est\'a compuesto por analistas, equipos
+de investigaci\'on, tesorer\'ias, consultoras, fondos de inversi\'on, brokers,
+acad\'emicos, investigadores y organizaciones que trabajan de forma recurrente
+con informaci\'on econ\'omica y financiera de Am\'erica Latina.
+
+Este mercado necesita reducir el tiempo dedicado a buscar, descargar, limpiar y
+comparar informaci\'on de distintos organismos. Tambi\'en requiere seguir
+revisiones hist\'oricas, mantener trazabilidad y relacionar expectativas,
+inflaci\'on, actividad, riesgo fiscal, sector externo y condiciones financieras
+dentro de un mismo entorno de an\'alisis.
+
+\subsection{Interesados}
+
+\pendiente{Fichar los interesados del proyecto}{Secci\'on a completar. Fichar cada interesado con: nombre o rol, rol
+en la organizaci\'on, rol en el proyecto, perfil t\'ecnico y criterio de \'exito.
+Interesados a fichar: tutor t\'ecnico, docente de negocio, contraparte o cliente
+de validaci\'on, organismos emisores de las fuentes, y el propio equipo como
+responsable del producto.}
+
+\subsection{Perfiles de usuario}
+
+\pendiente{Fichar los perfiles de usuario: sin esto no salen los actores de los casos de uso}{Secci\'on a completar. Los segmentos ya est\'an identificados
+---analista macroecon\'omico, equipo de investigaci\'on, tesorer\'ia, consultora,
+fondo de inversi\'on, broker, acad\'emico--- pero falta la ficha de cada uno:
+descripci\'on, a qui\'en representa, rol en la organizaci\'on, rol frente al
+sistema, perfil t\'ecnico y criterio de \'exito. Sin estas fichas no se pueden
+justificar los planes de la secci\'on \ref{sec:negocio} ni derivar los actores de
+los casos de uso.}
+
+\subsection{Entornos de los usuarios}
+
+\pendiente{Relevar los entornos de trabajo de los usuarios}{Secci\'on a completar. Responder: \textquestiondown{}con qu\'e herramientas trabajan hoy
+(Excel, R, Python, Power BI)? \textquestiondown{}con qu\'e frecuencia consultan expectativas?
+\textquestiondown{}cu\'anto tiempo les toma hoy armar una comparaci\'on entre pa\'ises?
+\textquestiondown{}necesitan integrar \proyectoNombre{} con sistemas propios? Estas respuestas
+salen de las entrevistas de validaci\'on pendientes.}
+
+\subsection{Necesidades clave}
+
+\begin{table}[htbp]
+\centering
+\caption{Necesidades de los usuarios y c\'omo las atiende \proyectoNombre{}}
+\label{tab:necesidades}
+\begin{tabularx}{\textwidth}{X X}
+\toprule
+\textbf{Necesidad} & \textbf{C\'omo la atiende \proyectoNombre{}} \\
+\midrule
+Dejar de invertir tiempo en tareas repetitivas de descarga, limpieza y
+normalizaci\'on &
+Ingesta autom\'atica y normalizaci\'on centralizada de las fuentes oficiales \\
+\addlinespace
+Comparar pa\'ises, variables y horizontes bajo criterios homog\'eneos &
+Modelo com\'un de pa\'is, variable, unidad, frecuencia y horizonte \\
+\addlinespace
+Saber qu\'e cambi\'o respecto de mediciones anteriores, no s\'olo el dato puntual &
+Conservaci\'on de revisiones y m\'etricas de cambio sobre el hist\'orico \\
+\addlinespace
+Poder justificar de d\'onde sali\'o cada n\'umero &
+Trazabilidad de fuente, fecha, versi\'on y criterio metodol\'ogico en cada dato,
+m\'etrica y exportaci\'on \\
+\addlinespace
+Producir reportes y seguimientos recurrentes sin rehacer el trabajo cada vez &
+Exportaciones auditables, consultas guardadas y radar peri\'odico \\
+\addlinespace
+Evaluar la herramienta antes de comprometer presupuesto &
+Radar gratuito como capa de entrada sin barrera de pago \\
+\addlinespace
+Detectar qu\'e movimientos merecen atenci\'on &
+M\'etricas de cambio, sorpresa, divergencia regional y distancia frente a metas \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Validaci\'on del problema}
+\label{sec:validacion}
+
+La prioridad inmediata es validar una pregunta central: si consolidar y comparar
+expectativas macroecon\'omicas es una tarea recurrente y costosa para el
+segmento que realmente paga, o si es una tarea espor\'adica que no justifica una
+plataforma.
+
+\subsubsection{Plan de validaci\'on}
+
+La validaci\'on se realiza mediante una encuesta dirigida a analistas
+macroecon\'omicos, equipos de investigaci\'on, tesorer\'ias, consultoras,
+fondos, acad\'emicos y perfiles que trabajen con expectativas econ\'omicas de
+Am\'erica Latina. El objetivo es entender si el problema existe en la
+pr\'actica: si consultar, comparar y seguir expectativas macro es una tarea
+frecuente, lenta y mal resuelta.
+
+La validaci\'on se enfoca en tres se\~nales:
+
+\begin{enumerate}
+  \item cu\'antas veces el usuario trabaj\'o con expectativas macro en los
+        \'ultimos meses;
+  \item cu\'anto tiempo le tom\'o conseguir y ordenar los datos;
+  \item si necesita seguir revisiones en el tiempo o s\'olo consultar el dato puntual.
+\end{enumerate}
+
+Los resultados se analizan por tipo de usuario. Las respuestas de perfiles
+institucionales tienen mayor peso, porque representan mejor al cliente que
+podr\'ia pagar por el producto. Las respuestas de academia o usuarios
+individuales sirven como aprendizaje, pero no son suficientes por s\'i solas
+para validar el negocio.
+
+\subsubsection{Resultado de la primera ronda}
+
+Se encuest\'o a un grupo de analistas vinculados al trabajo con informaci\'on
+macroecon\'omica. Los resultados mostraron inter\'es en la herramienta: la
+b\'usqueda, limpieza y sistematizaci\'on de datos de expectativas resulta
+actualmente un proceso tedioso y manual. Esta primera validaci\'on indica que
+\proyectoNombre{} responde a una necesidad real del segmento objetivo,
+especialmente para comparar datos entre pa\'ises.
+
+\pendiente{Reportar evidencia cuantitativa de la encuesta (n y desagregacion institucional)}{Reportar la evidencia cuantitativa: n\'umero de respuestas,
+composici\'on por tipo de perfil, y los tres indicadores del plan de validaci\'on.
+Sin el $n$ y la desagregaci\'on institucional, el resultado no sostiene la
+conclusi\'on. Falta adem\'as la ronda de entrevistas cualitativas.}
+
+% =====================================================================
+\section{Alternativas y competencia}
+
+El an\'alisis competitivo muestra que existen alternativas para obtener datos de
+expectativas macroecon\'omicas, pero ninguna trabaja sobre expectativas
+oficiales con foco en revisi\'on, divergencia y comparabilidad regional
+exclusiva de Am\'erica Latina.
+
+\begin{table}[htbp]
+\centering
+\caption{Productos similares y alternativas}
+\label{tab:competencia}
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Alternativa} & \textbf{Tipo} & \textbf{Por qu\'e no resuelve el problema} \\
+\midrule
+Fuentes oficiales directas & Manual &
+Confiables, pero dispersas, heterog\'eneas y sin comparabilidad regional lista. \\
+\addlinespace
+Bloomberg, Refinitiv & Terminal financiera &
+Amplias y robustas, pero extremadamente costosas y no enfocadas en la capa de
+expectativas de Am\'erica Latina. \\
+\addlinespace
+CEIC, Macrobond, Haver & Bases macro especializadas &
+Fuertes en infraestructura de investigaci\'on, pero costosas y con un foco
+m\'as amplio. \\
+\addlinespace
+Consensus Economics & Panel privado de informes &
+Producto distinto: panel privado en PDF, no un \emph{dataset} din\'amico y
+explorable de expectativas. \\
+\addlinespace
+Trading Economics y similares & Datos macro observados &
+Foco en datos observados, no en la din\'amica de revisiones de encuestas oficiales. \\
+\addlinespace
+Planillas internas y agentes de IA & Soluci\'on artesanal &
+Resuelven parcialmente, pero requieren mantenimiento, control de calidad y
+responsabilidad interna que consumen tiempo y esfuerzo. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\proyectoNombre{} se diferencia por transformar informaci\'on econ\'omica
+oficial de Am\'erica Latina en m\'odulos comparables y conectados. No se limita
+a visualizar datos: incorpora m\'etricas determin\'isticas, hist\'oricos,
+alertas, cruces entre expectativas, inflaci\'on y actividad, y una lectura
+recurrente sobre qu\'e se movi\'o en la regi\'on. Frente a herramientas
+generalistas ofrece menor costo y complejidad; frente a planillas internas o
+soluciones improvisadas con IA aporta trazabilidad, consistencia,
+actualizaci\'on continua, seguridad y una API institucional.
+
+% =====================================================================
+\section{Descripci\'on de la soluci\'on}
+
+\subsection{Perspectiva del producto}
+
+La soluci\'on propuesta es una plataforma SaaS de inteligencia econ\'omica para
+Am\'erica Latina. \proyectoNombre{} transforma informaci\'on oficial, dispersa y
+heterog\'enea en una capa comparable, trazable y actualizada, organizada en
+m\'odulos especializados.
+
+La plataforma obtiene datos desde fuentes oficiales mediante procesos de ingesta
+que identifican la fuente, extraen informaci\'on desde diferentes formatos,
+validan su contenido y normalizan variables, unidades, fechas, frecuencias y
+metodolog\'ias. De esta manera el usuario no necesita mantener procesos propios
+de descarga, limpieza y actualizaci\'on.
+
+Los datos procesados se almacenan en un Data Hub y se organizan por pa\'is,
+variable, per\'iodo, unidad, fuente, fecha de publicaci\'on y versi\'on. Sobre
+esa base se construye una capa de inteligencia con m\'etricas determin\'isticas
+de cambio, momentum, divergencia regional, percentiles hist\'oricos, sorpresa,
+persistencia y distancia frente a metas, adem\'as de cruces entre m\'odulos.
+
+El usuario accede mediante una aplicaci\'on web con \emph{dashboards},
+comparadores, fichas por pa\'is, radar, alertas, \emph{briefings} verificables y
+exportaciones auditables. Las organizaciones tambi\'en pueden utilizar una API
+institucional autenticada para integrar datos y m\'etricas en sus propios
+procesos.
+
+\figuraLEIP{img/arquitectura-contexto.png}{Vista de contexto de \proyectoNombre{}}{fig:contexto}{0.9}
+
+\pendiente{Reemplazar la figura por una vista de contexto, no el diagrama tecnico}{Sustituir la figura por una vista \emph{de contexto}: \proyectoNombre{}
+como caja \'unica, con las fuentes oficiales, el proveedor de pagos y los
+consumidores de la API como entidades externas. El diagrama t\'ecnico completo
+(capas Medallion, componentes internos) corresponde a Notas de Arquitectura, no
+a este documento.}
+
+\subsection{Trazabilidad metodol\'ogica}
+
+Un aspecto central de la soluci\'on es la trazabilidad metodol\'ogica. Cada
+dato, m\'etrica y exportaci\'on conserva su fuente, fecha, versi\'on y criterio
+de procesamiento. \proyectoNombre{} no busca vender una copia de los datos
+originales, sino entregar informaci\'on transformada, m\'etricas comparables y
+lecturas anal\'iticas que reduzcan el trabajo operativo. Adem\'as de su valor
+para el usuario, esta decisi\'on es la principal mitigaci\'on del riesgo
+regulatorio descrito en la secci\'on \ref{sec:restricciones}.
+
+% =====================================================================
+\section{Capacidades del MVP}
+
+\begin{itemize}
+  \item \textbf{Pa\'ises iniciales:} Brasil, M\'exico y Uruguay, utilizando
+        fuentes oficiales sujetas a las condiciones de uso de cada organismo.
+  \item \textbf{M\'odulos iniciales:} \modMacro{}, \modPrecios{} y \modActividad{}.
+  \item \textbf{M\'etricas determin\'isticas:} cambios, momentum, divergencias
+        regionales, percentiles hist\'oricos, distancia frente a metas,
+        sorpresas y persistencia.
+  \item \textbf{Cruces iniciales:} inflaci\'on esperada frente a inflaci\'on
+        observada, y crecimiento esperado frente a actividad efectiva.
+  \item \textbf{Aplicaci\'on web:} \emph{dashboards}, comparadores, fichas por
+        pa\'is, radar, alertas, \emph{briefings} verificables y exportaciones
+        auditables.
+  \item \textbf{Control de acceso:} autenticaci\'on, roles, permisos y
+        \emph{entitlements} para controlar m\'odulos, pa\'ises y funcionalidades
+        contratadas.
+  \item \textbf{API institucional} autenticada para organizaciones que necesiten
+        integrar datos y m\'etricas en sus propios procesos.
+\end{itemize}
+
+% =====================================================================
+\section{Modelo de negocio}
+\label{sec:negocio}
+
+El modelo combina acceso \emph{freemium}, contrataci\'on modular, planes
+institucionales y servicios profesionales. La versi\'on gratuita ofrece un radar
+resumido; los planes pagos habilitan m\'odulos, hist\'oricos, cruces, alertas,
+\emph{briefings}, exportaciones y API institucional seg\'un corresponda.
+
+\subsection{Planes}
+
+\begin{table}[htbp]
+\centering
+\caption{Planes preliminares}
+\label{tab:planes}
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Plan} & \textbf{Precio mensual} & \textbf{Valor incluido} \\
+\midrule
+Free              & Sin costo        & Radar resumido y acceso limitado a indicadores y series seleccionadas. \\
+M\'odulo individual & USD 18 por m\'odulo & Acceso completo al m\'odulo elegido. Hasta tres m\'odulos contratables. \\
+Completo          & USD 59           & Todos los m\'odulos, m\'etricas y cruces disponibles. \\
+Team              & USD 349          & Cinco usuarios, plataforma completa, API institucional, administraci\'on centralizada y \emph{dashboard} configurable. \\
+Enterprise        & Desde USD 799    & Soluci\'on configurable, entorno aislado, SLA, soporte prioritario e integraciones espec\'ificas. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Los m\'odulos individuales pueden contratarse hasta un m\'aximo de tres; cuando
+el usuario necesita mayor cobertura, migra al plan Completo. Los cruces entre
+dominios est\'an disponibles cuando la cuenta tiene acceso a todos los m\'odulos
+involucrados. Los planes Team y Enterprise se orientan a organizaciones que
+necesitan m\'ultiples usuarios, API institucional, administraci\'on
+centralizada, aislamiento y soporte.
+
+\subsection{Costos y viabilidad}
+
+La estimaci\'on corresponde a un escenario MVP con hasta 500 usuarios, ocho
+actualizaciones mensuales, 50~GB de almacenamiento, 12 horas mensuales de
+mantenimiento t\'ecnico, 10 horas mensuales de administraci\'on y un valor
+estimado del trabajo de USD 15 por hora.
+
+\begin{table}[htbp]
+\centering
+\caption{Costos operativos estimados del MVP}
+\label{tab:costos}
+\begin{tabular}{l r r}
+\toprule
+\textbf{Concepto} & \textbf{Mensual} & \textbf{Anual} \\
+\midrule
+Infraestructura           & USD 90  & USD 1.080 \\
+LLM                       & USD 5   & USD 60 \\
+Mantenimiento t\'ecnico   & USD 180 & USD 2.160 \\
+Administraci\'on operativa & USD 150 & USD 1.800 \\
+\midrule
+\textbf{Total}            & \textbf{USD 425} & \textbf{USD 5.100} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La viabilidad b\'asica se eval\'ua con usuarios individuales y planes completos,
+sin depender de vender un contrato Enterprise.
+
+\pendiente{Verificar el costo estimado de LLM contra el volumen real de extracciones}{El costo de LLM (USD 5 mensuales) supone un volumen bajo de
+extracciones. Verificarlo contra el escenario real: n\'umero de fuentes por
+frecuencia de publicaci\'on, tama\~no de los documentos a procesar y
+reintentos por validaci\'on fallida. Es el rubro con mayor incertidumbre relativa
+de la tabla.}
+
+% =====================================================================
+\section{Asunciones y dependencias}
+
+El proyecto asume las siguientes condiciones. Si alguna no se cumple, el alcance
+del MVP debe revisarse.
+
+\begin{itemize}
+  \item Los organismos oficiales mantienen la publicaci\'on de las series
+        cubiertas, con frecuencia y cobertura equivalentes a las actuales.
+  \item Los formatos de publicaci\'on se mantienen razonablemente estables, o
+        sus cambios son detectables por validaci\'on autom\'atica.
+  \item Las licencias de datos abiertos de Brasil, M\'exico y Uruguay habilitan
+        el uso transformado con atribuci\'on. Esta condici\'on est\'a
+        confirmada s\'olo parcialmente (ver secci\'on \ref{sec:restricciones}).
+  \item Existe un proveedor externo de cobros que expone \emph{checkout} alojado
+        y notificaciones por \emph{webhook}.
+  \item La infraestructura del proveedor cloud est\'a disponible dentro de los
+        costos estimados en la tabla \ref{tab:costos}.
+  \item El equipo mantiene la dedicaci\'on prevista durante el per\'iodo del
+        proyecto.
+\end{itemize}
+
+\pendiente{Verificar correspondencia uno a uno entre asunciones y lista de riesgos}{Cada asunci\'on de esta lista deber\'ia tener su riesgo espejo en el
+documento de Lista de Riesgos, con probabilidad, impacto y mitigaci\'on. Verificar
+que la correspondencia sea uno a uno.}
+
+% =====================================================================
+\section{Restricciones}
+\label{sec:restricciones}
+
+El proyecto enfrenta dos riesgos regulatorios distintos. El riesgo de asesor\'ia
+financiera es bajo por dise\~no, ya que \proyectoNombre{} entrega informaci\'on
+agregada y descriptiva, sin recomendaciones personalizadas. El riesgo relevante
+es la redistribuci\'on y el uso comercial de informaci\'on publicada por
+organismos oficiales.
+
+Para mitigarlo, el producto utiliza fuentes oficiales o autorizadas y entrega
+informaci\'on transformada mediante m\'etricas, comparaciones y valor agregado,
+no como copia del dato crudo. Cada visualizaci\'on, exportaci\'on o respuesta de
+API incluye fuente, fecha, versi\'on y nota metodol\'ogica.
+
+\begin{table}[htbp]
+\centering
+\caption{Condiciones de uso por pa\'is}
+\label{tab:regulatorio}
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Pa\'is} & \textbf{Condici\'on} \\
+\midrule
+Brasil &
+Parte de un marco de datos abiertos. A\'un as\'i, \proyectoNombre{} no debe
+redistribuir la base cruda como copia del Banco Central, sino trabajar sobre
+datos transformados con atribuci\'on clara de la fuente. \\
+\addlinespace
+M\'exico &
+El marco general es favorable para usar informaci\'on oficial, pero queda
+pendiente confirmar las condiciones espec\'ificas. \\
+\addlinespace
+Uruguay &
+El BCU tiene un marco de datos abiertos, pero hay que confirmar que esa licencia
+cubre espec\'ificamente las encuestas de expectativas. \\
+\addlinespace
+Chile &
+Caso m\'as restrictivo. El BCCh limita la comercializaci\'on o redistribuci\'on
+de la informaci\'on, y transformar el dato no elimina ese riesgo. Sin permiso
+expl\'icito, Chile no debe aparecer como base navegable, descargable o
+comercializada. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Otras restricciones del producto:
+
+\begin{itemize}
+  \item \proyectoNombre{} no almacena ni procesa directamente datos de tarjetas
+        de pago; el cobro se delega \'integramente a un proveedor externo.
+  \item Las fuentes privadas de clientes institucionales se procesan en entornos
+        aislados y no se mezclan con la informaci\'on de otros clientes.
+  \item Los activos de mercado quedan expl\'icitamente fuera del alcance
+        inicial.
+\end{itemize}
+
+\pendiente{Confirmar por escrito las licencias de Mexico y Uruguay (Uruguay es critico)}{M\'exico y Uruguay siguen sin confirmar. Uruguay es cr\'itico: es el
+mercado de validaci\'on del proyecto, y si su licencia no cubre las encuestas de
+expectativas se cae la base emp\'irica del MVP. Gestionar la confirmaci\'on por
+escrito ante ambos organismos.}
+
+% =====================================================================
+\section{Rangos de calidad}
+
+\pendiente{Definir los rangos de calidad y sus umbrales medibles}{Secci\'on a completar. Definir los umbrales medibles que hacen
+aceptable al producto. Candidatos a discutir con el tutor:
+\begin{itemize}
+  \item \textbf{Frescura del dato:} m\'aximo de horas entre la publicaci\'on de
+        la fuente y su disponibilidad en la plataforma.
+  \item \textbf{Autonom\'ia de la ingesta:} porcentaje de ejecuciones que se
+        completan sin intervenci\'on manual.
+  \item \textbf{Cobertura de trazabilidad:} porcentaje de datos y m\'etricas con
+        fuente, fecha y versi\'on completas (objetivo razonable: 100\%).
+  \item \textbf{Tasa de cuarentena:} porcentaje aceptable de registros retenidos
+        por ejecuci\'on.
+  \item \textbf{Tiempo de respuesta} de una consulta comparativa en el
+        \emph{dashboard}.
+  \item \textbf{Disponibilidad} del servicio.
+\end{itemize}
+Estos umbrales se convierten despu\'es en requerimientos no funcionales
+numerados en el Documento de Alcance.}
+
+% =====================================================================
+\section{Prioridad y evoluci\'on posterior al MVP}
+
+El desarrollo prioriza en el siguiente orden:
+
+\begin{enumerate}
+  \item M\'odulo \modMacro{} sobre los tres pa\'ises del MVP, como n\'ucleo del
+        producto y base de la validaci\'on.
+  \item M\'odulos \modPrecios{} y \modActividad{}, que habilitan los dos cruces
+        iniciales.
+  \item Radar, alertas y exportaciones, que sostienen el uso recurrente y la
+        conversi\'on desde el plan gratuito.
+  \item API institucional y aislamiento multi-\emph{tenant}, requeridos por los
+        planes Team y Enterprise.
+\end{enumerate}
+
+Quedan fuera del MVP y se consideran para fases posteriores: los m\'odulos de
+riesgo fiscal, sector externo y condiciones monetarias y financieras; los
+activos de mercado; y la incorporaci\'on de Chile, condicionada a obtener
+permiso expl\'icito del BCCh.
+
+% =====================================================================
+\section{Requerimientos de documentaci\'on}
+
+\pendiente{Definir los requerimientos de documentacion del producto}{Secci\'on a completar. Definir qu\'e documentaci\'on acompa\~na al
+producto: manual de usuario, documentaci\'on de la API institucional, y notas
+metodol\'ogicas por m\'etrica. Estas \'ultimas no son opcionales: la trazabilidad
+metodol\'ogica es parte de la propuesta de valor y de la mitigaci\'on
+regulatoria, y sin nota publicada cada m\'etrica queda sin respaldo.}
+
+% =====================================================================
+\clearpage
+\listofpendientes
+
+\end{document}
