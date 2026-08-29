@@ -1,38 +1,41 @@
 % =====================================================================
-%  plan-de-proyecto.tex  --  Plan de Proyecto de LEIP
-%  ARCHIVO UNICO: no necesita ningun otro archivo.
-%  Compilar en Overleaf con pdfLaTeX (dos pasadas por el indice).
+%  plan-de-proyecto.tex -- Plan de Proyecto de LEIP
+%  Archivo independiente. Compilar con pdfLaTeX.
 % =====================================================================
+
 \documentclass[11pt,a4paper]{article}
 
 % ---------------------------------------------------------------------
-%  DATOS DEL PROYECTO
+% DATOS DEL PROYECTO
 % ---------------------------------------------------------------------
+
 \newcommand{\proyectoNombre}{LEIP}
 \newcommand{\proyectoNombreLargo}{LatAm Economic Intelligence Platform}
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.0}
 \newcommand{\docTitulo}{Plan de Proyecto}
-\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\docVersion}{1.1}
+\newcommand{\docFecha}{Agosto de 2026}
 
 % ---------------------------------------------------------------------
-%  PREAMBULO
+% PAQUETES
 % ---------------------------------------------------------------------
+
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\IfFileExists{lmodern.sty}{\usepackage{lmodern}\usepackage{microtype}}{}
 
-\IfFileExists{spanish.ldf}{%
-  \usepackage[spanish,es-tabla,es-noquoting]{babel}%
-}{%
-  \usepackage[english]{babel}%
-  \renewcommand{\contentsname}{\'Indice}%
-  \renewcommand{\listfigurename}{\'Indice de figuras}%
-  \renewcommand{\listtablename}{\'Indice de tablas}%
-  \renewcommand{\tablename}{Tabla}%
-  \renewcommand{\figurename}{Figura}%
+\IfFileExists{lmodern.sty}{
+  \usepackage{lmodern}
+  \usepackage{microtype}
+}{}
+
+\IfFileExists{spanish.ldf}{
+  \usepackage[spanish,es-tabla,es-noquoting]{babel}
+}{
+  \usepackage[english]{babel}
+  \renewcommand{\contentsname}{\'Indice}
+  \renewcommand{\tablename}{Tabla}
 }
 
 \usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
@@ -40,245 +43,455 @@
 \usepackage{parskip}
 \usepackage{booktabs}
 \usepackage{tabularx}
-\usepackage{longtable}
 \usepackage{array}
 \usepackage{enumitem}
-\setlist{noitemsep,topsep=4pt}
-\usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
-\usepackage{url}
-\urlstyle{same}
+
+\setlist{
+  noitemsep,
+  topsep=4pt,
+  leftmargin=*
+}
+
+% ---------------------------------------------------------------------
+% ESTILO
+% ---------------------------------------------------------------------
 
 \definecolor{leipAzul}{HTML}{1F4E79}
 \definecolor{leipGris}{HTML}{5A5A5A}
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\color{leipGris}\proyectoNombre{} --- \docTitulo}
-\fancyhead[R]{\small\color{leipGris} v\docVersion}
+\fancyhead[L]{
+  \small\color{leipGris}
+  \proyectoNombre{} --- \docTitulo
+}
+\fancyhead[R]{
+  \small\color{leipGris}
+  v\docVersion
+}
 \fancyfoot[C]{\small\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 
 \usepackage{titlesec}
-\titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
-\titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
-\titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
 
-% --- Portada -----------------------------------------------------------
-\newcommand{\portada}[1]{%
+\titleformat{\section}
+  {\Large\bfseries\color{leipAzul}}
+  {\thesection}
+  {0.6em}
+  {}
+
+\titleformat{\subsection}
+  {\large\bfseries\color{leipAzul}}
+  {\thesubsection}
+  {0.6em}
+  {}
+
+% ---------------------------------------------------------------------
+% PORTADA
+% ---------------------------------------------------------------------
+
+\newcommand{\portada}{
   \begin{titlepage}
-  \centering
-  \vspace*{2cm}
-  {\Large \proyectoUniversidad\par}
-  {\large \proyectoFacultad\par}
-  {\large \proyectoCarrera\par}
-  \vspace{3cm}
-  {\Huge\bfseries\color{leipAzul} #1\par}
-  \vspace{0.8cm}
-  {\Large \proyectoNombre{} --- \proyectoNombreLargo\par}
-  \vspace{2cm}
-  {\large Versi\'on \docVersion\par}
-  {\large \docFecha\par}
-  \vfill
-  {\large\bfseries Integrantes\par}
-  \vspace{0.3cm}
-  \begin{tabular}{c}
-    Sebastian Forische \\
-    Armando Hernandez de la Vega \\
-    Luana Acu\~na \\
-    Bruno Sebastian Olivera Viera Gomez \\
-  \end{tabular}
-  \vspace{1.5cm}
+    \centering
+
+    \vspace*{2cm}
+
+    {\Large \proyectoUniversidad\par}
+    {\large \proyectoFacultad\par}
+    {\large \proyectoCarrera\par}
+
+    \vspace{3cm}
+
+    {\Huge\bfseries\color{leipAzul}\docTitulo\par}
+
+    \vspace{0.8cm}
+
+    {\Large
+      \proyectoNombre{} ---
+      \proyectoNombreLargo
+      \par
+    }
+
+    \vspace{2cm}
+
+    {\large Versi\'on \docVersion\par}
+    {\large \docFecha\par}
+
+    \vfill
+
+    {\large\bfseries Integrantes\par}
+
+    \vspace{0.4cm}
+
+    \begin{tabular}{c}
+      Sebastian Forische \\
+      Armando Hernandez de la Vega \\
+      Luana Acu\~na \\
+      Bruno Sebastian Olivera Viera Gomez \\
+    \end{tabular}
+
+    \vspace{1.5cm}
   \end{titlepage}
 }
 
-% --- Historial de revisiones -------------------------------------------
-\newenvironment{historial}{%
-  \section*{Historial de revisiones}
-  \addcontentsline{toc}{section}{Historial de revisiones}
-  \begin{tabular}{@{}l l p{0.52\textwidth} l@{}}
-  \toprule
-  \textbf{Versi\'on} & \textbf{Fecha} & \textbf{Descripci\'on} & \textbf{Autor} \\
-  \midrule
-}{%
-  \bottomrule
-  \end{tabular}
-  \bigskip
-}
-
 % =====================================================================
-%  ENTORNO PARA DESCRIBIR UN SPRINT
-% ---------------------------------------------------------------------
-%  Uso:
-%
-%  \begin{sprint}{1}{Del 01/09 al 21/09}
-%    \sobjetivo{Objetivo del sprint}
-%    \salcance{Que casos de uso o requerimientos entran}
-%    \sentregable{Que se entrega al cierre}
-%    \sriesgos{Que riesgos de la Lista de Riesgos se mitigan}
-%  \end{sprint}
+% DOCUMENTO
 % =====================================================================
-
-\newcommand{\scampo}[2]{%
-  \par\noindent
-  \begin{tabularx}{\textwidth}{@{}>{\bfseries}p{3.4cm} X@{}}
-    #1 & #2
-  \end{tabularx}\par\smallskip
-}
-
-\newcommand{\sobjetivo}[1]{\scampo{Objetivo}{#1}}
-\newcommand{\salcance}[1]{\scampo{Alcance}{#1}}
-\newcommand{\sentregable}[1]{\scampo{Entregable}{#1}}
-\newcommand{\sriesgos}[1]{\scampo{Riesgos que mitiga}{#1}}
-
-\newenvironment{sprint}[2]{%
-  \subsection*{\color{leipAzul}Sprint #1\quad\normalsize\color{leipGris}#2}
-  \addcontentsline{toc}{subsection}{Sprint #1}
-  \vspace{-0.4em}
-  {\color{leipGris}\hrule height 0.5pt}
-  \smallskip
-}{%
-  \bigskip
-}
-
-% --- Figura con fallback si la imagen todavia no existe ----------------
-\newcommand{\figuraLEIP}[4]{%
-  \begin{figure}[htbp]
-  \centering
-  \IfFileExists{#1}{\includegraphics[width=#4\textwidth]{#1}}{%
-    \fbox{\parbox[c][3.5cm][c]{0.8\textwidth}{\centering\color{leipGris}%
-      \small\texttt{#1}}}%
-  }
-  \caption{#2}
-  \label{#3}
-  \end{figure}
-}
 
 \begin{document}
 
-\portada{Plan de Proyecto}
+\portada
 
 \tableofcontents
-\bigskip
+\clearpage
 
-\begin{historial}
-1.0 & 26/06/2026 & Contenido inicial derivado del anteproyecto & Equipo \\
-\end{historial}
+% =====================================================================
+\section*{Historial de revisiones}
+\addcontentsline{toc}{section}{Historial de revisiones}
+
+\begin{tabularx}{\textwidth}{@{}l l X l@{}}
+\toprule
+\textbf{Versi\'on} &
+\textbf{Fecha} &
+\textbf{Descripci\'on} &
+\textbf{Autor} \\
+\midrule
+1.0 &
+26/06/2026 &
+Contenido inicial derivado del anteproyecto. &
+Equipo \\
+
+1.1 &
+28/08/2026 &
+Reestructuraci\'on y simplificaci\'on del Plan de Proyecto. &
+Equipo \\
+\bottomrule
+\end{tabularx}
+
 \clearpage
 
 % =====================================================================
 \section{Introducci\'on}
 
-\subsection{Objetivo del documento}
+El presente documento define la forma en que se organizar\'a, ejecutar\'a y
+controlar\'a el proyecto \proyectoNombre{} (\proyectoNombreLargo). Su objetivo
+es establecer las responsabilidades del equipo, la metodolog\'ia de trabajo,
+los mecanismos de seguimiento y las herramientas que se utilizar\'an durante
+el desarrollo.
 
-\subsection{Alcance}
+Este documento describe la gesti\'on general del proyecto. Los requerimientos
+funcionales y no funcionales se mantienen en su documento correspondiente,
+mientras que cada sprint contar\'a con un Plan de Iteraci\'on y un Gantt
+espec\'ificos.
 
-% =====================================================================
-\section{Marco de trabajo}
-
-El equipo trabaja bajo una metodolog\'ia \'agil (Scrum), con iteraciones cortas
-(\emph{sprints}) para la planificaci\'on, desarrollo, validaci\'on y revisi\'on
-continua del proyecto, manteniendo tambi\'en un tablero de \emph{backlog}.
-
-\subsection{Duraci\'on de los sprints}
-
-\subsection{Ceremonias}
-
-\subsection{Definici\'on de terminado}
+El backlog y el estado operativo de las tareas se mantendr\'an en Jira. De esta
+forma se evita duplicar informaci\'on que cambia frecuentemente dentro de los
+documentos formales del proyecto.
 
 % =====================================================================
-\section{Equipo y responsabilidades}
+\section{Organizaci\'on del proyecto}
+
+El proyecto ser\'a desarrollado por un equipo multidisciplinario compuesto por
+cuatro integrantes. Las responsabilidades se distribuir\'an de acuerdo con la
+experiencia y participaci\'on de cada integrante, sin impedir la colaboraci\'on
+entre las diferentes \'areas.
 
 \begin{table}[htbp]
 \centering
 \caption{Responsables por \'area}
 \label{tab:equipo}
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\begin{tabularx}{\textwidth}{@{}p{5.2cm} X@{}}
 \toprule
-\textbf{\'Area} & \textbf{Encargado} \\
+\textbf{\'Area} & \textbf{Responsables} \\
 \midrule
-Gesti\'on del proyecto          & Bruno Olivera, Luana Acu\~na \\
-An\'alisis de requerimientos    & Armando Hernandez, Bruno Olivera \\
-Dise\~no de la interfaz         & Bruno Olivera, Sebastian Forische \\
-Desarrollo frontend             & Luana Acu\~na, Bruno Olivera \\
-Desarrollo backend              & Sebastian Forische, Luana Acu\~na, Bruno Olivera \\
-Infraestructura                 & Sebastian Forische, Luana Acu\~na \\
-QA                              & Armando Hernandez, Luana Acu\~na \\
-\emph{Database Administrator}   & Sebastian Forische \\
-Procesamiento de datos con LLM  & Armando Hernandez, Sebastian Forische \\
-\emph{Product Owner}            & Armando Hernandez \\
+Gesti\'on y seguimiento del proyecto
+  & Bruno Olivera y Luana Acu\~na \\
+
+Definici\'on del producto
+  & Armando Hernandez \\
+
+An\'alisis de requerimientos
+  & Armando Hernandez y Bruno Olivera \\
+
+Dise\~no de la interfaz
+  & Bruno Olivera y Sebastian Forische \\
+
+Desarrollo frontend
+  & Luana Acu\~na y Bruno Olivera \\
+
+Desarrollo backend
+  & Sebastian Forische, Luana Acu\~na y Bruno Olivera \\
+
+Datos e infraestructura
+  & Sebastian Forische y Luana Acu\~na \\
+
+Arquitectura de extracci\'on asistida por agentes
+  & Armando Hernandez \\
+
+Inteligencia econ\'omica
+  & Armando Hernandez \\
+
+Aseguramiento de la calidad
+  & Armando Hernandez y Luana Acu\~na \\
+
+Administraci\'on de base de datos
+  & Sebastian Forische \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\subsection{Roles de Scrum}
+Armando Hernandez asumir\'a la responsabilidad de \emph{Product Owner},
+manteniendo la visi\'on del producto y participando en la priorizaci\'on del
+backlog.
+
+Bruno Olivera y Luana Acu\~na apoyar\'an la coordinaci\'on del proyecto, el
+seguimiento de las tareas y la preparaci\'on de los entregables de cada
+iteraci\'on.
+
+Las decisiones que afecten significativamente el alcance, la arquitectura o
+los entregables acad\'emicos ser\'an discutidas por el equipo y, cuando
+corresponda, validadas con el tutor.
 
 % =====================================================================
-\section{Product backlog}
+\section{Metodolog\'ia de trabajo}
 
-\begin{tabularx}{\textwidth}{@{}l X c c@{}}
+El proyecto se desarrollar\'a mediante un marco de trabajo \'agil basado en
+Scrum, organizado en sprints de dos semanas. Cada sprint tendr\'a un objetivo
+concreto y un conjunto de tareas seleccionadas de acuerdo con las prioridades
+del proyecto y la capacidad disponible del equipo.
+
+Al inicio de cada sprint se elaborar\'an dos artefactos:
+
+\begin{itemize}
+  \item Un Plan de Iteraci\'on con el objetivo, alcance, tareas,
+        responsables y entregables comprometidos.
+  \item Un Gantt de Iteraci\'on con la distribuci\'on temporal de las tareas,
+        sus dependencias y los hitos correspondientes.
+\end{itemize}
+
+\subsection{Reuniones}
+
+Durante el proyecto se realizar\'an las siguientes reuniones:
+
+\begin{table}[htbp]
+\centering
+\caption{Reuniones del proyecto}
+\label{tab:reuniones}
+\begin{tabularx}{\textwidth}{@{}p{4cm} p{3cm} X@{}}
 \toprule
-\textbf{ID} & \textbf{Historia de usuario} & \textbf{Requerimientos} & \textbf{Prioridad} \\
+\textbf{Reuni\'on} &
+\textbf{Frecuencia} &
+\textbf{Objetivo} \\
 \midrule
- &  &  &  \\
- &  &  &  \\
- &  &  &  \\
+Seguimiento del equipo &
+Semanal &
+Revisar el trabajo realizado, identificar bloqueos, actualizar prioridades
+y acordar las acciones necesarias para mantener el avance del sprint. \\
+
+Reuni\'on con el tutor &
+Semanal &
+Presentar avances, resolver dudas, recibir retroalimentaci\'on y validar
+decisiones relevantes del proyecto. \\
+
+Planificaci\'on de la iteraci\'on &
+Al inicio de cada sprint &
+Definir el objetivo, seleccionar las tareas y preparar el Plan de Iteraci\'on
+y el Gantt correspondiente. \\
+
+Revisi\'on de la iteraci\'on &
+Al finalizar cada sprint &
+Evaluar los entregables producidos, registrar los resultados y acordar
+mejoras para la siguiente iteraci\'on. \\
 \bottomrule
 \end{tabularx}
+\end{table}
 
-\subsection{Criterios de priorizaci\'on}
+\subsection{Gesti\'on del backlog}
+
+Jira ser\'a la fuente oficial para la administraci\'on del backlog. Cada tarea
+deber\'a incluir, cuando corresponda:
+
+\begin{itemize}
+  \item Una descripci\'on clara del trabajo.
+  \item Un responsable.
+  \item Una prioridad.
+  \item Una estimaci\'on de esfuerzo.
+  \item Una fecha objetivo.
+  \item Criterios de aceptaci\'on.
+  \item Dependencias o bloqueos conocidos.
+  \item Evidencia del resultado obtenido.
+\end{itemize}
+
+Las tareas se priorizar\'an considerando:
+
+\begin{enumerate}
+  \item Su importancia para el MVP.
+  \item Las dependencias t\'ecnicas o documentales.
+  \item Los compromisos acad\'emicos.
+  \item El riesgo que permitan reducir.
+  \item La capacidad disponible del equipo.
+\end{enumerate}
+
+El esfuerzo se estimar\'a inicialmente en horas de trabajo. Al cierre de cada
+sprint se comparar\'a el esfuerzo estimado con el esfuerzo real para mejorar
+la planificaci\'on de las siguientes iteraciones.
+
+\subsection{Criterios de preparaci\'on y terminado}
+
+Una tarea se considerar\'a preparada para ingresar a un sprint cuando:
+
+\begin{itemize}
+  \item Su objetivo y alcance sean comprensibles.
+  \item Tenga un responsable identificado.
+  \item Sus dependencias principales sean conocidas.
+  \item Cuente con una estimaci\'on inicial.
+  \item Tenga criterios de aceptaci\'on verificables.
+\end{itemize}
+
+Una tarea se considerar\'a terminada cuando:
+
+\begin{itemize}
+  \item El trabajo comprometido haya sido completado.
+  \item Cumpla sus criterios de aceptaci\'on.
+  \item Haya sido revisada por al menos otro integrante cuando corresponda.
+  \item Las pruebas necesarias hayan sido ejecutadas.
+  \item El c\'odigo o documento resultante se encuentre versionado.
+  \item El issue de Jira incluya evidencia o un enlace al resultado.
+  \item No existan errores o bloqueos conocidos que impidan utilizar el
+        entregable.
+\end{itemize}
 
 % =====================================================================
-\section{Planificaci\'on de sprints}
+\section{Planificaci\'on y seguimiento}
 
-% ---------------------------------------------------------------------
-%  PLANTILLA: copiá este bloque para cada sprint.
-% ---------------------------------------------------------------------
-\begin{sprint}{0}{Fechas}
+La planificaci\'on general de LEIP se organizar\'a progresivamente alrededor de
+las siguientes etapas:
 
-\sobjetivo{}
-\salcance{}
-\sentregable{}
-\sriesgos{}
+\begin{enumerate}
+  \item Definici\'on del producto y sus requerimientos.
+  \item Dise\~no de la arquitectura y del modelo de datos.
+  \item Implementaci\'on del sistema de extracci\'on y procesamiento.
+  \item Implementaci\'on de la capa de inteligencia econ\'omica.
+  \item Desarrollo de la API y de la aplicaci\'on web.
+  \item Integraci\'on, validaci\'on, despliegue y documentaci\'on final.
+\end{enumerate}
 
-\end{sprint}
+Estas etapas no se consideran fases completamente aisladas. Podr\'an
+desarrollarse de manera incremental y superponerse cuando las dependencias
+t\'ecnicas lo permitan.
+
+El avance se controlar\'a mediante los tableros, sprints e issues registrados
+en Jira. Durante las reuniones semanales se revisar\'an:
+
+\begin{itemize}
+  \item Las tareas completadas.
+  \item Las tareas en curso.
+  \item Los bloqueos existentes.
+  \item Las desviaciones respecto al Plan de Iteraci\'on.
+  \item Las decisiones necesarias.
+  \item Los riesgos nuevos o modificados.
+\end{itemize}
+
+Los cambios que afecten el alcance del MVP, los requerimientos o la arquitectura
+deber\'an registrarse y evaluarse antes de ser incorporados al backlog. La
+evaluaci\'on considerar\'a su valor, costo, riesgo e impacto sobre el cronograma.
+
+Los riesgos detallados del proyecto se mantendr\'an en el documento de Lista de
+Riesgos. Cuando un riesgo requiera una acci\'on concreta, esta se registrar\'a
+también como tarea en Jira.
 
 % =====================================================================
-\section{Cronograma}
+\section{Comunicaci\'on, documentaci\'on y herramientas}
 
-\figuraLEIP{img/cronograma.png}{Cronograma del proyecto}{fig:cronograma}{0.95}
+La comunicaci\'on del equipo y la documentaci\'on de las decisiones se
+realizar\'an mediante las siguientes herramientas:
 
-% =====================================================================
-\section{Estimaci\'on}
-
-\subsection{M\'etodo de estimaci\'on}
-
-\subsection{Velocidad del equipo}
-
-% =====================================================================
-\section{Gesti\'on de cambios}
-
-% =====================================================================
-\section{Comunicaci\'on y reuniones}
-
-% =====================================================================
-\section{Herramientas}
-
-\begin{tabularx}{\textwidth}{@{}l X@{}}
+\begin{table}[htbp]
+\centering
+\caption{Herramientas del proyecto}
+\label{tab:herramientas}
+\begin{tabularx}{\textwidth}{@{}p{3.8cm} X@{}}
 \toprule
 \textbf{Herramienta} & \textbf{Uso} \\
 \midrule
- &  \\
- &  \\
- &  \\
+Jira &
+Gesti\'on del backlog, planificaci\'on de sprints, asignaci\'on de
+responsables, seguimiento de tareas y registro del avance. \\
+
+Microsoft Teams &
+Comunicaci\'on del equipo y realizaci\'on de videollamadas internas y con el
+tutor. Tambi\'en se utilizar\'a para grabar, transcribir y resumir reuniones. \\
+
+GitHub &
+Control de versiones del c\'odigo fuente, documentaci\'on t\'ecnica y
+artefactos formales del proyecto. \\
+
+LaTeX &
+Elaboraci\'on y mantenimiento de la documentaci\'on acad\'emica y t\'ecnica. \\
 \bottomrule
 \end{tabularx}
+\end{table}
+
+Las grabaciones, transcripciones y res\'umenes autom\'aticos se conservar\'an
+inicialmente en Microsoft Teams. Las decisiones relevantes y las tareas
+resultantes se revisar\'an antes de considerarse definitivas.
+
+La informaci\'on producida durante una reuni\'on se procesar\'a de la siguiente
+forma:
+
+\begin{enumerate}
+  \item Realizaci\'on y, cuando corresponda, grabaci\'on de la reuni\'on.
+  \item Generaci\'on de la transcripci\'on y el resumen.
+  \item Revisi\'on del resumen por un integrante del equipo.
+  \item Registro de las decisiones relevantes.
+  \item Creaci\'on o actualizaci\'on de las tareas correspondientes en Jira.
+  \item Incorporaci\'on de la documentaci\'on definitiva al repositorio
+        cuando deba conservarse como evidencia del proyecto.
+\end{enumerate}
+
+Cada minuta deber\'a identificar, como m\'inimo:
+
+\begin{itemize}
+  \item La fecha de la reuni\'on.
+  \item Los participantes.
+  \item Los temas tratados.
+  \item Las decisiones adoptadas.
+  \item Las tareas resultantes.
+  \item Los responsables y fechas acordadas.
+\end{itemize}
 
 % =====================================================================
-\section{Criterio de aceptaci\'on del proyecto}
+\section{Criterios de finalizaci\'on y aceptaci\'on}
 
-% =====================================================================
-\section{Gesti\'on de riesgos}
+Un sprint se considerar\'a finalizado cuando:
+
+\begin{itemize}
+  \item Se haya realizado la revisi\'on de la iteraci\'on.
+  \item Los entregables completados se encuentren disponibles.
+  \item El estado de las tareas est\'e actualizado en Jira.
+  \item Las tareas no terminadas hayan sido replanificadas.
+  \item Los bloqueos, decisiones y aprendizajes hayan sido registrados.
+\end{itemize}
+
+El proyecto se considerar\'a finalizado cuando:
+
+\begin{itemize}
+  \item Los requerimientos prioritarios del MVP hayan sido implementados y
+        verificados.
+  \item El sistema permita extraer, validar, almacenar y consultar la
+        informaci\'on econ\'omica definida para el MVP.
+  \item La trazabilidad de los datos se mantenga desde la fuente original
+        hasta su presentaci\'on.
+  \item Las m\'etricas de inteligencia econ\'omica comprometidas hayan sido
+        implementadas y validadas.
+  \item La API y la aplicaci\'on web permitan acceder correctamente a la
+        informaci\'on.
+  \item Las pruebas necesarias hayan sido ejecutadas.
+  \item La documentaci\'on acad\'emica y t\'ecnica se encuentre completa.
+  \item La versi\'on final del producto pueda ser desplegada y demostrada.
+  \item El equipo y el tutor acepten los entregables correspondientes.
+\end{itemize}
 
 \end{document}

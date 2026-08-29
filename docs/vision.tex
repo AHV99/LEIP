@@ -6,14 +6,14 @@
 \documentclass[11pt,a4paper]{article}
 
 % ---------------------------------------------------------------------
-%  DATOS DEL PROYECTO  (tocá solo esto para actualizar el documento)
+%  DATOS DEL PROYECTO  (tocÃ¡ solo esto para actualizar el documento)
 % ---------------------------------------------------------------------
 \newcommand{\proyectoNombre}{LEIP}
 \newcommand{\proyectoNombreLargo}{LatAm Economic Intelligence Platform}
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.0}
+\newcommand{\docVersion}{1.2}
 \newcommand{\docTitulo}{Visi\'on}
 \newcommand{\docFecha}{Agosto 2026}
 \newcommand{\equipoLista}{%
@@ -30,7 +30,7 @@
 %  PREAMBULO  (estilos y comandos; normalmente no hace falta tocarlo)
 % ---------------------------------------------------------------------
 % =====================================================================
-%  preamble.tex — Paquetes, estilo y comandos. Compartido por TODOS los docs.
+%  preamble.tex â€” Paquetes, estilo y comandos. Compartido por TODOS los docs.
 % =====================================================================
 
 \usepackage[utf8]{inputenc}
@@ -39,8 +39,8 @@
 \IfFileExists{lmodern.sty}{\usepackage{lmodern}\usepackage{microtype}}{}
 
 % --- Idioma -------------------------------------------------------------
-% Si babel-spanish está instalado (Overleaf, TeX Live completo) lo usa.
-% Si no, cae a inglés y renombra los títulos a mano para no romper el build.
+% Si babel-spanish estÃ¡ instalado (Overleaf, TeX Live completo) lo usa.
+% Si no, cae a inglÃ©s y renombra los tÃ­tulos a mano para no romper el build.
 \IfFileExists{spanish.ldf}{%
   \usepackage[spanish,es-tabla,es-noquoting]{babel}%
 }{%
@@ -54,7 +54,7 @@
   \renewcommand{\abstractname}{Resumen}%
 }
 
-% --- Página -------------------------------------------------------------
+% --- PÃ¡gina -------------------------------------------------------------
 \usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
 \usepackage{fancyhdr}
 \usepackage{parskip}
@@ -67,7 +67,7 @@
 \usepackage{enumitem}
 \setlist{noitemsep,topsep=4pt}
 
-% --- Gráficos y color ---------------------------------------------------
+% --- GrÃ¡ficos y color ---------------------------------------------------
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{tcolorbox}
@@ -92,7 +92,7 @@
 \fancyfoot[C]{\small\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 
-% --- Títulos de sección -------------------------------------------------
+% --- TÃ­tulos de secciÃ³n -------------------------------------------------
 \usepackage{titlesec}
 \titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
 \titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
@@ -102,8 +102,8 @@
 %  COMANDOS PROPIOS
 % =====================================================================
 
-% --- Portada estándar ---------------------------------------------------
-% Uso: \portada{Visión}
+% --- Portada estÃ¡ndar ---------------------------------------------------
+% Uso: \portada{VisiÃ³n}
 \newcommand{\portada}[1]{%
   \begin{titlepage}
   \centering
@@ -132,7 +132,7 @@
 }
 
 % --- Historial de revisiones -------------------------------------------
-% Uso: \begin{historial} 1.0 & 26/06/2026 & Versión inicial & Armando \\ \end{historial}
+% Uso: \begin{historial} 1.0 & 26/06/2026 & VersiÃ³n inicial & Armando \\ \end{historial}
 % Nota: usa tabular con p{} y NO tabularx. tabularx necesita leer el cuerpo
 % completo de la tabla de una sola vez, y no tolera que \begin y \end queden
 % en macros distintas.
@@ -154,7 +154,7 @@
 %   - el resumen corto va al listado del final: debe ser texto plano
 %   - el texto completo va al recuadro en el cuerpo del documento
 % Para la entrega final: \pendientesfalse oculta los recuadros del PDF,
-% pero el listado del final sigue mostrando qué quedó abierto.
+% pero el listado del final sigue mostrando quÃ© quedÃ³ abierto.
 \newif\ifpendientes
 \pendientestrue
 
@@ -176,7 +176,7 @@
 \makeatother
 
 % --- Identificadores de requerimientos ---------------------------------
-% Se usan en alcance.tex; van acá para que la numeración sea única.
+% Se usan en alcance.tex; van acÃ¡ para que la numeraciÃ³n sea Ãºnica.
 \newcounter{rfcounter}
 \newcommand{\rf}[2]{% \rf{etiqueta}{texto}
   \refstepcounter{rfcounter}%
@@ -190,7 +190,7 @@
   \textbf{RNF-\arabic{rnfcounter}}\quad #2\par\smallskip
 }
 
-% --- Figura con fallback si la imagen todavía no existe ----------------
+% --- Figura con fallback si la imagen todavÃ­a no existe ----------------
 % Uso: \figuraLEIP{img/arquitectura.png}{Arquitectura de LEIP}{fig:arq}{0.9}
 \newcommand{\figuraLEIP}[4]{%
   \begin{figure}[htbp]
@@ -214,6 +214,8 @@
 
 \begin{historial}
 1.0 & 26/06/2026 & Contenido inicial derivado del anteproyecto & Equipo \\
+1.1 & 28/08/2026 & Ajustes de validaci\'on, fuentes, monetizaci\'on y arquitectura de ingesta & Equipo \\
+1.2 & 28/08/2026 & Consolidaci\'on de secciones y depuraci\'on de pendientes & Equipo \\
 \end{historial}
 
 % =====================================================================
@@ -277,9 +279,11 @@ SIE         & Sistema de Informaci\'on Econ\'omica de Banxico. \\
         \url{https://docs.google.com/forms/d/e/1FAIpQLSe4jNRspwc_cyIJii9npmMjpXSXsAxOBzT6vkGCEi5vW80DEQ/viewform}
 \end{itemize}
 
-\pendiente{Completar referencias con URL, fecha y condiciones de uso de cada organismo}{Completar las referencias con URL, fecha de consulta y condiciones de
-uso publicadas de cada organismo. Las condiciones de uso son insumo directo de la
-secci\'on de Restricciones.}
+Las referencias anteriores corresponden al m\'odulo inicial de expectativas.
+Durante la incorporaci\'on de cada conjunto de datos se mantendr\'a un registro
+de fuentes que incluir\'a organismo, URL, fecha de consulta, m\'etodo de acceso,
+condiciones de uso y requisitos de atribuci\'on. La evaluaci\'on se realizar\'a
+fuente por fuente y no mediante una licencia \'unica por pa\'is.
 
 % =====================================================================
 \section{Oportunidad y contexto}
@@ -335,6 +339,13 @@ Chile   & Encuesta de Expectativas Econ\'omicas (BCCh) & Mensual. Bloqueado sin 
 \bottomrule
 \end{tabularx}
 \end{table}
+
+La tabla \ref{tab:fuentes} presenta solamente las fuentes iniciales del m\'odulo
+de expectativas. Los m\'odulos de precios, actividad y los cruces anal\'iticos
+incorporar\'an tambi\'en organismos estad\'isticos, ministerios y otras fuentes
+oficiales, como INE, INEGI, MEF y Secretar\'ia de Econom\'ia. La procedencia y
+las condiciones de uso se registrar\'an para cada conjunto de datos; ninguna
+instituci\'on representa por s\'i sola todas las fuentes de un pa\'is.
 
 El contexto competitivo incluye terminales financieras, bases macro
 especializadas, informes de terceros y planillas propias de analistas.
@@ -404,7 +415,7 @@ que el usuario deba mantener procesos propios de descarga y limpieza. \\
 Masivo dentro del nicho &
 Debe afectar a suficientes analistas, equipos de investigaci\'on, consultoras y
 tesorer\'ias que trabajen con expectativas macroecon\'omicas. &
-Validado con encuestas \\
+Pendiente de muestra suficiente \\
 \addlinespace
 Doloroso &
 Debe ser frecuente y costoso en tiempo como para justificar pago o adopci\'on
@@ -419,10 +430,11 @@ Hip\'otesis con evidencia secundaria \\
 \end{tabularx}
 \end{table}
 
-\pendiente{Validar las condiciones 'doloroso' y 'mal resuelto': sostienen la disposicion a pagar}{Las condiciones \emph{doloroso} y \emph{mal resuelto} siguen sin
-validar. Son las dos que sostienen la disposici\'on a pagar: mientras est\'en
-abiertas, el modelo de negocio de la secci\'on \ref{sec:negocio} es una
-hip\'otesis, no un plan. Cerrarlas es la prioridad de la pr\'oxima iteraci\'on.}
+Las condiciones \emph{masivo dentro del nicho}, \emph{doloroso} y
+\emph{mal resuelto} no pueden considerarse validadas con la muestra actual.
+La evaluaci\'on queda en pausa hasta reunir suficientes encuestas y entrevistas,
+con desagregaci\'on de perfiles institucionales. Mientras tanto, el modelo de
+negocio de la secci\'on \ref{sec:negocio} se mantiene como hip\'otesis.
 
 % =====================================================================
 \section{Posicionamiento del producto}
@@ -473,29 +485,62 @@ dentro de un mismo entorno de an\'alisis.
 
 \subsection{Interesados}
 
-\pendiente{Fichar los interesados del proyecto}{Secci\'on a completar. Fichar cada interesado con: nombre o rol, rol
-en la organizaci\'on, rol en el proyecto, perfil t\'ecnico y criterio de \'exito.
-Interesados a fichar: tutor t\'ecnico, docente de negocio, contraparte o cliente
-de validaci\'on, organismos emisores de las fuentes, y el propio equipo como
-responsable del producto.}
+\begin{table}[htbp]
+\centering
+\caption{Interesados principales}
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Interesado} & \textbf{Participaci\'on} & \textbf{Criterio de \'exito} \\
+\midrule
+Equipo del proyecto & Define, construye, opera y documenta el producto & MVP funcional, trazable y entregado dentro del calendario acad\'emico \\
+\addlinespace
+Tutores t\'ecnico y de negocio & Orientan y eval\'uan las decisiones del proyecto & Rigor t\'ecnico, viabilidad y coherencia entre problema y soluci\'on \\
+\addlinespace
+Organismos emisores & Publican datos, metodolog\'ias y condiciones de uso & Atribuci\'on correcta y uso conforme a sus condiciones \\
+\addlinespace
+Usuarios de validaci\'on & Aportan evidencia sobre problemas y necesidades & Utilidad comprobable y reducci\'on del trabajo manual \\
+\addlinespace
+Clientes institucionales & Consumen datos, m\'etricas, exportaciones o API & Informaci\'on confiable e integrable en sus procesos \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Perfiles de usuario}
 
-\pendiente{Fichar los perfiles de usuario: sin esto no salen los actores de los casos de uso}{Secci\'on a completar. Los segmentos ya est\'an identificados
----analista macroecon\'omico, equipo de investigaci\'on, tesorer\'ia, consultora,
-fondo de inversi\'on, broker, acad\'emico--- pero falta la ficha de cada uno:
-descripci\'on, a qui\'en representa, rol en la organizaci\'on, rol frente al
-sistema, perfil t\'ecnico y criterio de \'exito. Sin estas fichas no se pueden
-justificar los planes de la secci\'on \ref{sec:negocio} ni derivar los actores de
-los casos de uso.}
+Los perfiles siguientes son una definici\'on inicial que permite derivar actores
+y casos de uso. Sus necesidades y criterios de \'exito se revisar\'an al cerrar
+la validaci\'on.
+
+\begin{table}[htbp]
+\centering
+\caption{Perfiles preliminares de usuario}
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Perfil} & \textbf{Objetivo principal} & \textbf{Uso esperado} \\
+\midrule
+Analista macroecon\'omico & Seguir variables y expectativas regionales & Comparadores, hist\'oricos, revisiones y m\'etricas \\
+\addlinespace
+Equipo de investigaci\'on & Producir an\'alisis recurrente y verificable & Radar, consultas guardadas, exportaciones y API \\
+\addlinespace
+Tesorer\'ia o fondo & Incorporar contexto macro a decisiones internas & Alertas, cruces, escenarios y series comparables \\
+\addlinespace
+Consultora o broker & Preparar informes para clientes & Gr\'aficos, briefings y exportaciones auditables \\
+\addlinespace
+Acad\'emico o investigador & Analizar series regionales con trazabilidad & Hist\'oricos, metadatos y descarga estructurada \\
+\addlinespace
+Administrador institucional & Gestionar el acceso de su organizaci\'on & Usuarios, roles, permisos y entitlements \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Entornos de los usuarios}
 
-\pendiente{Relevar los entornos de trabajo de los usuarios}{Secci\'on a completar. Responder: \textquestiondown{}con qu\'e herramientas trabajan hoy
-(Excel, R, Python, Power BI)? \textquestiondown{}con qu\'e frecuencia consultan expectativas?
-\textquestiondown{}cu\'anto tiempo les toma hoy armar una comparaci\'on entre pa\'ises?
-\textquestiondown{}necesitan integrar \proyectoNombre{} con sistemas propios? Estas respuestas
-salen de las entrevistas de validaci\'on pendientes.}
+Como hip\'otesis inicial, los usuarios trabajan desde navegadores web y utilizan
+Excel, R, Python o herramientas de inteligencia de negocios como Power BI para
+sus an\'alisis. Los usuarios individuales consumir\'an principalmente el
+\emph{dashboard} y las exportaciones, mientras que los equipos institucionales
+podr\'an integrar la API en procesos propios. La frecuencia, los tiempos actuales
+y las necesidades de integraci\'on se medir\'an durante la validaci\'on.
 
 \subsection{Necesidades clave}
 
@@ -565,19 +610,17 @@ podr\'ia pagar por el producto. Las respuestas de academia o usuarios
 individuales sirven como aprendizaje, pero no son suficientes por s\'i solas
 para validar el negocio.
 
-\subsubsection{Resultado de la primera ronda}
+\subsubsection{Estado de la validaci\'on}
 
-Se encuest\'o a un grupo de analistas vinculados al trabajo con informaci\'on
-macroecon\'omica. Los resultados mostraron inter\'es en la herramienta: la
-b\'usqueda, limpieza y sistematizaci\'on de datos de expectativas resulta
-actualmente un proceso tedioso y manual. Esta primera validaci\'on indica que
-\proyectoNombre{} responde a una necesidad real del segmento objetivo,
-especialmente para comparar datos entre pa\'ises.
+La recolecci\'on de respuestas se encuentra en curso. La muestra disponible no
+es suficiente para afirmar que el problema, la disposici\'on a pagar o el modelo
+de negocio est\'en validados. Por esta raz\'on no se presentan conclusiones
+cuantitativas ni comerciales en esta versi\'on.
 
-\pendiente{Reportar evidencia cuantitativa de la encuesta (n y desagregacion institucional)}{Reportar la evidencia cuantitativa: n\'umero de respuestas,
-composici\'on por tipo de perfil, y los tres indicadores del plan de validaci\'on.
-Sin el $n$ y la desagregaci\'on institucional, el resultado no sostiene la
-conclusi\'on. Falta adem\'as la ronda de entrevistas cualitativas.}
+Al cerrar la recolecci\'on se reportar\'an el n\'umero de respuestas, la
+composici\'on por tipo de perfil y los tres indicadores del plan de validaci\'on.
+Las conclusiones distinguir\'an perfiles institucionales de usuarios acad\'emicos
+o individuales e incorporar\'an la ronda de entrevistas cualitativas.
 
 % =====================================================================
 \section{Alternativas y competencia}
@@ -645,6 +688,13 @@ validan su contenido y normalizan variables, unidades, fechas, frecuencias y
 metodolog\'ias. De esta manera el usuario no necesita mantener procesos propios
 de descarga, limpieza y actualizaci\'on.
 
+Como primera hip\'otesis t\'ecnica, se definir\'a un boceto de arquitectura de
+agentes para los pipelines de extracci\'on. Su objetivo ser\'a coordinar la
+obtenci\'on, interpretaci\'on y validaci\'on de fuentes heterog\'eneas, manteniendo
+controles determin\'isticos de calidad y trazabilidad. La composici\'on de los
+agentes, sus herramientas y su orquestaci\'on se especificar\'an en las Notas de
+Arquitectura y Dise\~no, no en este documento de visi\'on.
+
 Los datos procesados se almacenan en un Data Hub y se organizan por pa\'is,
 variable, per\'iodo, unidad, fuente, fecha de publicaci\'on y versi\'on. Sobre
 esa base se construye una capa de inteligencia con m\'etricas determin\'isticas
@@ -659,21 +709,30 @@ procesos.
 
 \figuraLEIP{img/arquitectura-contexto.png}{Vista de contexto de \proyectoNombre{}}{fig:contexto}{0.9}
 
-\pendiente{Reemplazar la figura por una vista de contexto, no el diagrama tecnico}{Sustituir la figura por una vista \emph{de contexto}: \proyectoNombre{}
-como caja \'unica, con las fuentes oficiales, el proveedor de pagos y los
-consumidores de la API como entidades externas. El diagrama t\'ecnico completo
-(capas Medallion, componentes internos) corresponde a Notas de Arquitectura, no
-a este documento.}
+La figura presenta a \proyectoNombre{} como una caja \'unica y muestra las
+fuentes oficiales, el proveedor de pagos y los consumidores de la API como
+entidades externas. El diagrama t\'ecnico completo, incluidas las capas
+Medallion y la arquitectura de agentes, se mantiene en las Notas de Arquitectura.
 
 \subsection{Trazabilidad metodol\'ogica}
 
 Un aspecto central de la soluci\'on es la trazabilidad metodol\'ogica. Cada
-dato, m\'etrica y exportaci\'on conserva su fuente, fecha, versi\'on y criterio
-de procesamiento. \proyectoNombre{} no busca vender una copia de los datos
-originales, sino entregar informaci\'on transformada, m\'etricas comparables y
-lecturas anal\'iticas que reduzcan el trabajo operativo. Adem\'as de su valor
-para el usuario, esta decisi\'on es la principal mitigaci\'on del riesgo
-regulatorio descrito en la secci\'on \ref{sec:restricciones}.
+dato, m\'etrica y exportaci\'on conserva su organismo emisor, conjunto de datos,
+URL, fecha de publicaci\'on, versi\'on y criterio de procesamiento.
+
+\proyectoNombre{} distingue expl\'icitamente entre el dato oficial y la
+elaboraci\'on propia. La capa gratuita ofrece acceso consolidado a series que
+los organismos ya publican, siempre con atribuci\'on y enlace a la fuente. La
+propuesta de valor comercial se concentra en los hist\'oricos versionados, la
+normalizaci\'on metodol\'ogica, las comparaciones regionales y las m\'etricas,
+se\~nales y lecturas anal\'iticas desarrolladas por \proyectoNombre{}. Toda
+m\'etrica derivada se identifica como \emph{Elaboraci\'on LEIP con datos de} la
+fuente correspondiente.
+
+Las condiciones de uso se eval\'uan por organismo y conjunto de datos, no por
+pa\'is ni exclusivamente por banco central. Esta trazabilidad forma parte del
+valor para el usuario y de la mitigaci\'on del riesgo regulatorio descrito en la
+secci\'on \ref{sec:restricciones}.
 
 % =====================================================================
 \section{Capacidades del MVP}
@@ -702,9 +761,12 @@ regulatorio descrito en la secci\'on \ref{sec:restricciones}.
 \label{sec:negocio}
 
 El modelo combina acceso \emph{freemium}, contrataci\'on modular, planes
-institucionales y servicios profesionales. La versi\'on gratuita ofrece un radar
-resumido; los planes pagos habilitan m\'odulos, hist\'oricos, cruces, alertas,
-\emph{briefings}, exportaciones y API institucional seg\'un corresponda.
+institucionales y servicios profesionales. La versi\'on gratuita permite
+consultar las series oficiales que ya se encuentran disponibles p\'ublicamente,
+con trazabilidad hacia su origen. Los planes pagos no cobran por el dato oficial
+aislado, sino por el hist\'orico consolidado y versionado, las comparaciones, la
+normalizaci\'on, las m\'etricas propias, los cruces, las alertas, los
+\emph{briefings}, las exportaciones y la API institucional seg\'un corresponda.
 
 \subsection{Planes}
 
@@ -748,11 +810,11 @@ estimado del trabajo de USD 15 por hora.
 \textbf{Concepto} & \textbf{Mensual} & \textbf{Anual} \\
 \midrule
 Infraestructura           & USD 90  & USD 1.080 \\
-LLM                       & USD 5   & USD 60 \\
+LLM                       & Por estimar & Por estimar \\
 Mantenimiento t\'ecnico   & USD 180 & USD 2.160 \\
 Administraci\'on operativa & USD 150 & USD 1.800 \\
 \midrule
-\textbf{Total}            & \textbf{USD 425} & \textbf{USD 5.100} \\
+\textbf{Subtotal sin LLM} & \textbf{USD 420} & \textbf{USD 5.040} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -760,11 +822,11 @@ Administraci\'on operativa & USD 150 & USD 1.800 \\
 La viabilidad b\'asica se eval\'ua con usuarios individuales y planes completos,
 sin depender de vender un contrato Enterprise.
 
-\pendiente{Verificar el costo estimado de LLM contra el volumen real de extracciones}{El costo de LLM (USD 5 mensuales) supone un volumen bajo de
-extracciones. Verificarlo contra el escenario real: n\'umero de fuentes por
-frecuencia de publicaci\'on, tama\~no de los documentos a procesar y
-reintentos por validaci\'on fallida. Es el rubro con mayor incertidumbre relativa
-de la tabla.}
+\pendiente{Estimar el costo del LLM a partir de la arquitectura y el volumen real}{Calcular el costo cuando est\'en definidos el primer boceto de
+arquitectura de agentes, los modelos candidatos y el inventario inicial de
+fuentes. La estimaci\'on debe considerar: ejecuciones por fuente y frecuencia,
+tokens de entrada y salida, llamadas por extracci\'on, reintentos, validaciones,
+generaci\'on de briefings y escenarios base, conservador y de estr\'es.}
 
 % =====================================================================
 \section{Asunciones y dependencias}
@@ -777,9 +839,10 @@ del MVP debe revisarse.
         cubiertas, con frecuencia y cobertura equivalentes a las actuales.
   \item Los formatos de publicaci\'on se mantienen razonablemente estables, o
         sus cambios son detectables por validaci\'on autom\'atica.
-  \item Las licencias de datos abiertos de Brasil, M\'exico y Uruguay habilitan
-        el uso transformado con atribuci\'on. Esta condici\'on est\'a
-        confirmada s\'olo parcialmente (ver secci\'on \ref{sec:restricciones}).
+  \item Cada organismo y conjunto de datos habilita el uso previsto por
+        \proyectoNombre{} conforme a sus condiciones espec\'ificas. Esta
+        verificaci\'on se mantiene en una matriz de fuentes y no se presume a
+        partir del pa\'is de origen (ver secci\'on \ref{sec:restricciones}).
   \item Existe un proveedor externo de cobros que expone \emph{checkout} alojado
         y notificaciones por \emph{webhook}.
   \item La infraestructura del proveedor cloud est\'a disponible dentro de los
@@ -788,9 +851,8 @@ del MVP debe revisarse.
         proyecto.
 \end{itemize}
 
-\pendiente{Verificar correspondencia uno a uno entre asunciones y lista de riesgos}{Cada asunci\'on de esta lista deber\'ia tener su riesgo espejo en el
-documento de Lista de Riesgos, con probabilidad, impacto y mitigaci\'on. Verificar
-que la correspondencia sea uno a uno.}
+Cada asunci\'on se vincular\'a con su riesgo correspondiente en el documento de
+Lista de Riesgos, donde se registrar\'an probabilidad, impacto y mitigaci\'on.
 
 % =====================================================================
 \section{Restricciones}
@@ -799,43 +861,35 @@ que la correspondencia sea uno a uno.}
 El proyecto enfrenta dos riesgos regulatorios distintos. El riesgo de asesor\'ia
 financiera es bajo por dise\~no, ya que \proyectoNombre{} entrega informaci\'on
 agregada y descriptiva, sin recomendaciones personalizadas. El riesgo relevante
-es la redistribuci\'on y el uso comercial de informaci\'on publicada por
-organismos oficiales.
+es cumplir las condiciones de uso aplicables a cada fuente oficial.
 
-Para mitigarlo, el producto utiliza fuentes oficiales o autorizadas y entrega
-informaci\'on transformada mediante m\'etricas, comparaciones y valor agregado,
-no como copia del dato crudo. Cada visualizaci\'on, exportaci\'on o respuesta de
-API incluye fuente, fecha, versi\'on y nota metodol\'ogica.
+No existe una licencia \'unica para los datos de un pa\'is ni una fuente \'unica
+que lo represente. Brasil, M\'exico, Uruguay y las futuras incorporaciones
+utilizan bancos centrales, institutos de estad\'istica, ministerios y otros
+organismos. Por ello, cada conjunto de datos debe contar con un registro de
+procedencia que incluya instituci\'on, URL, fecha de consulta, m\'etodo de acceso,
+condiciones de uso y requisitos de atribuci\'on.
 
-\begin{table}[htbp]
-\centering
-\caption{Condiciones de uso por pa\'is}
-\label{tab:regulatorio}
-\begin{tabularx}{\textwidth}{l X}
-\toprule
-\textbf{Pa\'is} & \textbf{Condici\'on} \\
-\midrule
-Brasil &
-Parte de un marco de datos abiertos. A\'un as\'i, \proyectoNombre{} no debe
-redistribuir la base cruda como copia del Banco Central, sino trabajar sobre
-datos transformados con atribuci\'on clara de la fuente. \\
-\addlinespace
-M\'exico &
-El marco general es favorable para usar informaci\'on oficial, pero queda
-pendiente confirmar las condiciones espec\'ificas. \\
-\addlinespace
-Uruguay &
-El BCU tiene un marco de datos abiertos, pero hay que confirmar que esa licencia
-cubre espec\'ificamente las encuestas de expectativas. \\
-\addlinespace
-Chile &
-Caso m\'as restrictivo. El BCCh limita la comercializaci\'on o redistribuci\'on
-de la informaci\'on, y transformar el dato no elimina ese riesgo. Sin permiso
-expl\'icito, Chile no debe aparecer como base navegable, descargable o
-comercializada. \\
-\bottomrule
-\end{tabularx}
-\end{table}
+La estrategia de producto distingue tres capas:
+
+\begin{itemize}
+  \item \textbf{Dato oficial disponible p\'ublicamente:} puede formar parte de
+        la versi\'on gratuita cuando sus condiciones lo permitan y siempre
+        conserva la referencia a la fuente original.
+  \item \textbf{Hist\'orico consolidado y versionado:} forma parte del valor
+        pago de \proyectoNombre{}, sujeto a que las condiciones de cada conjunto
+        de datos permitan su almacenamiento y presentaci\'on.
+  \item \textbf{M\'etricas y comparaciones propias:} son elaboraciones de
+        \proyectoNombre{} calculadas sobre datos trazables. Deben identificarse
+        como \emph{Elaboraci\'on LEIP con datos de} y no presentarse como
+        indicadores oficiales del organismo emisor.
+\end{itemize}
+
+Las restricciones se aplican fuente por fuente. Una limitaci\'on de un organismo
+afecta solamente los conjuntos de datos obtenidos de ese organismo y no bloquea
+autom\'aticamente todas las fuentes del pa\'is. Del mismo modo, que una serie sea
+p\'ublicamente accesible no sustituye la verificaci\'on de sus condiciones de
+uso para hist\'oricos, exportaciones o redistribuci\'on.
 
 Otras restricciones del producto:
 
@@ -848,10 +902,11 @@ Otras restricciones del producto:
         inicial.
 \end{itemize}
 
-\pendiente{Confirmar por escrito las licencias de Mexico y Uruguay (Uruguay es critico)}{M\'exico y Uruguay siguen sin confirmar. Uruguay es cr\'itico: es el
-mercado de validaci\'on del proyecto, y si su licencia no cubre las encuestas de
-expectativas se cae la base emp\'irica del MVP. Gestionar la confirmaci\'on por
-escrito ante ambos organismos.}
+La matriz de fuentes ser\'a un registro vivo del producto. Para cada conjunto de
+datos documentar\'a instituci\'on, URL, fecha de consulta, condiciones de uso,
+atribuci\'on requerida y reglas aplicables al almacenamiento, transformaci\'on,
+hist\'oricos, exportaci\'on y redistribuci\'on. Su alcance no se limita a BCB,
+Banxico, BCU o BCCh.
 
 % =====================================================================
 \section{Rangos de calidad}
@@ -898,11 +953,28 @@ permiso expl\'icito del BCCh.
 % =====================================================================
 \section{Requerimientos de documentaci\'on}
 
-\pendiente{Definir los requerimientos de documentacion del producto}{Secci\'on a completar. Definir qu\'e documentaci\'on acompa\~na al
-producto: manual de usuario, documentaci\'on de la API institucional, y notas
-metodol\'ogicas por m\'etrica. Estas \'ultimas no son opcionales: la trazabilidad
-metodol\'ogica es parte de la propuesta de valor y de la mitigaci\'on
-regulatoria, y sin nota publicada cada m\'etrica queda sin respaldo.}
+El producto estar\'a acompa\~nado por la documentaci\'on necesaria para que sus
+datos, m\'etricas y mecanismos de acceso puedan utilizarse y auditarse:
+
+\begin{itemize}
+  \item \textbf{Gu\'ia de usuario:} navegaci\'on, consultas, comparaciones,
+        alertas y exportaciones.
+  \item \textbf{Cat\'alogo de fuentes:} organismo, conjunto de datos, URL,
+        frecuencia, fecha de consulta y condiciones de uso.
+  \item \textbf{Diccionario de datos:} variables, unidades, frecuencias,
+        horizontes, campos de trazabilidad y reglas de normalizaci\'on.
+  \item \textbf{Notas metodol\'ogicas:} definici\'on, f\'ormula, interpretaci\'on,
+        limitaciones y fuentes de cada m\'etrica propia.
+  \item \textbf{Documentaci\'on de API:} autenticaci\'on, endpoints, par\'ametros,
+        esquemas, l\'imites y ejemplos de respuesta.
+  \item \textbf{Historial de cambios:} nuevas fuentes, revisiones metodol\'ogicas
+        y modificaciones relevantes del producto.
+\end{itemize}
+
+Para el MVP son obligatorios la gu\'ia b\'asica, el cat\'alogo de fuentes, el
+diccionario de datos y las notas metodol\'ogicas de las m\'etricas implementadas.
+La documentaci\'on completa de la API se publica cuando se habilite el acceso
+institucional.
 
 % =====================================================================
 \clearpage
