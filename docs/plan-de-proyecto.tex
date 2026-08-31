@@ -1,41 +1,39 @@
 % =====================================================================
-%  plan-de-proyecto.tex -- Plan de Proyecto de LEIP
-%  Archivo independiente. Compilar con pdfLaTeX.
+%  plan-de-proyecto.tex  --  Plan de Proyecto de LEIP
+%  ARCHIVO UNICO: no necesita ningun otro archivo.
+%  Compilar en Overleaf con pdfLaTeX (dos pasadas por el indice).
+%  Estilo consistente con casos-de-uso.tex
 % =====================================================================
-
 \documentclass[11pt,a4paper]{article}
 
 % ---------------------------------------------------------------------
-% DATOS DEL PROYECTO
+%  DATOS DEL PROYECTO
 % ---------------------------------------------------------------------
-
 \newcommand{\proyectoNombre}{LEIP}
 \newcommand{\proyectoNombreLargo}{LatAm Economic Intelligence Platform}
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
+\newcommand{\docVersion}{1.0}
 \newcommand{\docTitulo}{Plan de Proyecto}
-\newcommand{\docVersion}{1.1}
-\newcommand{\docFecha}{Agosto de 2026}
+\newcommand{\docFecha}{Agosto 2026}
 
 % ---------------------------------------------------------------------
-% PAQUETES
+%  PREAMBULO
 % ---------------------------------------------------------------------
-
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}\usepackage{microtype}}{}
 
-\IfFileExists{lmodern.sty}{
-  \usepackage{lmodern}
-  \usepackage{microtype}
-}{}
-
-\IfFileExists{spanish.ldf}{
-  \usepackage[spanish,es-tabla,es-noquoting]{babel}
-}{
-  \usepackage[english]{babel}
-  \renewcommand{\contentsname}{\'Indice}
-  \renewcommand{\tablename}{Tabla}
+\IfFileExists{spanish.ldf}{%
+  \usepackage[spanish,es-tabla,es-noquoting]{babel}%
+}{%
+  \usepackage[english]{babel}%
+  \renewcommand{\contentsname}{\'Indice}%
+  \renewcommand{\listfigurename}{\'Indice de figuras}%
+  \renewcommand{\listtablename}{\'Indice de tablas}%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\figurename}{Figura}%
 }
 
 \usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
@@ -43,455 +41,271 @@
 \usepackage{parskip}
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{longtable}
 \usepackage{array}
 \usepackage{enumitem}
+\setlist{noitemsep,topsep=4pt}
+\usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
-
-\setlist{
-  noitemsep,
-  topsep=4pt,
-  leftmargin=*
-}
-
-% ---------------------------------------------------------------------
-% ESTILO
-% ---------------------------------------------------------------------
+\usepackage{url}
+\urlstyle{same}
 
 \definecolor{leipAzul}{HTML}{1F4E79}
 \definecolor{leipGris}{HTML}{5A5A5A}
+\definecolor{leipFondo}{HTML}{F2F5F9}
+\definecolor{leipNotaBorde}{HTML}{C9A227}
+\definecolor{leipNotaFondo}{HTML}{FFF6DF}
+\definecolor{leipNotaTexto}{HTML}{7A5E00}
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{
-  \small\color{leipGris}
-  \proyectoNombre{} --- \docTitulo
-}
-\fancyhead[R]{
-  \small\color{leipGris}
-  v\docVersion
-}
+\fancyhead[L]{\small\color{leipGris}\proyectoNombre{} --- \docTitulo}
+\fancyhead[R]{\small\color{leipGris} v\docVersion}
 \fancyfoot[C]{\small\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 
 \usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
 
-\titleformat{\section}
-  {\Large\bfseries\color{leipAzul}}
-  {\thesection}
-  {0.6em}
-  {}
-
-\titleformat{\subsection}
-  {\large\bfseries\color{leipAzul}}
-  {\thesubsection}
-  {0.6em}
-  {}
-
-% ---------------------------------------------------------------------
-% PORTADA
-% ---------------------------------------------------------------------
-
-\newcommand{\portada}{
+% --- Portada -----------------------------------------------------------
+\newcommand{\portada}[1]{%
   \begin{titlepage}
-    \centering
-
-    \vspace*{2cm}
-
-    {\Large \proyectoUniversidad\par}
-    {\large \proyectoFacultad\par}
-    {\large \proyectoCarrera\par}
-
-    \vspace{3cm}
-
-    {\Huge\bfseries\color{leipAzul}\docTitulo\par}
-
-    \vspace{0.8cm}
-
-    {\Large
-      \proyectoNombre{} ---
-      \proyectoNombreLargo
-      \par
-    }
-
-    \vspace{2cm}
-
-    {\large Versi\'on \docVersion\par}
-    {\large \docFecha\par}
-
-    \vfill
-
-    {\large\bfseries Integrantes\par}
-
-    \vspace{0.4cm}
-
-    \begin{tabular}{c}
-      Sebastian Forische \\
-      Armando Hernandez de la Vega \\
-      Luana Acu\~na \\
-      Bruno Sebastian Olivera Viera Gomez \\
-    \end{tabular}
-
-    \vspace{1.5cm}
+  \centering
+  \vspace*{2cm}
+  {\Large \proyectoUniversidad\par}
+  {\large \proyectoFacultad\par}
+  {\large \proyectoCarrera\par}
+  \vspace{3cm}
+  {\Huge\bfseries\color{leipAzul} #1\par}
+  \vspace{0.8cm}
+  {\Large \proyectoNombre{} --- \proyectoNombreLargo\par}
+  \vspace{2cm}
+  {\large Versi\'on \docVersion\par}
+  {\large \docFecha\par}
+  \vfill
+  {\large\bfseries Integrantes\par}
+  \vspace{0.3cm}
+  \begin{tabular}{c}
+    Sebastian Forische \\
+    Armando Hernandez de la Vega \\
+    Luana Acu\~na \\
+    Bruno Sebastian Olivera Viera Gomez \\
+  \end{tabular}
+  \vspace{1.5cm}
   \end{titlepage}
 }
 
-% =====================================================================
-% DOCUMENTO
-% =====================================================================
+% --- Historial de revisiones -------------------------------------------
+\newenvironment{historial}{%
+  \section*{Historial de revisiones}
+  \addcontentsline{toc}{section}{Historial de revisiones}
+  \begin{tabular}{@{}l l p{0.52\textwidth} l@{}}
+  \toprule
+  \textbf{Versi\'on} & \textbf{Fecha} & \textbf{Descripci\'on} & \textbf{Autor} \\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+  \bigskip
+}
+
+% --- Nota / supuesto (bloque destacado) ---------------------------------
+\newcommand{\notaSupuesto}[1]{%
+  \par\noindent
+  \fcolorbox{leipNotaBorde}{leipNotaFondo}{%
+    \begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
+      \small\color{leipNotaTexto}\textbf{Nota / supuesto:}\ \textit{#1}
+    \end{minipage}%
+  }\par\smallskip
+}
 
 \begin{document}
 
-\portada
+\portada{Plan de Proyecto}
 
 \tableofcontents
-\clearpage
+\bigskip
 
-% =====================================================================
-\section*{Historial de revisiones}
-\addcontentsline{toc}{section}{Historial de revisiones}
-
-\begin{tabularx}{\textwidth}{@{}l l X l@{}}
-\toprule
-\textbf{Versi\'on} &
-\textbf{Fecha} &
-\textbf{Descripci\'on} &
-\textbf{Autor} \\
-\midrule
-1.0 &
-26/06/2026 &
-Contenido inicial derivado del anteproyecto. &
-Equipo \\
-
-1.1 &
-28/08/2026 &
-Reestructuraci\'on y simplificaci\'on del Plan de Proyecto. &
-Equipo \\
-\bottomrule
-\end{tabularx}
-
+\begin{historial}
+v1.0 & 31/08/2026 & Versi\'on inicial del Plan de Proyecto, elaborada a partir del Anteproyecto ``Propuesta LEIP -- Lineamientos de la Propuesta'' (26/06/2026). & Equipo LEIP \\
+ &  &  &  \\
+\end{historial}
 \clearpage
 
 % =====================================================================
 \section{Introducci\'on}
 
-El presente documento define la forma en que se organizar\'a, ejecutar\'a y
-controlar\'a el proyecto \proyectoNombre{} (\proyectoNombreLargo). Su objetivo
-es establecer las responsabilidades del equipo, la metodolog\'ia de trabajo,
-los mecanismos de seguimiento y las herramientas que se utilizar\'an durante
-el desarrollo.
+Este documento tiene como finalidad establecer el plan a utilizar durante el desarrollo del proyecto \proyectoNombre{} -- \proyectoNombreLargo{}, presentado como Anteproyecto de \proyectoCarrera{} de la \proyectoUniversidad{}. El mismo servir\'a de gu\'ia para establecer las tareas a realizar en cada etapa del proyecto, distribuir responsabilidades entre los integrantes del equipo y definir los hitos que permitir\'an construir y validar el MVP descrito en la propuesta.
 
-Este documento describe la gesti\'on general del proyecto. Los requerimientos
-funcionales y no funcionales se mantienen en su documento correspondiente,
-mientras que cada sprint contar\'a con un Plan de Iteraci\'on y un Gantt
-espec\'ificos.
+El equipo trabajar\'a bajo una metodolog\'ia \'agil (Scrum modificado), con iteraciones cortas (sprints) para la planificaci\'on, desarrollo, validaci\'on y revisi\'on continua del proyecto, manteniendo un tablero de backlog compartido. Las tareas ser\'an divididas y distribuidas entre los integrantes seg\'un las \'areas de responsabilidad definidas en la propuesta. Es responsabilidad de cada integrante seguir el cronograma acordado; no obstante, este podr\'a tener variaciones durante la ejecuci\'on de cada sprint, en cuyo caso ser\'a de suma importancia documentar todo cambio y redistribuir los roles de ser necesario.
 
-El backlog y el estado operativo de las tareas se mantendr\'an en Jira. De esta
-forma se evita duplicar informaci\'on que cambia frecuentemente dentro de los
-documentos formales del proyecto.
+El alcance funcional planificado en este documento corresponde al MVP definido en la propuesta: pa\'ises iniciales Brasil, M\'exico y Uruguay; m\'odulos Macro Expectations Intelligence, Prices \& Inflation Intelligence y Real Activity Intelligence; y las capacidades de ingesta, normalizaci\'on, inteligencia anal\'itica, aplicaci\'on web, pagos/suscripciones y API institucional descritas en la secci\'on ``Principales casos de uso de negocio'' de la propuesta.
 
 % =====================================================================
-\section{Organizaci\'on del proyecto}
+\section{Gesti\'on del Proyecto}
 
-El proyecto ser\'a desarrollado por un equipo multidisciplinario compuesto por
-cuatro integrantes. Las responsabilidades se distribuir\'an de acuerdo con la
-experiencia y participaci\'on de cada integrante, sin impedir la colaboraci\'on
-entre las diferentes \'areas.
+\subsection{Metodolog\'ia de trabajo}
 
-\begin{table}[htbp]
-\centering
-\caption{Responsables por \'area}
-\label{tab:equipo}
-\begin{tabularx}{\textwidth}{@{}p{5.2cm} X@{}}
+El proyecto se gestionar\'a mediante un Scrum modificado, adaptado al contexto acad\'emico de la tesis. El trabajo se organiza en sprints, al cabo de los cuales el equipo entrega un incremento funcional del producto y revisa el avance respecto del Product Backlog.
+
+\notaSupuesto{Se asume una duraci\'on de sprint de 2 semanas y un ciclo total de aproximadamente 8 a 9 meses (\textasciitilde16 a 18 sprints) acorde al calendario acad\'emico de la tesis. Estas fechas deben ajustarse a las fechas reales de inicio y entrega definidas con la c\'atedra/tutor.}
+
+\subsection{Roles del equipo}
+
+Los roles de gesti\'on Scrum se apoyan en la organizaci\'on de \'areas ya definida en la propuesta:
+
+\begin{tabularx}{\textwidth}{@{} >{\bfseries}p{5.4cm} X @{}}
 \toprule
-\textbf{\'Area} & \textbf{Responsables} \\
+\textbf{\'Area / Rol} & \textbf{Responsable(s)} \\
 \midrule
-Gesti\'on y seguimiento del proyecto
-  & Bruno Olivera y Luana Acu\~na \\
-
-Definici\'on del producto
-  & Armando Hernandez \\
-
-An\'alisis de requerimientos
-  & Armando Hernandez y Bruno Olivera \\
-
-Dise\~no de la interfaz
-  & Bruno Olivera y Sebastian Forische \\
-
-Desarrollo frontend
-  & Luana Acu\~na y Bruno Olivera \\
-
-Desarrollo backend
-  & Sebastian Forische, Luana Acu\~na y Bruno Olivera \\
-
-Datos e infraestructura
-  & Sebastian Forische y Luana Acu\~na \\
-
-Arquitectura de extracci\'on asistida por agentes
-  & Armando Hernandez \\
-
-Inteligencia econ\'omica
-  & Armando Hernandez \\
-
-Aseguramiento de la calidad
-  & Armando Hernandez y Luana Acu\~na \\
-
-Administraci\'on de base de datos
-  & Sebastian Forische \\
+Product Owner & Armando Hernandez de la Vega \\
+Gesti\'on del proyecto (Scrum Master / coordinaci\'on) & Bruno Olivera, Luana Acu\~na \\
+An\'alisis de requerimientos & Armando Hernandez, Bruno Olivera \\
+Dise\~no de la interfaz & Bruno Olivera, Sebastian Forische \\
+Desarrollo frontend & Luana Acu\~na, Bruno Olivera \\
+Desarrollo backend & Sebastian Forische, Luana Acu\~na, Bruno Olivera \\
+Infraestructura & Sebastian Forische, Luana Acu\~na \\
+QA & Armando Hernandez, Luana Acu\~na \\
+Database Administrator & Sebastian Forische \\
+Procesamiento de datos con LLM & Armando Hernandez, Sebastian Forische \\
 \bottomrule
 \end{tabularx}
-\end{table}
+\bigskip
 
-Armando Hernandez asumir\'a la responsabilidad de \emph{Product Owner},
-manteniendo la visi\'on del producto y participando en la priorizaci\'on del
-backlog.
+El resto del equipo participa como equipo de desarrollo multifuncional en las distintas \'areas t\'ecnicas seg\'un la tabla anterior, pudiendo un mismo integrante cubrir varias \'areas seg\'un el sprint.
 
-Bruno Olivera y Luana Acu\~na apoyar\'an la coordinaci\'on del proyecto, el
-seguimiento de las tareas y la preparaci\'on de los entregables de cada
-iteraci\'on.
-
-Las decisiones que afecten significativamente el alcance, la arquitectura o
-los entregables acad\'emicos ser\'an discutidas por el equipo y, cuando
-corresponda, validadas con el tutor.
-
-% =====================================================================
-\section{Metodolog\'ia de trabajo}
-
-El proyecto se desarrollar\'a mediante un marco de trabajo \'agil basado en
-Scrum, organizado en sprints de dos semanas. Cada sprint tendr\'a un objetivo
-concreto y un conjunto de tareas seleccionadas de acuerdo con las prioridades
-del proyecto y la capacidad disponible del equipo.
-
-Al inicio de cada sprint se elaborar\'an dos artefactos:
+\subsection{Ceremonias y reuniones}
 
 \begin{itemize}
-  \item Un Plan de Iteraci\'on con el objetivo, alcance, tareas,
-        responsables y entregables comprometidos.
-  \item Un Gantt de Iteraci\'on con la distribuci\'on temporal de las tareas,
-        sus dependencias y los hitos correspondientes.
+  \item \textbf{Sprint Planning}: al inicio de cada sprint, para seleccionar y estimar los \'items del backlog a desarrollar.
+  \item \textbf{Seguimiento semanal} (daily/weekly stand-up): revisi\'on breve de avance, bloqueos y coordinaci\'on entre \'areas.
+  \item \textbf{Sprint Review}: al cierre de cada sprint, demostraci\'on del incremento funcional al equipo (y al tutor, cuando corresponda).
+  \item \textbf{Retrospectiva}: identificaci\'on de mejoras al proceso de trabajo y actualizaci\'on del registro de riesgos.
+  \item \textbf{Reuni\'on de avance con el tutor de tesis}, con la periodicidad que este defina.
 \end{itemize}
 
-\subsection{Reuniones}
+\notaSupuesto{La cadencia exacta de reuniones (diaria/semanal) y el canal de comunicaci\'on del equipo (ej. Slack, Discord, WhatsApp) quedan a definir por el equipo; se recomienda documentarlos aqu\'i una vez acordados.}
 
-Durante el proyecto se realizar\'an las siguientes reuniones:
+\subsection{Gesti\'on del backlog y priorizaci\'on}
 
-\begin{table}[htbp]
-\centering
-\caption{Reuniones del proyecto}
-\label{tab:reuniones}
-\begin{tabularx}{\textwidth}{@{}p{4cm} p{3cm} X@{}}
+El Product Owner (Armando Hernandez) mantiene y prioriza el Product Backlog junto con el equipo, tomando como insumo los casos de uso de negocio y el alcance del MVP definidos en la propuesta. La priorizaci\'on se basa en: (1) mitigaci\'on de los riesgos m\'as relevantes, (2) dependencias t\'ecnicas entre m\'odulos (ingesta antes que inteligencia, inteligencia antes que visualizaci\'on) y (3) valor para la validaci\'on temprana con usuarios reales.
+
+\notaSupuesto{Se sugiere utilizar GitHub Projects como tablero de backlog, dado que el equipo ya utiliza GitHub para control de versiones; puede sustituirse por Trello/Jira u otra herramienta si el equipo lo prefiere.}
+
+\subsection{Gesti\'on de cambios}
+
+Todo cambio de alcance, requerimiento o prioridad se documenta como un nuevo \'item o modificaci\'on en el Product Backlog, y se eval\'ua en la siguiente Sprint Planning junto con su impacto en el cronograma. Los cambios que afecten hitos o hip\'otesis clave del proyecto (por ejemplo, restricciones regulatorias sobre una fuente oficial) se reflejan adem\'as como una nueva versi\'on de este Plan de Proyecto, registrada en el Historial de Revisiones.
+
+\subsection{Estimaci\'on}
+
+Los \'items del backlog se estiman en Story Points mediante Planning Poker (o t\'ecnica an\'aloga) durante la Sprint Planning. Al finalizar cada sprint se revisa la velocity del equipo, utiliz\'andola como referencia para ajustar el alcance de los sprints siguientes y la proyecci\'on de los hitos definidos en la secci\'on~\ref{sec:hitos}.
+
+\subsection{Gesti\'on de riesgos}
+
+Se mantendr\'a un registro de riesgos vivo, revisado en cada retrospectiva. Los riesgos primarios identificados en la propuesta, y su estrategia de mitigaci\'on, son:
+
+\begin{itemize}
+  \item \textbf{Cambios en las fuentes oficiales} (bancos centrales modifican formatos/archivos sin previo aviso) $\rightarrow$ validaciones autom\'aticas antes de publicar informaci\'on.
+  \item \textbf{Errores o inconsistencias en los datos} (fechas, unidades, nombres, horizontes) $\rightarrow$ procesos de normalizaci\'on, trazabilidad y control de calidad (cuarentena) antes de alimentar la capa de inteligencia.
+  \item \textbf{Riesgo legal por uso/redistribuci\'on de fuentes oficiales} (especialmente Chile, bloqueado sin permiso) $\rightarrow$ uso de fuentes oficiales o autorizadas, entrega de informaci\'on transformada con atribuci\'on de fuente y confirmaci\'on de condiciones de uso por pa\'is.
+  \item \textbf{Baja adopci\'on del p\'ublico objetivo} $\rightarrow$ validaci\'on continua del MVP con usuarios reales y ajuste de m\'etricas/funcionalidades seg\'un resultados.
+\end{itemize}
+
+% =====================================================================
+\section{Objetivos e hitos del proyecto}
+\label{sec:hitos}
+
+A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto, agrupando los sprints del Scrum modificado del equipo seg\'un los bloques funcionales del MVP descrito en la propuesta.
+
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}p{2cm} >{\raggedright\arraybackslash}p{\dimexpr\textwidth-2.6cm-2cm-6\tabcolsep\relax}@{}}
 \toprule
-\textbf{Reuni\'on} &
-\textbf{Frecuencia} &
-\textbf{Objetivo} \\
+\textbf{Hito} & \textbf{Sprints} & \textbf{Objetivos y entregables principales} \\
 \midrule
-Seguimiento del equipo &
-Semanal &
-Revisar el trabajo realizado, identificar bloqueos, actualizar prioridades
-y acordar las acciones necesarias para mantener el avance del sprint. \\
-
-Reuni\'on con el tutor &
-Semanal &
-Presentar avances, resolver dudas, recibir retroalimentaci\'on y validar
-decisiones relevantes del proyecto. \\
-
-Planificaci\'on de la iteraci\'on &
-Al inicio de cada sprint &
-Definir el objetivo, seleccionar las tareas y preparar el Plan de Iteraci\'on
-y el Gantt correspondiente. \\
-
-Revisi\'on de la iteraci\'on &
-Al finalizar cada sprint &
-Evaluar los entregables producidos, registrar los resultados y acordar
-mejoras para la siguiente iteraci\'on. \\
+\endhead
 \bottomrule
-\end{tabularx}
-\end{table}
+\endfoot
 
-\subsection{Gesti\'on del backlog}
-
-Jira ser\'a la fuente oficial para la administraci\'on del backlog. Cada tarea
-deber\'a incluir, cuando corresponda:
-
-\begin{itemize}
-  \item Una descripci\'on clara del trabajo.
-  \item Un responsable.
-  \item Una prioridad.
-  \item Una estimaci\'on de esfuerzo.
-  \item Una fecha objetivo.
-  \item Criterios de aceptaci\'on.
-  \item Dependencias o bloqueos conocidos.
-  \item Evidencia del resultado obtenido.
-\end{itemize}
-
-Las tareas se priorizar\'an considerando:
-
-\begin{enumerate}
-  \item Su importancia para el MVP.
-  \item Las dependencias t\'ecnicas o documentales.
-  \item Los compromisos acad\'emicos.
-  \item El riesgo que permitan reducir.
-  \item La capacidad disponible del equipo.
-\end{enumerate}
-
-El esfuerzo se estimar\'a inicialmente en horas de trabajo. Al cierre de cada
-sprint se comparar\'a el esfuerzo estimado con el esfuerzo real para mejorar
-la planificaci\'on de las siguientes iteraciones.
-
-\subsection{Criterios de preparaci\'on y terminado}
-
-Una tarea se considerar\'a preparada para ingresar a un sprint cuando:
-
-\begin{itemize}
-  \item Su objetivo y alcance sean comprensibles.
-  \item Tenga un responsable identificado.
-  \item Sus dependencias principales sean conocidas.
-  \item Cuente con una estimaci\'on inicial.
-  \item Tenga criterios de aceptaci\'on verificables.
-\end{itemize}
-
-Una tarea se considerar\'a terminada cuando:
-
-\begin{itemize}
-  \item El trabajo comprometido haya sido completado.
-  \item Cumpla sus criterios de aceptaci\'on.
-  \item Haya sido revisada por al menos otro integrante cuando corresponda.
-  \item Las pruebas necesarias hayan sido ejecutadas.
-  \item El c\'odigo o documento resultante se encuentre versionado.
-  \item El issue de Jira incluya evidencia o un enlace al resultado.
-  \item No existan errores o bloqueos conocidos que impidan utilizar el
-        entregable.
-\end{itemize}
-
-% =====================================================================
-\section{Planificaci\'on y seguimiento}
-
-La planificaci\'on general de LEIP se organizar\'a progresivamente alrededor de
-las siguientes etapas:
-
-\begin{enumerate}
-  \item Definici\'on del producto y sus requerimientos.
-  \item Dise\~no de la arquitectura y del modelo de datos.
-  \item Implementaci\'on del sistema de extracci\'on y procesamiento.
-  \item Implementaci\'on de la capa de inteligencia econ\'omica.
-  \item Desarrollo de la API y de la aplicaci\'on web.
-  \item Integraci\'on, validaci\'on, despliegue y documentaci\'on final.
-\end{enumerate}
-
-Estas etapas no se consideran fases completamente aisladas. Podr\'an
-desarrollarse de manera incremental y superponerse cuando las dependencias
-t\'ecnicas lo permitan.
-
-El avance se controlar\'a mediante los tableros, sprints e issues registrados
-en Jira. Durante las reuniones semanales se revisar\'an:
-
-\begin{itemize}
-  \item Las tareas completadas.
-  \item Las tareas en curso.
-  \item Los bloqueos existentes.
-  \item Las desviaciones respecto al Plan de Iteraci\'on.
-  \item Las decisiones necesarias.
-  \item Los riesgos nuevos o modificados.
-\end{itemize}
-
-Los cambios que afecten el alcance del MVP, los requerimientos o la arquitectura
-deber\'an registrarse y evaluarse antes de ser incorporados al backlog. La
-evaluaci\'on considerar\'a su valor, costo, riesgo e impacto sobre el cronograma.
-
-Los riesgos detallados del proyecto se mantendr\'an en el documento de Lista de
-Riesgos. Cuando un riesgo requiera una acci\'on concreta, esta se registrar\'a
-también como tarea en Jira.
-
-% =====================================================================
-\section{Comunicaci\'on, documentaci\'on y herramientas}
-
-La comunicaci\'on del equipo y la documentaci\'on de las decisiones se
-realizar\'an mediante las siguientes herramientas:
-
-\begin{table}[htbp]
-\centering
-\caption{Herramientas del proyecto}
-\label{tab:herramientas}
-\begin{tabularx}{\textwidth}{@{}p{3.8cm} X@{}}
-\toprule
-\textbf{Herramienta} & \textbf{Uso} \\
+\textbf{Hito 0}\newline Fundacional & Sprint 0 &
+\begin{itemize}[leftmargin=1em]
+  \item Definici\'on y validaci\'on de la arquitectura general (Node.js, Python, React, PostgreSQL, Azure Blob Storage, Azure Container Apps).
+  \item Configuraci\'on de repositorios en GitHub, pipeline de CI/CD con GitHub Actions y entornos de desarrollo.
+  \item Definici\'on del modelo de datos inicial y del patr\'on Medallion (Bronze/Silver/Gold/Cuarentena).
+  \item Elaboraci\'on y priorizaci\'on del Product Backlog inicial en base a los casos de uso del Anteproyecto.
+  \item Mitigaci\'on temprana de los riesgos t\'ecnicos y legales identificados como prioritarios (uso de fuentes oficiales, formatos heterog\'eneos).
+\end{itemize} \\
 \midrule
-Jira &
-Gesti\'on del backlog, planificaci\'on de sprints, asignaci\'on de
-responsables, seguimiento de tareas y registro del avance. \\
 
-Microsoft Teams &
-Comunicaci\'on del equipo y realizaci\'on de videollamadas internas y con el
-tutor. Tambi\'en se utilizar\'a para grabar, transcribir y resumir reuniones. \\
+\textbf{Hito 1}\newline Ingesta y normalizaci\'on & Sprints 1 a 4 &
+\begin{itemize}[leftmargin=1em]
+  \item Desarrollo de los pipelines de ingesta de fuentes oficiales de Brasil (Boletin Focus -- BCB), M\'exico (Encuesta de expectativas / SIE -- Banxico) y Uruguay (Encuestas de expectativas del BCU).
+  \item Implementaci\'on del extractor estructurado basado en LLM para normalizar HTML/archivos heterog\'eneos a JSON interno.
+  \item Registro de fuente, fecha de publicaci\'on, fecha de ingesta, formato, versi\'on y checksum de cada dato (capa Bronze).
+  \item Normalizaci\'on de variables, unidades, fechas y frecuencias hacia el modelo com\'un (capa Silver).
+  \item Control de calidad y trazabilidad: detecci\'on de duplicados/faltantes/inconsistencias y env\'io a cuarentena.
+\end{itemize} \\
+\midrule
 
-GitHub &
-Control de versiones del c\'odigo fuente, documentaci\'on t\'ecnica y
-artefactos formales del proyecto. \\
+\textbf{Hito 2}\newline Capa de inteligencia & Sprints 5 a 7 &
+\begin{itemize}[leftmargin=1em]
+  \item Motor determin\'istico de m\'etricas: cambios, momentum, divergencia regional, percentiles hist\'oricos, sorpresa, persistencia y distancia frente a metas.
+  \item Grafo de dependencias para cruces entre m\'odulos (inflaci\'on esperada vs. observada; crecimiento esperado vs. actividad efectiva).
+  \item Generaci\'on autom\'atica del resumen descriptivo del radar mediante LLM a partir de m\'etricas ya calculadas (capa Gold).
+  \item Persistencia de m\'etricas, cruces y se\~nales en PostgreSQL con trazabilidad completa.
+\end{itemize} \\
+\midrule
 
-LaTeX &
-Elaboraci\'on y mantenimiento de la documentaci\'on acad\'emica y t\'ecnica. \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\textbf{Hito 3}\newline Aplicaci\'on web core & Sprints 8 a 11 &
+\begin{itemize}[leftmargin=1em]
+  \item Autenticaci\'on, roles, permisos y entitlements por plan, m\'odulo, pa\'is y funcionalidad.
+  \item Dashboard de an\'alisis: selecci\'on de pa\'is/m\'odulo/variable/fuente/per\'iodo, gr\'aficos, tablas, rankings e hist\'oricos.
+  \item Radar de expectativas con versi\'on resumida (plan Free) y versi\'on completa (planes pagos), incluyendo alertas y briefings.
+  \item Exportaci\'on de resultados en Excel/PDF y guardado de consultas frecuentes.
+\end{itemize} \\
+\midrule
 
-Las grabaciones, transcripciones y res\'umenes autom\'aticos se conservar\'an
-inicialmente en Microsoft Teams. Las decisiones relevantes y las tareas
-resultantes se revisar\'an antes de considerarse definitivas.
+\textbf{Hito 4}\newline Monetizaci\'on e integraciones & Sprints 12 a 14 &
+\begin{itemize}[leftmargin=1em]
+  \item Integraci\'on de pagos y suscripciones mediante checkout externo y webhooks (sin almacenar datos de tarjetas).
+  \item API institucional autenticada, con cuotas y permisos seg\'un plan contratado.
+  \item Aislamiento multi-tenant para fuentes privadas de organizaciones (planes Team/Enterprise).
+  \item Panel administrativo para gesti\'on de usuarios, organizaciones, planes y suscripciones.
+\end{itemize} \\
+\midrule
 
-La informaci\'on producida durante una reuni\'on se procesar\'a de la siguiente
-forma:
+\textbf{Hito 5}\newline Validaci\'on, QA y cierre & Sprints 15 y 16 &
+\begin{itemize}[leftmargin=1em]
+  \item Pruebas end-to-end de los flujos cr\'iticos (ingesta $\rightarrow$ normalizaci\'on $\rightarrow$ inteligencia $\rightarrow$ visualizaci\'on $\rightarrow$ exportaci\'on).
+  \item Validaci\'on del MVP con usuarios reales del segmento objetivo (continuaci\'on del plan de validaci\'on iniciado con la encuesta a analistas).
+  \item Ajustes finales de producto, seguridad y performance seg\'un resultados de QA y validaci\'on.
+  \item Cierre de documentaci\'on del proyecto y preparaci\'on de la defensa de tesis.
+\end{itemize} \\
 
-\begin{enumerate}
-  \item Realizaci\'on y, cuando corresponda, grabaci\'on de la reuni\'on.
-  \item Generaci\'on de la transcripci\'on y el resumen.
-  \item Revisi\'on del resumen por un integrante del equipo.
-  \item Registro de las decisiones relevantes.
-  \item Creaci\'on o actualizaci\'on de las tareas correspondientes en Jira.
-  \item Incorporaci\'on de la documentaci\'on definitiva al repositorio
-        cuando deba conservarse como evidencia del proyecto.
-\end{enumerate}
+\end{longtable}
+\renewcommand{\arraystretch}{1}
 
-Cada minuta deber\'a identificar, como m\'inimo:
-
-\begin{itemize}
-  \item La fecha de la reuni\'on.
-  \item Los participantes.
-  \item Los temas tratados.
-  \item Las decisiones adoptadas.
-  \item Las tareas resultantes.
-  \item Los responsables y fechas acordadas.
-\end{itemize}
+\notaSupuesto{La cantidad y numeraci\'on de sprints (Sprint 0 a Sprint 16) es una propuesta inicial de planificaci\'on en base al alcance del MVP; debe ajustarse una vez definidas las fechas reales de inicio/fin de la tesis y la capacidad real del equipo (velocity) medida en los primeros sprints.}
 
 % =====================================================================
-\section{Criterios de finalizaci\'on y aceptaci\'on}
+\section{Criterio de Aceptaci\'on del Proyecto}
 
-Un sprint se considerar\'a finalizado cuando:
+El criterio de aceptaci\'on del proyecto se define en base al alcance del MVP y al plan de validaci\'on presentados en la propuesta. Este criterio deber\'a validarse formalmente con el tutor de tesis (en el rol de contraparte acad\'emica) y, de corresponder, con usuarios/organizaciones que participen de la validaci\'on del producto.
 
-\begin{itemize}
-  \item Se haya realizado la revisi\'on de la iteraci\'on.
-  \item Los entregables completados se encuentren disponibles.
-  \item El estado de las tareas est\'e actualizado en Jira.
-  \item Las tareas no terminadas hayan sido replanificadas.
-  \item Los bloqueos, decisiones y aprendizajes hayan sido registrados.
-\end{itemize}
+\textbf{El proyecto se considerar\'a aceptado cuando se cumplan las siguientes condiciones:}
 
-El proyecto se considerar\'a finalizado cuando:
+\begin{enumerate}
+  \item Ingesta y normalizaci\'on funcionando de forma automatizada para las fuentes oficiales de Brasil, M\'exico y Uruguay, para los m\'odulos Macro Expectations Intelligence, Prices \& Inflation Intelligence y Real Activity Intelligence.
+  \item C\'alculo autom\'atico de las m\'etricas determin\'isticas definidas (cambios, momentum, divergencia regional, percentiles hist\'oricos, sorpresa, persistencia, distancia frente a metas) y de los cruces iniciales entre m\'odulos.
+  \item Aplicaci\'on web operativa con autenticaci\'on, roles/entitlements, dashboard de an\'alisis, radar de expectativas (versiones Free y paga) y exportaci\'on de resultados.
+  \item Trazabilidad end-to-end: cada dato, m\'etrica y exportaci\'on conserva fuente, fecha, versi\'on y criterio de procesamiento.
+  \item Flujo de pagos/suscripciones y API institucional funcionando de forma segura (sin almacenamiento directo de datos de tarjetas), con al menos un caso de uso institucional validado.
+  \item Validaci\'on del problema y del producto con usuarios reales del segmento objetivo, dando continuidad a la encuesta inicial ya realizada, con resultados documentados.
+  \item Cumplimiento de los requisitos acad\'emicos de entrega y defensa de la tesis ante el tribunal correspondiente.
+\end{enumerate}
 
-\begin{itemize}
-  \item Los requerimientos prioritarios del MVP hayan sido implementados y
-        verificados.
-  \item El sistema permita extraer, validar, almacenar y consultar la
-        informaci\'on econ\'omica definida para el MVP.
-  \item La trazabilidad de los datos se mantenga desde la fuente original
-        hasta su presentaci\'on.
-  \item Las m\'etricas de inteligencia econ\'omica comprometidas hayan sido
-        implementadas y validadas.
-  \item La API y la aplicaci\'on web permitan acceder correctamente a la
-        informaci\'on.
-  \item Las pruebas necesarias hayan sido ejecutadas.
-  \item La documentaci\'on acad\'emica y t\'ecnica se encuentre completa.
-  \item La versi\'on final del producto pueda ser desplegada y demostrada.
-  \item El equipo y el tutor acepten los entregables correspondientes.
-\end{itemize}
+\notaSupuesto{Este criterio es una primera versi\'on propuesta por el equipo a partir de la propuesta LEIP; se recomienda revisarlo y validarlo expl\'icitamente con el tutor antes de considerarlo definitivo.}
 
 \end{document}
