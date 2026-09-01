@@ -1,0 +1,492 @@
+% =====================================================================
+%  glosario.tex -- Glosario y acronimos de LEIP
+%  Documento centralizado para evitar definiciones duplicadas.
+%  Compilar con pdfLaTeX.
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------------
+% DATOS DEL PROYECTO
+% ---------------------------------------------------------------------
+\newcommand{\proyectoNombre}{LEIP}
+\newcommand{\proyectoNombreLargo}{LatAm Economic Intelligence Platform}
+\newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
+\newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
+\newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
+\newcommand{\docVersion}{1.0}
+\newcommand{\docTitulo}{Glosario y Acr\'onimos}
+\newcommand{\docFecha}{Agosto 2026}
+
+% ---------------------------------------------------------------------
+% PREAMBULO
+% ---------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}\usepackage{microtype}}{}
+
+\IfFileExists{spanish.ldf}{%
+  \usepackage[spanish,es-tabla,es-noquoting]{babel}%
+}{%
+  \usepackage[english]{babel}%
+  \renewcommand{\contentsname}{\'Indice}%
+  \renewcommand{\tablename}{Tabla}%
+}
+
+\usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\urlstyle{same}
+
+\definecolor{leipAzul}{HTML}{1F4E79}
+\definecolor{leipGris}{HTML}{5A5A5A}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{leipGris}\proyectoNombre{} --- \docTitulo}
+\fancyhead[R]{\small\color{leipGris} v\docVersion}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
+
+\newcommand{\portada}[1]{%
+  \begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\Large \proyectoUniversidad\par}
+  {\large \proyectoFacultad\par}
+  {\large \proyectoCarrera\par}
+  \vspace{3cm}
+  {\Huge\bfseries\color{leipAzul} #1\par}
+  \vspace{0.8cm}
+  {\Large \proyectoNombre{} --- \proyectoNombreLargo\par}
+  \vspace{2cm}
+  {\large Versi\'on \docVersion\par}
+  {\large \docFecha\par}
+  \vfill
+  {\large\bfseries Integrantes\par}
+  \vspace{0.3cm}
+  \begin{tabular}{c}
+    Sebastian Forische \\
+    Armando Hernandez de la Vega \\
+    Luana Acu\~na \\
+    Bruno Sebastian Olivera Viera Gomez \\
+  \end{tabular}
+  \vspace{1.5cm}
+  \end{titlepage}
+}
+
+\newenvironment{glosario}{%
+  \renewcommand{\arraystretch}{1.18}%
+  \begin{longtable}{@{}>{\raggedright\arraybackslash\bfseries}p{4.0cm} >{\raggedright\arraybackslash}p{10.7cm}@{}}
+  \toprule
+  \textbf{T\'ermino / sigla} & \textbf{Definici\'on} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{T\'ermino / sigla} & \textbf{Definici\'on} \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+}{%
+  \end{longtable}
+  \renewcommand{\arraystretch}{1}%
+}
+
+\begin{document}
+
+\portada{Glosario y Acr\'onimos}
+
+\tableofcontents
+\clearpage
+
+
+\section{Glosario general}
+
+\begin{glosario}
+
+Actor & Persona, rol o sistema externo que interact\'ua con \proyectoNombre{} dentro de un caso de uso. \\
+\addlinespace
+
+Administrador de organizaci\'on & Usuario de una cuenta corporativa encargado de gestionar usuarios, permisos y suscripci\'on de su propia organizaci\'on. \\
+\addlinespace
+
+Aislamiento multi-\emph{tenant} & Separaci\'on l\'ogica de los datos y recursos de diferentes organizaciones para impedir que las fuentes privadas de un cliente se mezclen con las de otro. \\
+\addlinespace
+
+Almacenamiento de objetos & Almacenamiento separado de la base de datos principal utilizado para conservar archivos originales, documentos hist\'oricos, datos en cuarentena y exportaciones. En la arquitectura propuesta se implementa mediante Azure Blob Storage. \\
+\addlinespace
+
+API & \emph{Application Programming Interface}. Interfaz mediante la cual un sistema puede consultar o intercambiar informaci\'on con otro de forma program\'atica. \\
+\addlinespace
+
+API institucional & API autenticada de \proyectoNombre{} destinada a organizaciones, con cuotas, l\'imites y permisos definidos seg\'un el plan contratado. Permite consultar e integrar datos y m\'etricas en procesos propios. \\
+\addlinespace
+
+API REST & API expuesta por el backend siguiendo el estilo REST (\emph{Representational State Transfer}) para centralizar l\'ogica de negocio, autenticaci\'on, permisos, suscripciones y comunicaci\'on entre componentes. \\
+\addlinespace
+
+Auditor\'ia / registro de auditor\'ia & Registro de acciones, ejecuciones y cambios relevantes que permite reconstruir qu\'e ocurri\'o sobre los datos o el sistema. \\
+\addlinespace
+
+Azure Blob Storage & Servicio de almacenamiento de objetos previsto para conservar archivos originales, documentos hist\'oricos, datos en cuarentena y exportaciones. \\
+\addlinespace
+
+Azure Container Apps & Servicio previsto para desplegar los contenedores Docker de los distintos componentes de \proyectoNombre{}, facilitando su desacoplamiento, despliegue y escalabilidad. \\
+\addlinespace
+
+Backend & Parte del sistema que concentra la l\'ogica de negocio, autenticaci\'on, permisos, suscripciones y comunicaci\'on con la base de datos y los servicios de procesamiento. En la arquitectura propuesta se implementa con Node.js. \\
+\addlinespace
+
+Backlog & Conjunto priorizado de tareas y trabajo pendiente del proyecto. Jira es la fuente oficial para su administraci\'on. \\
+\addlinespace
+
+Banxico & Banco de M\'exico. Fuente oficial considerada para informaci\'on econ\'omica de M\'exico. \\
+\addlinespace
+
+BCB & Banco Central do Brasil. Fuente oficial considerada para informaci\'on econ\'omica de Brasil. \\
+\addlinespace
+
+BCCh & Banco Central de Chile. Fuente considerada para Chile; su incorporaci\'on comercial queda fuera del MVP mientras no exista permiso expl\'icito suficiente para el uso previsto. \\
+\addlinespace
+
+BCU & Banco Central del Uruguay. Fuente oficial considerada para informaci\'on econ\'omica de Uruguay. \\
+\addlinespace
+
+BI & \emph{Business Intelligence}. Conjunto de herramientas de inteligencia de negocios utilizadas para analizar y visualizar informaci\'on; Power BI se menciona como ejemplo en los documentos. \\
+\addlinespace
+
+Briefing & Lectura anal\'itica verificable derivada de m\'etricas que ya fueron calculadas y validadas. \\
+\addlinespace
+
+Bronze & Capa del patr\'on Medallion que conserva archivos y respuestas originales, inmutables, tal como fueron publicados por la fuente. \\
+\addlinespace
+
+Cambio & M\'etrica determin\'istica utilizada para representar la variaci\'on de una serie entre observaciones o per\'iodos comparables. \\
+\addlinespace
+
+Capa de inteligencia & Componente que opera sobre datos normalizados para calcular cambios, momentum, divergencias regionales, percentiles hist\'oricos, sorpresas, persistencia, distancia frente a metas y cruces entre m\'odulos. \\
+\addlinespace
+
+Caso de prueba & Especificaci\'on de una verificaci\'on concreta asociada a uno o m\'as casos de uso o requerimientos. Incluye procedimiento y resultado esperado. \\
+\addlinespace
+
+Caso de uso & Especificaci\'on de una interacci\'on entre uno o m\'as actores y el sistema para alcanzar un objetivo. Incluye descripci\'on, actores, precondiciones, postcondiciones, requerimientos y flujos. \\
+\addlinespace
+
+Checksum & Valor de verificaci\'on registrado durante la ingesta para ayudar a identificar y controlar el contenido o versi\'on de un archivo incorporado. \\
+\addlinespace
+
+Checkout & Interfaz de pago alojada por un proveedor externo. \proyectoNombre{} delega all\'i el procesamiento de pagos y no almacena ni procesa directamente datos de tarjetas. \\
+\addlinespace
+
+CI/CD & \emph{Continuous Integration / Continuous Delivery or Deployment}. Proceso de integraci\'on y despliegue continuo previsto mediante GitHub Actions. \\
+\addlinespace
+
+Completo & Plan que brinda acceso a todos los m\'odulos, m\'etricas y cruces disponibles. \\
+\addlinespace
+
+Contenedor & Unidad de despliegue utilizada para empaquetar y ejecutar componentes del sistema. La infraestructura propuesta utiliza contenedores Docker. \\
+\addlinespace
+
+Contingencia & Acci\'on prevista para responder a un riesgo si el evento finalmente ocurre. \\
+\addlinespace
+
+CP-nn & Identificador secuencial de un caso de prueba, por ejemplo CP-01 o CP-02. \\
+\addlinespace
+
+Criterio de aceptaci\'on & Condici\'on verificable que debe cumplirse para considerar aceptado un requerimiento, tarea, entregable o funcionalidad. \\
+\addlinespace
+
+Cruce entre m\'odulos & Relaci\'on anal\'itica calculada entre informaci\'on de dominios diferentes. En el MVP se contemplan inflaci\'on esperada frente a observada y crecimiento esperado frente a actividad efectiva. \\
+\addlinespace
+
+CSV & \emph{Comma-Separated Values}. Uno de los formatos que el sistema puede ingerir y transformar hacia el modelo com\'un. \\
+\addlinespace
+
+CUxx.xx & Convenci\'on utilizada para identificar casos de uso, por ejemplo CU01.01. \\
+\addlinespace
+
+Cuarentena & Repositorio o estado de retenci\'on para registros dudosos o inconsistentes antes de que puedan publicarse. \\
+\addlinespace
+
+DA-nn & Identificador de una decisi\'on de arquitectura, por ejemplo DA-01. Cada decisi\'on documenta contexto, decisi\'on, justificaci\'on, supuestos, RNF relacionados, alternativas y consecuencias. \\
+\addlinespace
+
+Dashboard & Interfaz visual que re\'une gr\'aficos, tablas, m\'etricas, rankings y cruces para el an\'alisis de datos. \\
+\addlinespace
+
+Data Hub & Repositorio central de datos normalizados y trazables de la plataforma, organizados por pa\'is, variable, per\'iodo, unidad, fuente, fecha de publicaci\'on y versi\'on. \\
+\addlinespace
+
+Dataset & Conjunto estructurado de datos. En la visi\'on del producto se diferencia un dataset din\'amico de informes est\'aticos como un PDF. \\
+\addlinespace
+
+Divergencia regional & Dispersi\'on de una misma variable entre los pa\'ises cubiertos por la plataforma. \\
+\addlinespace
+
+Distancia frente a metas & M\'etrica determin\'istica que compara el valor de una serie con una meta o referencia definida para el an\'alisis. \\
+\addlinespace
+
+Docker & Tecnolog\'ia de contenedores utilizada como base del esquema de despliegue de la plataforma. \\
+\addlinespace
+
+Endpoint & Punto de acceso de una API expuesto para realizar una operaci\'on o consulta determinada. La plataforma debe exponer solamente los endpoints necesarios. \\
+\addlinespace
+
+Enterprise & Plan institucional configurable que contempla entorno aislado, SLA, soporte prioritario e integraciones espec\'ificas. \\
+\addlinespace
+
+Entitlement & Derecho de acceso de una cuenta a un m\'odulo, pa\'is o funcionalidad seg\'un el plan contratado. \\
+\addlinespace
+
+Entorno aislado & Entorno separado utilizado para procesar fuentes privadas de clientes institucionales sin mezclarlas con informaci\'on de otros clientes. \\
+\addlinespace
+
+Extractor estructurado & Componente basado en LLM que recibe HTML o archivos publicados por una fuente, los procesa y devuelve un JSON normalizado en el formato interno de \proyectoNombre{}. \\
+\addlinespace
+
+Flujo alternativo & Secuencia alternativa dentro de un caso de uso que se ejecuta cuando ocurre una condici\'on distinta a la del flujo principal. \\
+\addlinespace
+
+Flujo principal & Secuencia normal de pasos de un caso de uso, expresada como acciones del actor y respuestas del sistema. \\
+\addlinespace
+
+Free & Plan sin costo con radar resumido y acceso limitado a indicadores y series seleccionadas. \\
+\addlinespace
+
+Freemium & Modelo que combina una capa gratuita de entrada con funcionalidades o capacidades adicionales disponibles en planes pagos. \\
+\addlinespace
+
+Frontend & Parte visible de la aplicaci\'on web con la que interact\'ua el usuario. En la arquitectura propuesta se implementa con React. \\
+\addlinespace
+
+Fuente oficial & Organismo o conjunto de datos p\'ublico utilizado como origen de la informaci\'on econ\'omica procesada por la plataforma. \\
+\addlinespace
+
+Fuente privada & Informaci\'on aportada por un cliente institucional y procesada en un entorno aislado. \\
+\addlinespace
+
+Gantt de Iteraci\'on & Artefacto de planificaci\'on que representa la distribuci\'on temporal de las tareas de una iteraci\'on, sus dependencias y sus hitos. \\
+\addlinespace
+
+GitHub & Sistema utilizado para control de versiones, colaboraci\'on, revisi\'on de c\'odigo, incidencias y conservaci\'on del historial de cambios. \\
+\addlinespace
+
+GitHub Actions & Herramienta prevista para implementar el proceso de CI/CD del proyecto. \\
+\addlinespace
+
+Gold & Capa del patr\'on Medallion que contiene m\'etricas, cruces y se\~nales preparadas para dashboards, alertas, briefings, exportaciones y APIs. \\
+\addlinespace
+
+HTML & \emph{HyperText Markup Language}. Uno de los formatos que puede recibir el proceso de extracci\'on e ingesta. \\
+\addlinespace
+
+IA & Inteligencia Artificial. En los documentos se menciona tanto como alternativa de mercado como en componentes asistidos por modelos de lenguaje. \\
+\addlinespace
+
+Impacto & Consecuencia que tendr\'ia un riesgo si ocurre. Se utiliza junto con la probabilidad para evaluar su nivel. \\
+\addlinespace
+
+Ingesta & Proceso mediante el cual la plataforma identifica una fuente, obtiene la informaci\'on, registra sus metadatos y la incorpora al flujo de procesamiento. \\
+\addlinespace
+
+INE & Instituto Nacional de Estad\'istica. Organismo estad\'istico mencionado como posible fuente oficial adicional para futuros m\'odulos. \\
+\addlinespace
+
+INEGI & Instituto Nacional de Estad\'istica y Geograf\'ia de M\'exico. Organismo mencionado como posible fuente oficial adicional. \\
+\addlinespace
+
+Inmutable & Propiedad de un archivo o respuesta original que se conserva sin modificaciones posteriores, especialmente en la capa Bronze. \\
+\addlinespace
+
+Issue & Unidad de trabajo registrada en Jira. Puede representar una tarea, seguimiento, correcci\'on u otro elemento operativo del backlog. \\
+\addlinespace
+
+Jira & Herramienta utilizada como fuente oficial para administrar el backlog, planificar sprints, asignar responsables y registrar el avance. \\
+\addlinespace
+
+Job programado & Proceso autom\'atico ejecutado seg\'un una frecuencia definida para obtener, procesar o recalcular informaci\'on. \\
+\addlinespace
+
+JSON & \emph{JavaScript Object Notation}. Formato estructurado utilizado tanto como entrada de fuentes como salida normalizada del extractor estructurado. \\
+\addlinespace
+
+LaTeX & Sistema utilizado para elaborar y mantener la documentaci\'on acad\'emica y t\'ecnica del proyecto. \\
+\addlinespace
+
+LEIP & \proyectoNombreLargo. Nombre del producto y del proyecto. \\
+\addlinespace
+
+LLM & \emph{Large Language Model}. Modelo de lenguaje utilizado en la arquitectura como apoyo para la extracci\'on estructurada y para generar el resumen descriptivo del radar a partir de m\'etricas ya calculadas. \\
+\addlinespace
+
+Macro Expectations Intelligence & M\'odulo inicial orientado al tratamiento y an\'alisis de expectativas macroecon\'omicas. \\
+\addlinespace
+
+Matriz de trazabilidad & Relaci\'on documentada entre casos de uso, requerimientos y casos de prueba para verificar que el alcance especificado pueda ser comprobado. \\
+\addlinespace
+
+Medallion & Patr\'on de arquitectura de datos organizado por capas Bronze, Silver y Gold, complementado en \proyectoNombre{} con una zona de cuarentena. \\
+\addlinespace
+
+MEF & Ministerio de Econom\'ia y Finanzas. Organismo mencionado como posible fuente oficial adicional. \\
+\addlinespace
+
+Microsoft Teams & Herramienta utilizada para comunicaci\'on, videollamadas, grabaciones, transcripciones y res\'umenes de reuniones del equipo. \\
+\addlinespace
+
+Mitigaci\'on & Acci\'on destinada a reducir la probabilidad de ocurrencia de un riesgo o disminuir su impacto. \\
+\addlinespace
+
+M\'odulo individual & Plan que brinda acceso completo al m\'odulo contratado; el modelo preliminar permite contratar hasta tres m\'odulos individuales antes de migrar al plan Completo. \\
+\addlinespace
+
+Momentum & M\'etrica de aceleraci\'on o desaceleraci\'on de una serie respecto de su tendencia. \\
+\addlinespace
+
+MVP & \emph{Minimum Viable Product}. Alcance m\'inimo del producto que entrega valor al usuario y permite validar la propuesta. \\
+\addlinespace
+
+Nivel de riesgo & Resultado de la evaluaci\'on conjunta de probabilidad e impacto. La plantilla de riesgos lo plantea como probabilidad multiplicada por impacto. \\
+\addlinespace
+
+Node.js & Tecnolog\'ia seleccionada para implementar el backend de la plataforma. \\
+\addlinespace
+
+Normalizaci\'on & Proceso de estandarizaci\'on de pa\'ises, variables, unidades, monedas, fechas, frecuencias, horizontes y metodolog\'ias bajo un modelo com\'un. \\
+\addlinespace
+
+Organismo oficial emisor & Instituci\'on que publica la informaci\'on econ\'omica original consumida por la plataforma. \\
+\addlinespace
+
+Pandas & Biblioteca de Python prevista para el procesamiento y transformaci\'on de datos. \\
+\addlinespace
+
+PDF & \emph{Portable Document Format}. Formato que puede utilizarse como fuente de ingesta y tambi\'en como formato de exportaci\'on. \\
+\addlinespace
+
+Percentil hist\'orico & M\'etrica que ubica un valor respecto de la distribuci\'on de observaciones hist\'oricas de la serie. \\
+\addlinespace
+
+Persistencia & Medida de cu\'anto se sostiene en el tiempo la direcci\'on de una revisi\'on. \\
+\addlinespace
+
+Plan de Iteraci\'on & Artefacto elaborado al inicio de cada sprint con objetivo, alcance, tareas, responsables y entregables comprometidos. \\
+\addlinespace
+
+Postcondici\'on & Estado o condici\'on que debe cumplirse al finalizar correctamente un caso de uso. \\
+\addlinespace
+
+PostgreSQL & Base de datos prevista para almacenar datos normalizados, m\'etricas, hist\'oricos, revisiones, usuarios, organizaciones, permisos y registros de auditor\'ia. \\
+\addlinespace
+
+Precondici\'on & Estado o condici\'on que debe cumplirse antes de iniciar un caso de uso. \\
+\addlinespace
+
+Prices \& Inflation Intelligence & M\'odulo inicial orientado a precios e inflaci\'on. \\
+\addlinespace
+
+Probabilidad & Estimaci\'on de la posibilidad de ocurrencia de un riesgo. \\
+\addlinespace
+
+Product Owner & Rol responsable de mantener la visi\'on del producto y participar en la priorizaci\'on del backlog. \\
+\addlinespace
+
+Programador de tareas & Actor no humano que dispara procesos de ingesta y c\'alculo seg\'un la frecuencia definida para cada fuente. \\
+\addlinespace
+
+Python & Lenguaje seleccionado para los m\'odulos de procesamiento de datos e inteligencia. \\
+\addlinespace
+
+R-nn & Identificador secuencial de un riesgo documentado, por ejemplo R-01. \\
+\addlinespace
+
+Radar & Publicaci\'on peri\'odica con los principales cambios econ\'omicos de la regi\'on. Existe una versi\'on resumida para el plan Free y una versi\'on completa para planes pagos. \\
+\addlinespace
+
+Ranking regional & Ordenamiento comparativo de pa\'ises o variables utilizado para destacar posiciones relativas relevantes dentro de la regi\'on. \\
+\addlinespace
+
+React & Tecnolog\'ia seleccionada para desarrollar el frontend y sus componentes reutilizables. \\
+\addlinespace
+
+Real Activity Intelligence & M\'odulo inicial orientado a indicadores de actividad econ\'omica efectiva. \\
+\addlinespace
+
+Requerimiento funcional (RF) & Capacidad o comportamiento que el sistema debe proporcionar. Los requerimientos funcionales se identifican mediante RF-nn. \\
+\addlinespace
+
+Requerimiento no funcional (RNF) & Condici\'on de calidad, seguridad, trazabilidad, aislamiento, cumplimiento u otra restricci\'on que condiciona la soluci\'on y las decisiones de arquitectura. Se identifica mediante RNF-nn. \\
+\addlinespace
+
+Revisi\'on & Modificaci\'on posterior de un dato que ya hab\'ia sido publicado por el organismo emisor. \\
+\addlinespace
+
+RF-nn & Convenci\'on de identificaci\'on de requerimientos funcionales. Los identificadores son estables y no se reutilizan aunque un requerimiento sea eliminado. \\
+\addlinespace
+
+RNF-nn & Convenci\'on de identificaci\'on de requerimientos no funcionales. Estos requerimientos sirven de referencia para justificar decisiones de arquitectura. \\
+\addlinespace
+
+SaaS & \emph{Software as a Service}. Modelo bajo el cual \proyectoNombre{} se ofrece como plataforma de inteligencia econ\'omica accesible como servicio. \\
+\addlinespace
+
+Scrum & Marco de trabajo \`agil utilizado como base de la metodolog\'ia del proyecto, organizado en sprints de dos semanas. \\
+\addlinespace
+
+Secretos & Credenciales, claves u otra informaci\'on sensible necesaria para operar servicios. Los RNF establecen que deben gestionarse fuera del c\'odigo fuente. \\
+\addlinespace
+
+SIE & Sistema de Informaci\'on Econ\'omica de Banxico. \\
+\addlinespace
+
+Silver & Capa del patr\'on Medallion que almacena datos validados, normalizados y trazables. \\
+\addlinespace
+
+SLA & \emph{Service Level Agreement}. Compromiso de nivel de servicio contemplado como parte del plan Enterprise. \\
+\addlinespace
+
+Sorpresa & Diferencia entre el valor esperado por el mercado y el valor efectivamente observado. \\
+\addlinespace
+
+Sprint & Iteraci\'on de trabajo de dos semanas con un objetivo concreto y un conjunto de tareas seleccionadas seg\'un prioridades y capacidad del equipo. \\
+\addlinespace
+
+Sistema consumidor de API & Sistema externo de una organizaci\'on que consume datos y m\'etricas de \proyectoNombre{} de manera programada. \\
+\addlinespace
+
+Team & Plan orientado a organizaciones con varios usuarios, plataforma completa, API institucional, administraci\'on centralizada y dashboard configurable. \\
+\addlinespace
+
+Token & Credencial o valor seguro utilizado como parte de los mecanismos de autenticaci\'on o sesi\'on. \\
+\addlinespace
+
+Trazabilidad & Capacidad de conservar y consultar el origen y procesamiento de cada dato, m\'etrica o exportaci\'on, incluyendo fuente, fecha, versi\'on y criterio de procesamiento. \\
+\addlinespace
+
+Trazabilidad metodol\'ogica & Registro que vincula cada dato o m\'etrica con su organismo emisor, conjunto de datos, URL, fecha de publicaci\'on, versi\'on y criterio de procesamiento, distinguiendo el dato oficial de la elaboraci\'on propia de \proyectoNombre{}. \\
+\addlinespace
+
+URL & \emph{Uniform Resource Locator}. Direcci\'on utilizada para identificar la ubicaci\'on de una fuente o recurso y conservar su procedencia. \\
+\addlinespace
+
+USD & D\'olar estadounidense. Moneda utilizada en las estimaciones preliminares de precios y costos del proyecto. \\
+\addlinespace
+
+Webhook & Notificaci\'on enviada autom\'aticamente por un sistema externo cuando ocurre un evento. En \proyectoNombre{} se utiliza para recibir cambios de estado de una suscripci\'on desde el proveedor de pagos. \\
+\addlinespace
+
+\end{glosario}
+
+
+\end{document}
