@@ -1,0 +1,374 @@
+% =====================================================================
+%  requerimientos.tex  --  Documento de Requerimientos de LEIP
+%  ARCHIVO UNICO: no necesita ningun otro archivo.
+%  Compilar en Overleaf con pdfLaTeX (dos pasadas por el indice).
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---------------------------------------------------------------------
+%  DATOS DEL PROYECTO  (tocá solo esto para actualizar el documento)
+% ---------------------------------------------------------------------
+\newcommand{\proyectoNombre}{LEIP}
+\newcommand{\proyectoNombreLargo}{LatAm Economic Intelligence Platform}
+\newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
+\newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
+\newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
+\newcommand{\docVersion}{1.0}
+\newcommand{\docTitulo}{Requerimientos}
+\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\modMacro}{Macro Expectations Intelligence}
+\newcommand{\modPrecios}{Prices \& Inflation Intelligence}
+\newcommand{\modActividad}{Real Activity Intelligence}
+
+% ---------------------------------------------------------------------
+%  PREAMBULO  (estilos y comandos; normalmente no hace falta tocarlo)
+% ---------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\IfFileExists{lmodern.sty}{\usepackage{lmodern}\usepackage{microtype}}{}
+
+\IfFileExists{spanish.ldf}{%
+  \usepackage[spanish,es-tabla,es-noquoting]{babel}%
+}{%
+  \usepackage[english]{babel}%
+  \renewcommand{\contentsname}{\'Indice}%
+  \renewcommand{\listfigurename}{\'Indice de figuras}%
+  \renewcommand{\listtablename}{\'Indice de tablas}%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\figurename}{Figura}%
+  \renewcommand{\refname}{Referencias}%
+}
+
+\usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\setlist{noitemsep,topsep=4pt}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\urlstyle{same}
+
+\definecolor{leipAzul}{HTML}{1F4E79}
+\definecolor{leipGris}{HTML}{5A5A5A}
+\definecolor{leipAmbar}{HTML}{B8860B}
+\definecolor{leipAmbarBg}{HTML}{FFF8E1}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{leipGris}\proyectoNombre{} --- \docTitulo}
+\fancyhead[R]{\small\color{leipGris} v\docVersion}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
+
+% --- Portada -----------------------------------------------------------
+\newcommand{\portada}[1]{%
+  \begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\Large \proyectoUniversidad\par}
+  {\large \proyectoFacultad\par}
+  {\large \proyectoCarrera\par}
+  \vspace{3cm}
+  {\Huge\bfseries\color{leipAzul} #1\par}
+  \vspace{0.8cm}
+  {\Large \proyectoNombre{} --- \proyectoNombreLargo\par}
+  \vspace{2cm}
+  {\large Versi\'on \docVersion\par}
+  {\large \docFecha\par}
+  \vfill
+  {\large\bfseries Integrantes\par}
+  \vspace{0.3cm}
+  \begin{tabular}{c}
+    Sebastian Forische \\
+    Armando Hernandez de la Vega \\
+    Luana Acu\~na \\
+    Bruno Sebastian Olivera Viera Gomez \\
+  \end{tabular}
+  \vspace{1.5cm}
+  \end{titlepage}
+}
+
+% --- Historial de revisiones -------------------------------------------
+\newenvironment{historial}{%
+  \section*{Historial de revisiones}
+  \addcontentsline{toc}{section}{Historial de revisiones}
+  \begin{tabular}{@{}l l p{0.52\textwidth} l@{}}
+  \toprule
+  \textbf{Versi\'on} & \textbf{Fecha} & \textbf{Descripci\'on} & \textbf{Autor} \\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+  \clearpage
+}
+
+% --- Requerimientos funcionales y no funcionales -----------------------
+\newcommand{\rf}[2]{%
+  \noindent
+  \textbf{RF-#1:} #2
+  \par\smallskip
+}
+
+\newcommand{\rnf}[2]{%
+  \noindent
+  \textbf{RNF-#1:} #2
+  \par\smallskip
+}
+
+% =====================================================================
+%  DOCUMENTO
+% =====================================================================
+
+\begin{document}
+
+\portada{\docTitulo}
+
+\begin{historial}
+1.0 & 31/08/2026 & Versión inicial. Extracción de requerimientos desde Alcance & Armando \\
+\end{historial}
+
+\tableofcontents
+\clearpage
+
+% =====================================================================
+\section{Convención de identificadores}
+
+Los requerimientos se identifican como \textbf{RF-nn} (funcionales) y
+\textbf{RNF-nn} (no funcionales). Estos identificadores son estables: una vez
+asignados no se reutilizan ni se renumeran, aunque el requerimiento se elimine.
+Los casos de uso, casos de prueba y decisiones de arquitectura referencian estos
+identificadores.
+
+% =====================================================================
+\section{Requerimientos funcionales}
+\label{sec:rf}
+
+% ---------------------------------------------------------------------
+\subsection{Sistema de datos}
+
+\subsubsection{Ingesta de fuentes oficiales}
+
+\rf{ingesta-obtener}{El sistema debe obtener informaci\'on econ\'omica oficial
+para los m\'odulos incluidos en el MVP, desde las fuentes definidas para cada
+pa\'is.}
+
+\rf{ingesta-programada}{El sistema debe ejecutar actualizaciones autom\'aticas
+seg\'un la frecuencia de publicaci\'on de cada fuente.}
+
+\rf{ingesta-registro}{El sistema debe registrar, para cada dato o archivo
+incorporado: fuente, fecha de publicaci\'on, fecha de ingesta, formato,
+versi\'on y \emph{checksum}.}
+
+\subsubsection{Normalización de datos}
+
+\rf{norm-modelo}{El sistema debe estandarizar pa\'ises, variables, unidades,
+monedas, fechas, frecuencias y horizontes mediante un modelo com\'un.}
+
+\rf{norm-formatos}{El sistema debe transformar informaci\'on publicada en API,
+Excel, CSV, PDF, HTML y JSON hacia el modelo com\'un.}
+
+\rf{norm-historico}{El sistema debe reconstruir series hist\'oricas, conservar
+las revisiones sucesivas de cada dato y mantener el estado de la informaci\'on
+disponible en cada momento.}
+
+\subsubsection{Control de calidad y trazabilidad}
+
+\rf{qa-deteccion}{El sistema debe detectar duplicados, faltantes,
+inconsistencias y cambios de formato antes de publicar informaci\'on.}
+
+\rf{qa-cuarentena}{El sistema debe enviar los registros dudosos a cuarentena,
+conservar los originales inmutables en la capa Bronze y registrar ejecuciones,
+errores y correcciones.}
+
+% ---------------------------------------------------------------------
+\subsection{Capa de inteligencia}
+
+\subsubsection{Métricas}
+
+\rf{met-calculo}{El sistema debe calcular cambios, momentum, divergencias
+regionales, percentiles hist\'oricos, sorpresas y persistencia sobre las series
+normalizadas.}
+
+\rf{met-config}{El sistema debe permitir configurar ventanas, par\'ametros y
+metodolog\'ias de c\'alculo seg\'un cada m\'odulo.}
+
+\rf{met-metas-cruces}{El sistema debe calcular la distancia frente a metas y
+resolver los cruces entre expectativas, inflaci\'on observada y actividad
+efectiva.}
+
+\subsubsection{Comparación regional}
+
+\rf{comp-paises}{El sistema debe permitir comparar pa\'ises, variables,
+per\'iodos y m\'odulos econ\'omicos de Am\'erica Latina bajo criterios
+homog\'eneos.}
+
+\rf{comp-rankings}{El sistema debe permitir identificar revisiones, divergencias
+y \emph{rankings} regionales relevantes.}
+
+\rf{comp-advertencia}{El sistema debe advertir al usuario cuando un cruce no
+pueda calcularse, distinguiendo si la causa es la falta de datos o la ausencia
+de los m\'odulos requeridos en el plan contratado.}
+
+\subsubsection{Señales analíticas}
+
+\rf{senal-alertas}{El sistema debe generar alertas e informes descriptivos sobre
+cambios relevantes previamente calculados y validados.}
+
+\rf{senal-clasificacion}{El sistema debe clasificar los movimientos seg\'un su
+direcci\'on, intensidad y relevancia para el an\'alisis.}
+
+\rf{senal-resumen}{El sistema debe resumir qu\'e se movi\'o en la regi\'on sin
+que el usuario deba descargar, limpiar o reconstruir manualmente los datos. El
+resumen debe derivarse exclusivamente de m\'etricas ya calculadas y validadas.}
+
+% ---------------------------------------------------------------------
+\subsection{Aplicación web}
+
+\subsubsection{Autenticación y usuarios}
+
+\rf{auth-registro}{El sistema debe permitir a los usuarios registrarse e iniciar
+sesi\'on con sus credenciales.}
+
+\rf{auth-recuperacion}{El sistema debe permitir al usuario recuperar el acceso a
+su cuenta.}
+
+\rf{auth-entitlements}{El sistema debe aplicar roles, permisos y
+\emph{entitlements} seg\'un el plan, los m\'odulos, los pa\'ises y las
+funcionalidades contratadas.}
+
+\rf{auth-admin}{El sistema debe permitir al administrador gestionar usuarios,
+organizaciones, planes, m\'odulos, permisos y suscripciones.}
+
+\subsubsection{Pagos y suscripciones}
+
+\rf{pago-checkout}{El sistema debe delegar el pago al \emph{checkout} de un
+proveedor externo. \proyectoNombre{} no almacena ni procesa directamente datos
+de tarjetas.}
+
+\rf{pago-webhook}{El sistema debe recibir y procesar las notificaciones del
+proveedor de pagos cuando una suscripci\'on sea aprobada, renovada, rechazada,
+cancelada o reembolsada.}
+
+\rf{pago-datos}{El sistema debe conservar \'unicamente los identificadores
+externos, el estado de la suscripci\'on y los datos necesarios para actualizar
+m\'odulos, planes y permisos.}
+
+\rf{pago-cambio-plan}{El sistema debe reflejar los cambios de plan en los
+\emph{entitlements} de la cuenta, habilitando o revocando el acceso a m\'odulos y
+funcionalidades seg\'un corresponda.}
+
+\subsubsection{Dashboard de análisis}
+
+\rf{dash-seleccion}{El sistema debe permitir al usuario seleccionar pa\'is,
+m\'odulo, variable, fuente y per\'iodo hist\'orico.}
+
+\rf{dash-visualizacion}{El sistema debe permitir visualizar gr\'aficos, tablas,
+m\'etricas, \emph{rankings} y cruces entre m\'odulos desde una misma interfaz.}
+
+\rf{dash-navegacion}{El sistema debe permitir navegar entre pa\'ises, variables,
+m\'odulos y a\~nos de forma simple y r\'apida.}
+
+\rf{dash-historico}{El sistema debe permitir consultar hist\'oricos y revisiones
+para analizar cambios y tendencias en el tiempo.}
+
+\rf{dash-procedencia}{El sistema debe mostrar, junto a cada dato y m\'etrica
+visualizada, su fuente, fecha, versi\'on y nota metodol\'ogica.}
+
+\subsubsection{Radar de expectativas}
+
+\rf{radar-acceso}{El sistema debe publicar un radar peri\'odico con los
+principales cambios econ\'omicos de Am\'erica Latina.}
+
+\rf{radar-free}{El sistema debe mostrar una versi\'on resumida del radar a los
+usuarios del plan Free, sin requerir contrataci\'on.}
+
+\rf{radar-pago}{El sistema debe mostrar la versi\'on completa del radar, las
+alertas y los \emph{briefings} a los usuarios con plan de pago vigente.}
+
+\subsubsection{Exportación y uso de resultados}
+
+\rf{exp-resultados}{El sistema debe permitir a los usuarios de planes
+profesionales exportar resultados transformados para an\'alisis, estudio o
+reportes personales.}
+
+\rf{exp-formatos}{El sistema debe permitir descargar informaci\'on en formatos
+de uso corriente, como Excel y PDF.}
+
+\rf{exp-trazabilidad}{El sistema debe incluir en cada exportaci\'on la fuente,
+fecha, versi\'on y nota metodol\'ogica de los datos y m\'etricas exportados.}
+
+\rf{exp-consultas}{El sistema debe permitir guardar consultas frecuentes para
+facilitar el seguimiento recurrente de expectativas.}
+
+\subsubsection{API institucional y fuentes privadas}
+
+\rf{api-consulta}{El sistema debe permitir a las instituciones consultar datos y
+m\'etricas mediante una API autenticada, con cuotas, l\'imites y permisos seg\'un
+el plan contratado.}
+
+\rf{api-privadas}{El sistema debe permitir a las instituciones integrar fuentes
+privadas dentro de un entorno aislado, sin mezclarlas con la informaci\'on de
+otros clientes.}
+
+% =====================================================================
+\section{Requerimientos no funcionales}
+\label{sec:rnf}
+
+Los siguientes requerimientos condicionan las decisiones de arquitectura. Cada
+decisi\'on documentada en Notas de Arquitectura y Dise\~no debe indicar a
+cu\'al de estos responde.
+
+\subsection{Trazabilidad y auditoría}
+
+\rnf{traza-completa}{Cada dato, m\'etrica y exportaci\'on debe conservar su
+fuente, fecha, versi\'on y criterio de procesamiento.}
+
+\rnf{traza-inmutable}{Los archivos y respuestas originales de las fuentes deben
+conservarse inmutables en la capa Bronze.}
+
+\rnf{traza-auditoria}{El sistema debe mantener registros de auditor\'ia.}
+
+\subsection{Seguridad}
+
+\rnf{seg-superficie}{La plataforma debe exponer \'unicamente el frontend y los
+\emph{endpoints} necesarios.}
+
+\rnf{seg-sesiones}{El sistema debe utilizar sesiones o \emph{tokens} seguros y
+validar las solicitudes recibidas.}
+
+\rnf{seg-secretos}{La gesti\'on de secretos debe realizarse fuera del c\'odigo
+fuente.}
+
+\rnf{seg-permisos}{El sistema debe aplicar roles y permisos por usuario,
+organizaci\'on, plan, m\'odulo y pa\'is.}
+
+\rnf{seg-pci}{\proyectoNombre{} no debe almacenar ni procesar directamente datos
+de tarjetas.}
+
+\subsection{Aislamiento}
+
+\rnf{multi-aislamiento}{El sistema debe proveer aislamiento
+multi-\emph{tenant} para las fuentes privadas.}
+
+\subsection{Cumplimiento}
+
+\rnf{cump-transformado}{El producto debe entregar informaci\'on transformada
+---m\'etricas, comparaciones y valor agregado--- y no una copia del dato crudo.}
+
+\rnf{cump-atribucion}{Cada visualizaci\'on, exportaci\'on o respuesta de API
+debe incluir fuente, fecha, versi\'on y nota metodol\'ogica.}
+
+\end{document}
