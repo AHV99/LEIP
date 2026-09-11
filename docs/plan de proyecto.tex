@@ -14,9 +14,9 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.0}
+\newcommand{\docVersion}{1.1}
 \newcommand{\docTitulo}{Plan de Proyecto}
-\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\docFecha}{Septiembre 2026}
 
 % ---------------------------------------------------------------------
 %  PREAMBULO
@@ -64,10 +64,18 @@
 \titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.6em}{}
 
 % --- Portada -----------------------------------------------------------
+\newcommand{\logoUniversidad}{img/logo-ucu.png}
 \newcommand{\portada}[1]{%
   \begin{titlepage}
   \centering
-  \vspace*{2cm}
+  \vspace*{1.5cm}
+  \IfFileExists{\logoUniversidad}{%
+    \includegraphics[width=0.40\textwidth]{\logoUniversidad}\par
+    \vspace{1.2cm}%
+  }{%
+    \fbox{\parbox[c][3cm][c]{0.5\textwidth}{\centering\small\texttt{\logoUniversidad}}}\par
+    \vspace{1.2cm}%
+  }
   {\Large \proyectoUniversidad\par}
   {\large \proyectoFacultad\par}
   {\large \proyectoCarrera\par}
@@ -79,8 +87,6 @@
   {\large Versi\'on \docVersion\par}
   {\large \docFecha\par}
   \vfill
-  {\large\bfseries Integrantes\par}
-  \vspace{0.3cm}
   \begin{tabular}{c}
     Sebastian Forische \\
     Armando Hernandez de la Vega \\
@@ -107,25 +113,30 @@
 
 \begin{document}
 
-\portada{Plan de Proyecto}
+\portada{\docTitulo}
 
 \tableofcontents
 \bigskip
 
 \begin{historial}
-v1.0 & 31/08/2026 & Versi\'on inicial del Plan de Proyecto. & Equipo LEIP \\
- &  &  &  \\
+1.0 & 31/08/2026 & Versi\'on inicial del Plan de Proyecto & Equipo LEIP \\
+1.1 & 11/09/2026 & Alineaci\'on terminol\'ogica con el Documento de Visi\'on: se retira el t\'ermino MVP y se unifica la referencia a la Lista de Riesgos & Equipo LEIP \\
 \end{historial}
 \clearpage
 
 % =====================================================================
 \section{Introducci\'on}
 
-Este documento tiene como finalidad establecer el plan a utilizar durante el desarrollo del proyecto \proyectoNombre{} -- \proyectoNombreLargo{}. El mismo servir\'a de gu\'ia para establecer las tareas a realizar en cada etapa del proyecto, distribuir responsabilidades entre los integrantes del equipo y definir los hitos que permitir\'an construir y validar el MVP de la plataforma.
+Este documento tiene como finalidad establecer el plan a utilizar durante el desarrollo del proyecto \proyectoNombre{} -- \proyectoNombreLargo{}. El mismo servir\'a de gu\'ia para establecer las tareas a realizar en cada etapa del proyecto, distribuir responsabilidades entre los integrantes del equipo y definir los hitos que permitir\'an construir y validar la primera etapa del
+producto.
+
+Este documento es la versi\'on vigente del plan. No se considera cerrado: se
+actualiza cuando cambian el alcance, el cronograma o la organizaci\'on del
+trabajo, y cada cambio queda asentado en el historial de revisiones.
 
 El equipo trabajar\'a bajo una metodolog\'ia \'agil (Scrum modificado), con iteraciones cortas (sprints) para la planificaci\'on, desarrollo, validaci\'on y revisi\'on continua del proyecto, manteniendo un tablero de backlog compartido. Las tareas ser\'an divididas y distribuidas entre los integrantes seg\'un las \'areas de responsabilidad de cada uno. Es responsabilidad de cada integrante seguir el cronograma acordado; no obstante, este podr\'a tener variaciones durante la ejecuci\'on de cada sprint, en cuyo caso ser\'a de suma importancia documentar todo cambio y redistribuir los roles de ser necesario.
 
-El alcance funcional planificado en este documento comprende: pa\'ises iniciales Brasil, M\'exico y Uruguay; m\'odulos Macro Expectations Intelligence, Prices \& Inflation Intelligence y Real Activity Intelligence; y las capacidades de ingesta, normalizaci\'on, inteligencia anal\'itica, aplicaci\'on web, pagos/suscripciones y API institucional.
+El alcance funcional planificado en este documento corresponde a la primera etapa del producto definida en el Documento de Visi\'on, y comprende: pa\'ises iniciales Brasil, M\'exico y Uruguay; m\'odulos Macro Expectations Intelligence, Prices \& Inflation Intelligence y Real Activity Intelligence; y las capacidades de ingesta, normalizaci\'on, inteligencia anal\'itica, aplicaci\'on web, pagos/suscripciones y API institucional.
 
 % =====================================================================
 \section{Gesti\'on del Proyecto}
@@ -170,7 +181,7 @@ El resto del equipo participa como equipo de desarrollo multifuncional en las di
 
 \subsection{Gesti\'on del backlog y priorizaci\'on}
 
-El Product Owner (Armando Hernandez) mantiene y prioriza el Product Backlog junto con el equipo, tomando como insumo los casos de uso de negocio y el alcance del MVP del proyecto. El Product Backlog y las tareas que cada integrante se asigna se gestionan mediante Jira. La priorizaci\'on se basa en: (1) mitigaci\'on de los riesgos m\'as relevantes, (2) dependencias t\'ecnicas entre m\'odulos (ingesta antes que inteligencia, inteligencia antes que visualizaci\'on) y (3) valor para la validaci\'on temprana con usuarios reales.
+El Product Owner (Armando Hernandez) mantiene y prioriza el Product Backlog junto con el equipo, tomando como insumo los casos de uso especificados y el alcance de la primera etapa del producto. El Product Backlog y las tareas que cada integrante se asigna se gestionan mediante Jira. La priorizaci\'on se basa en: (1) mitigaci\'on de los riesgos m\'as relevantes, (2) dependencias t\'ecnicas entre m\'odulos (ingesta antes que inteligencia, inteligencia antes que visualizaci\'on) y (3) valor para la validaci\'on temprana con usuarios reales.
 
 \subsection{Gesti\'on de cambios}
 
@@ -182,20 +193,22 @@ Los \'items del backlog se estiman en Story Points mediante Planning Poker (o t\
 
 \subsection{Gesti\'on de riesgos}
 
-Se mantendr\'a un registro de riesgos vivo, revisado en cada retrospectiva. Los riesgos primarios identificados para el proyecto, y su estrategia de mitigaci\'on, son:
+El registro de riesgos se mantiene en la Lista de Riesgos, que es la fuente \'unica de su evaluaci\'on y seguimiento. Este plan no lo duplica: se limita a incorporar su revisi\'on al ritmo de trabajo del equipo.
+
+La Lista de Riesgos se revisa en cada retrospectiva. En esa instancia se verifica si alg\'un riesgo cambi\'o de probabilidad o impacto, si apareci\'o alguno nuevo y si las mitigaciones previstas se implementaron efectivamente. Los riesgos de mayor exposici\'on condicionan directamente la priorizaci\'on del backlog:
 
 \begin{itemize}
-  \item \textbf{Cambios en las fuentes oficiales} (bancos centrales modifican formatos/archivos sin previo aviso) $\rightarrow$ validaciones autom\'aticas antes de publicar informaci\'on.
-  \item \textbf{Errores o inconsistencias en los datos} (fechas, unidades, nombres, horizontes) $\rightarrow$ procesos de normalizaci\'on, trazabilidad y control de calidad (cuarentena) antes de alimentar la capa de inteligencia.
-  \item \textbf{Riesgo legal por uso/redistribuci\'on de fuentes oficiales} (especialmente Chile, bloqueado sin permiso) $\rightarrow$ uso de fuentes oficiales o autorizadas, entrega de informaci\'on transformada con atribuci\'on de fuente y confirmaci\'on de condiciones de uso por pa\'is.
-  \item \textbf{Baja adopci\'on del p\'ublico objetivo} $\rightarrow$ validaci\'on continua del MVP con usuarios reales y ajuste de m\'etricas/funcionalidades seg\'un resultados.
+  \item \textbf{R-05, condiciones de uso que no habilitan el uso previsto} (nivel cr\'itico): ninguna fuente se incorpora al producto sin su entrada verificada en la matriz de fuentes.
+  \item \textbf{R-01, cambios en las fuentes oficiales} (nivel alto): las validaciones autom\'aticas de la ingesta se construyen junto con el primer extractor, no despu\'es.
+  \item \textbf{R-03, errores o inconsistencias en los datos} (nivel alto): la normalizaci\'on y la cuarentena preceden a cualquier trabajo sobre la capa de inteligencia.
+  \item \textbf{R-09, baja adopci\'on del p\'ublico objetivo} (nivel alto): la validaci\'on con usuarios reales se sostiene a lo largo de todo el ciclo y no se concentra al final.
 \end{itemize}
 
 % =====================================================================
 \section{Objetivos e hitos del proyecto}
 \label{sec:hitos}
 
-A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto, agrupando los sprints del Scrum modificado del equipo seg\'un los bloques funcionales del MVP. Cada hito cierra con una versi\'on funcional (release) del incremento correspondiente, demostrada al equipo y al tutor de tesis.
+A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto, agrupando los sprints del Scrum modificado del equipo seg\'un los bloques funcionales de la primera etapa del producto. Cada hito cierra con una versi\'on funcional (release) del incremento correspondiente, demostrada al equipo y al tutor de tesis.
 
 \renewcommand{\arraystretch}{1.2}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}p{2cm} >{\raggedright\arraybackslash}p{\dimexpr\textwidth-2.6cm-2cm-6\tabcolsep\relax}@{}}
@@ -211,9 +224,9 @@ A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto
   \item Definici\'on y validaci\'on de la arquitectura general (Node.js, Python, React, PostgreSQL, Azure Blob Storage, Azure Container Apps).
   \item Configuraci\'on de repositorios en GitHub, pipeline de CI/CD con GitHub Actions y entornos de desarrollo.
   \item Definici\'on del modelo de datos inicial y del patr\'on Medallion (Bronze/Silver/Gold/Cuarentena).
-  \item Elaboraci\'on y priorizaci\'on del Product Backlog inicial en base a los casos de uso de negocio identificados.
+  \item Elaboraci\'on y priorizaci\'on del Product Backlog inicial en base a los casos de uso identificados.
   \item Mitigaci\'on temprana de los riesgos t\'ecnicos y legales identificados como prioritarios (uso de fuentes oficiales, formatos heterog\'eneos).
-  \item \textbf{Hito}: acuerdo formal del alcance del MVP, validado con el tutor de tesis.
+  \item \textbf{Hito}: acuerdo formal del alcance de la primera etapa, validado con el tutor de tesis.
 \end{itemize} \\
 \midrule
 
@@ -224,7 +237,7 @@ A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto
   \item Registro de fuente, fecha de publicaci\'on, fecha de ingesta, formato, versi\'on y checksum de cada dato (capa Bronze).
   \item Normalizaci\'on de variables, unidades, fechas y frecuencias hacia el modelo com\'un (capa Silver).
   \item Control de calidad y trazabilidad: detecci\'on de duplicados/faltantes/inconsistencias y env\'io a cuarentena.
-  \item \textbf{Meta}: relevar y detallar al menos el 80\% de los casos de uso de negocio identificados.
+  \item \textbf{Meta}: relevar y detallar al menos el 80\% de los casos de uso identificados.
   \item \textbf{Hito}: al menos 1 caso de uso representativo (ingesta y normalizaci\'on de una fuente) funcionando end-to-end, demostrado al tutor.
 \end{itemize} \\
 \midrule
@@ -243,7 +256,7 @@ A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto
 \begin{itemize}[leftmargin=1em]
   \item Autenticaci\'on, roles, permisos y entitlements por plan, m\'odulo, pa\'is y funcionalidad.
   \item Dashboard de an\'alisis: selecci\'on de pa\'is/m\'odulo/variable/fuente/per\'iodo, gr\'aficos, tablas, rankings e hist\'oricos.
-  \item Radar de expectativas con versi\'on resumida (plan Free) y versi\'on completa (planes pagos), incluyendo alertas y briefings.
+  \item Radar de expectativas con versi\'on resumida para el acceso sin suscripci\'on y versi\'on completa para el acceso contratado, incluyendo alertas y briefings.
   \item Exportaci\'on de resultados en Excel/PDF y guardado de consultas frecuentes.
 \end{itemize} \\
 \midrule
@@ -252,7 +265,7 @@ A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto
 \begin{itemize}[leftmargin=1em]
   \item Integraci\'on de pagos y suscripciones mediante checkout externo y webhooks (sin almacenar datos de tarjetas).
   \item API institucional autenticada, con cuotas y permisos seg\'un plan contratado.
-  \item Aislamiento multi-tenant para fuentes privadas de organizaciones (planes Team/Enterprise).
+  \item Aislamiento multi-tenant para fuentes privadas de las organizaciones cliente.
   \item Panel administrativo para gesti\'on de usuarios, organizaciones, planes y suscripciones.
 \end{itemize} \\
 \midrule
@@ -260,9 +273,9 @@ A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto
 \textbf{Hito 5}\newline Validaci\'on, QA y cierre & Sprints 15 y 16 &
 \begin{itemize}[leftmargin=1em]
   \item Pruebas end-to-end de los flujos cr\'iticos (ingesta $\rightarrow$ normalizaci\'on $\rightarrow$ inteligencia $\rightarrow$ visualizaci\'on $\rightarrow$ exportaci\'on).
-  \item Validaci\'on del MVP con usuarios reales del segmento objetivo (continuaci\'on del plan de validaci\'on iniciado con la encuesta a analistas).
+  \item Validaci\'on del producto con usuarios reales del segmento objetivo (continuaci\'on del plan de validaci\'on iniciado con la encuesta a analistas).
   \item Ajustes finales de producto, seguridad y performance seg\'un resultados de QA y validaci\'on.
-  \item Cierre de documentaci\'on del proyecto y preparaci\'on de la defensa de tesis.
+  \item Actualizaci\'on de toda la documentaci\'on a su versi\'on vigente y preparaci\'on de la defensa de tesis.
 \end{itemize} \\
 
 \end{longtable}
@@ -271,14 +284,14 @@ A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto
 % =====================================================================
 \section{Criterio de Aceptaci\'on del Proyecto}
 
-El criterio de aceptaci\'on del proyecto se define en base al alcance del MVP y al plan de validaci\'on del producto. Este criterio deber\'a validarse formalmente con el tutor de tesis y, de corresponder, con usuarios/organizaciones que participen de la validaci\'on del producto.
+El criterio de aceptaci\'on del proyecto se define en base al alcance de la primera etapa del producto y al plan de validaci\'on. Este criterio deber\'a validarse formalmente con el tutor de tesis y, de corresponder, con usuarios/organizaciones que participen de la validaci\'on del producto.
 
 \textbf{El proyecto se considerar\'a aceptado cuando se cumplan las siguientes condiciones:}
 
 \begin{enumerate}
   \item Ingesta y normalizaci\'on funcionando de forma automatizada para las fuentes oficiales de Brasil, M\'exico y Uruguay, para los m\'odulos Macro Expectations Intelligence, Prices \& Inflation Intelligence y Real Activity Intelligence.
   \item C\'alculo autom\'atico de las m\'etricas determin\'isticas definidas (cambios, momentum, divergencia regional, percentiles hist\'oricos, sorpresa, persistencia, distancia frente a metas) y de los cruces iniciales entre m\'odulos.
-  \item Aplicaci\'on web operativa con autenticaci\'on, roles/entitlements, dashboard de an\'alisis, radar de expectativas (versiones Free y paga) y exportaci\'on de resultados.
+  \item Aplicaci\'on web operativa con autenticaci\'on, roles/entitlements, dashboard de an\'alisis, radar de expectativas (versi\'on resumida y versi\'on completa) y exportaci\'on de resultados.
   \item Trazabilidad end-to-end: cada dato, m\'etrica y exportaci\'on conserva fuente, fecha, versi\'on y criterio de procesamiento.
   \item Flujo de pagos/suscripciones y API institucional funcionando de forma segura (sin almacenamiento directo de datos de tarjetas), con al menos un caso de uso institucional validado.
   \item Validaci\'on del problema y del producto con usuarios reales del segmento objetivo, dando continuidad a la encuesta inicial ya realizada, con resultados documentados.

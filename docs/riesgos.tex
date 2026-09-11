@@ -13,9 +13,9 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.0}
+\newcommand{\docVersion}{1.1}
 \newcommand{\docTitulo}{Lista de Riesgos}
-\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\docFecha}{Septiembre 2026}
 
 % ---------------------------------------------------------------------
 %  PREAMBULO
@@ -67,10 +67,18 @@
 \titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
 
 % --- Portada -----------------------------------------------------------
+\newcommand{\logoUniversidad}{img/logo-ucu.png}
 \newcommand{\portada}[1]{%
   \begin{titlepage}
   \centering
-  \vspace*{2cm}
+  \vspace*{1.5cm}
+  \IfFileExists{\logoUniversidad}{%
+    \includegraphics[width=0.40\textwidth]{\logoUniversidad}\par
+    \vspace{1.2cm}%
+  }{%
+    \fbox{\parbox[c][3cm][c]{0.5\textwidth}{\centering\small\texttt{\logoUniversidad}}}\par
+    \vspace{1.2cm}%
+  }
   {\Large \proyectoUniversidad\par}
   {\large \proyectoFacultad\par}
   {\large \proyectoCarrera\par}
@@ -82,8 +90,6 @@
   {\large Versi\'on \docVersion\par}
   {\large \docFecha\par}
   \vfill
-  {\large\bfseries Integrantes\par}
-  \vspace{0.3cm}
   \begin{tabular}{c}
     Sebastian Forische \\
     Armando Hernandez de la Vega \\
@@ -159,13 +165,14 @@
 
 \begin{document}
 
-\portada{Lista de Riesgos}
+\portada{\docTitulo}
 
 \tableofcontents
 \bigskip
 
 \begin{historial}
 1.0 & 26/06/2026 & Contenido inicial derivado del anteproyecto & Equipo \\
+1.1 & 11/09/2026 & Se completan objetivo, alcance, escalas de evaluaci\'on, matriz y seguimiento. Se ampl\'ia el registro a nueve riesgos, uno por cada asunci\'on del Documento de Visi\'on & Equipo \\
 \end{historial}
 \clearpage
 
@@ -174,83 +181,281 @@
 
 \subsection{Objetivo del documento}
 
+Este documento registra los riesgos que pueden afectar la construcci\'on y la
+operaci\'on de \proyectoNombre{}, y para cada uno deja asentados su causa, su
+impacto, su nivel de exposici\'on, la acci\'on prevista para reducirlo y la
+acci\'on prevista para el caso de que ocurra de todos modos.
+
+Es un registro vivo, no un inventario cerrado: se revisa peri\'odicamente, los
+riesgos cambian de nivel a medida que avanza el trabajo, y los que dejan de ser
+relevantes se marcan como cerrados en lugar de eliminarse. Cada cambio queda
+asentado en el historial de revisiones.
+
 \subsection{Alcance}
+
+El registro cubre los riesgos t\'ecnicos, de datos, legales, de dependencias
+externas y de adopci\'on que afectan directamente al producto. Cada asunci\'on
+enunciada en el Documento de Visi\'on tiene aqu\'i su riesgo correspondiente:
+si la asunci\'on no se cumple, el riesgo asociado se materializa.
+
+No cubre los riesgos de gesti\'on del trabajo ---disponibilidad, cronograma o
+coordinaci\'on--- que se tratan en el Plan de Proyecto, ni los riesgos
+comerciales del modelo de negocio, que se tratan en el Documento de Negocio.
 
 % =====================================================================
 \section{Par\'ametros de evaluaci\'on}
 
+Cada riesgo se eval\'ua con dos variables independientes ---la probabilidad de
+que ocurra y el impacto que tendr\'ia si ocurriera--- que se combinan en un
+\'unico nivel de exposici\'on. Las tres escalas se definen a continuaci\'on.
+
 \subsection{Escala de probabilidad}
+
+La probabilidad expresa cu\'an esperable es que el evento ocurra durante el
+per\'iodo de construcci\'on y operaci\'on inicial del producto.
+
+\begin{tabularx}{\textwidth}{@{}c l X@{}}
+\toprule
+\textbf{Valor} & \textbf{Nivel} & \textbf{Criterio} \\
+\midrule
+1 & Muy baja & No hay antecedentes ni indicios de que pueda ocurrir. \\
+2 & Baja     & Es concebible, pero no se espera que ocurra. \\
+3 & Media    & Puede ocurrir; hay antecedentes en contextos comparables. \\
+4 & Alta     & Es esperable que ocurra al menos una vez. \\
+5 & Muy alta & Ocurre de forma habitual o ya se observ\'o durante el trabajo. \\
+\bottomrule
+\end{tabularx}
 
 \subsection{Escala de impacto}
 
+El impacto expresa la consecuencia sobre el producto si el evento se
+materializa, medida por el esfuerzo de recuperaci\'on y por el efecto sobre la
+informaci\'on que el producto entrega.
+
+\begin{tabularx}{\textwidth}{@{}c l X@{}}
+\toprule
+\textbf{Valor} & \textbf{Nivel} & \textbf{Criterio} \\
+\midrule
+1 & Muy bajo & Se resuelve dentro del trabajo corriente, sin efecto visible. \\
+2 & Bajo     & Requiere trabajo adicional acotado; el producto sigue operando. \\
+3 & Medio    & Degrada una capacidad o interrumpe temporalmente una fuente. \\
+4 & Alto     & Compromete la confiabilidad del dato entregado o bloquea un m\'odulo completo. \\
+5 & Muy alto & Obliga a retirar informaci\'on ya publicada o a redefinir el alcance. \\
+\bottomrule
+\end{tabularx}
+
 \subsection{C\'alculo del nivel de riesgo}
+
+El nivel de riesgo resulta de multiplicar probabilidad por impacto, lo que da un
+valor entre 1 y 25. Ese valor se traduce en una de cuatro categor\'ias, que
+determinan c\'omo se trata el riesgo.
+
+\begin{tabularx}{\textwidth}{@{}c l X@{}}
+\toprule
+\textbf{Valor} & \textbf{Categor\'ia} & \textbf{Tratamiento} \\
+\midrule
+1 a 4   & Bajo     & Se acepta y se revisa peri\'odicamente. \\
+5 a 9   & Medio    & Requiere mitigaci\'on definida y seguimiento. \\
+10 a 14 & Alto     & Requiere mitigaci\'on activa y plan de contingencia probado. \\
+15 a 25 & Cr\'itico & Requiere acci\'on inmediata; condiciona decisiones de alcance. \\
+\bottomrule
+\end{tabularx}
 
 % =====================================================================
 \section{Riesgos identificados}
 
-Durante el desarrollo de \proyectoNombre{} se identifican riesgos t\'ecnicos,
-legales y de mercado que pueden afectar la construcci\'on y validaci\'on del
-producto.
+Los riesgos se agrupan seg\'un su origen: los que provienen de las fuentes de
+datos y su tratamiento, los que provienen del marco legal aplicable, los que
+provienen de dependencias externas y los que afectan la adopci\'on del producto.
+Cada ficha registra los ocho campos definidos en la secci\'on anterior.
 
-\subsection*{Riesgos t\'ecnicos}
+\subsection*{Riesgos de fuentes y datos}
 
 \begin{riesgo}{Cambios en las fuentes oficiales}
-\rdescripcion{Los bancos centrales pueden modificar formatos, archivos o
-servicios de datos sin previo aviso.}
-\rcausa{}
-\rimpacto{}
-\rprobabilidad{}
-\rnivel{}
-\rmitigacion{Se aplicar\'an validaciones autom\'aticas antes de publicar
-informaci\'on.}
-\rcontingencia{}
-\rresponsable{}
+\rdescripcion{Un organismo modifica el formato, la estructura, la ruta o el
+mecanismo de acceso de una publicaci\'on sin aviso previo, y el proceso de
+ingesta deja de interpretarla correctamente.}
+\rcausa{Las fuentes oficiales no asumen compromisos de estabilidad con terceros
+que las consumen de forma automatizada. Los rediseños de portales y los cambios
+de plataforma de publicaci\'on ocurren sin preaviso.}
+\rimpacto{La serie afectada deja de actualizarse o, peor, se actualiza con
+valores mal interpretados. En el segundo caso el error se propaga a las
+m\'etricas y a los cruces que dependen de ella.}
+\rprobabilidad{4 --- Alta}
+\rnivel{4 $\times$ 3 = 12 --- Alto}
+\rmitigacion{Validaciones autom\'aticas sobre estructura, tipos, rangos y
+continuidad de la serie antes de publicar cualquier dato. Ante una desviaci\'on,
+la ejecuci\'on se detiene y el registro va a cuarentena en lugar de publicarse.}
+\rcontingencia{Se congela la \'ultima versi\'on v\'alida de la serie, se marca
+como desactualizada en la interfaz con su fecha de corte, y se adapta el
+extractor de esa fuente con prioridad sobre el resto del trabajo.}
+\rresponsable{\'Area de procesamiento de datos}
+\end{riesgo}
+
+\begin{riesgo}{Discontinuaci\'on o reducci\'on de cobertura de una fuente}
+\rdescripcion{Un organismo deja de publicar una serie cubierta por el producto,
+reduce su frecuencia o recorta su cobertura hist\'orica.}
+\rcausa{Cambios de metodolog\'ia, reasignaci\'on de competencias entre
+organismos o decisiones de pol\'itica de publicaci\'on ajenas al producto.}
+\rimpacto{Una variable deja de estar disponible para uno o m\'as pa\'ises.
+Cuando la variable participa de un cruce, el cruce tampoco puede calcularse.}
+\rprobabilidad{2 --- Baja}
+\rnivel{2 $\times$ 4 = 8 --- Medio}
+\rmitigacion{Conservaci\'on del hist\'orico completo en la capa Bronze, de modo
+que lo ya publicado siga disponible aunque la fuente lo retire. Identificaci\'on
+de fuentes alternativas para las variables cr\'iticas de cada pa\'is.}
+\rcontingencia{Se informa expl\'icitamente la discontinuidad en la ficha de la
+variable, se mantiene el hist\'orico accesible con su fecha de corte y se
+eval\'ua la fuente alternativa identificada.}
+\rresponsable{\'Area de procesamiento de datos}
 \end{riesgo}
 
 \begin{riesgo}{Errores o inconsistencias en los datos}
-\rdescripcion{Diferencias de fechas, unidades, nombres u horizontes pueden
-afectar la comparabilidad.}
-\rcausa{}
-\rimpacto{}
-\rprobabilidad{}
-\rnivel{}
-\rmitigacion{Se aplicar\'an procesos de normalizaci\'on, trazabilidad y control
-de calidad antes de alimentar la capa de inteligencia.}
-\rcontingencia{}
-\rresponsable{}
+\rdescripcion{Diferencias de fechas, unidades, nombres, horizontes o
+metodolog\'ias entre fuentes producen series que parecen comparables sin serlo.}
+\rcausa{Cada organismo define sus propias convenciones. Dos series con el mismo
+nombre pueden medir cosas distintas, y una misma serie puede cambiar de
+metodolog\'ia a lo largo del tiempo.}
+\rimpacto{El usuario compara magnitudes no equivalentes y obtiene conclusiones
+err\'oneas. Como la comparabilidad es la propuesta central del producto, un
+error de este tipo afecta directamente su credibilidad.}
+\rprobabilidad{3 --- Media}
+\rnivel{3 $\times$ 4 = 12 --- Alto}
+\rmitigacion{Normalizaci\'on hacia un modelo com\'un de pa\'is, variable,
+unidad, frecuencia y horizonte; control de calidad con env\'io a cuarentena de
+los registros dudosos; y registro de la nota metodol\'ogica junto a cada dato,
+visible para el usuario.}
+\rcontingencia{Se retira la m\'etrica o el cruce afectado, se notifica a los
+usuarios que lo consultaron y se publica la correcci\'on con su
+justificaci\'on metodol\'ogica en el historial de cambios.}
+\rresponsable{\'Area de procesamiento de datos}
+\end{riesgo}
+
+\begin{riesgo}{Extracci\'on poco confiable en fuentes no estructuradas}
+\rdescripcion{El componente basado en LLM que interpreta HTML y archivos
+publicados devuelve valores incorrectos o incompletos sin se\~nalar error.}
+\rcausa{Las fuentes no estructuradas no tienen esquema fijo. Un modelo de
+lenguaje puede producir una salida bien formada pero equivocada, que no se
+distingue de una correcta por su forma.}
+\rimpacto{Se incorporan datos err\'oneos con apariencia de v\'alidos, que
+alimentan m\'etricas y cruces.}
+\rprobabilidad{3 --- Media}
+\rnivel{3 $\times$ 3 = 9 --- Medio}
+\rmitigacion{La salida del extractor no se publica directamente: atraviesa las
+mismas validaciones determin\'isticas que el resto de la ingesta ---tipos,
+rangos, continuidad y contraste con la publicaci\'on anterior--- y el archivo
+original queda conservado en la capa Bronze para reprocesarlo.}
+\rcontingencia{Se reprocesa la fuente afectada desde el original conservado y,
+si el problema persiste, se sustituye la extracci\'on autom\'atica por carga
+supervisada hasta resolverlo.}
+\rresponsable{\'Area de procesamiento de datos}
 \end{riesgo}
 
 \subsection*{Riesgos legales}
 
-\begin{riesgo}{Riesgo legal por uso de fuentes}
-\rdescripcion{No todas las fuentes permiten el mismo nivel de uso,
-transformaci\'on o comercializaci\'on.}
-\rcausa{}
-\rimpacto{}
-\rprobabilidad{}
-\rnivel{}
-\rmitigacion{}
-\rcontingencia{}
-\rresponsable{}
+\begin{riesgo}{Condiciones de uso que no habilitan el uso previsto}
+\rdescripcion{Las condiciones de un organismo no permiten almacenar, transformar,
+conservar hist\'oricos, exportar o redistribuir sus datos en la forma en que el
+producto lo hace.}
+\rcausa{No existe una licencia \'unica por pa\'is. Cada organismo fija sus
+propias condiciones, que pueden cambiar y que no siempre est\'an expresadas de
+forma expl\'icita para el uso automatizado.}
+\rimpacto{Obliga a retirar informaci\'on ya publicada, a bloquear un pa\'is o
+una fuente completa, y expone al producto a un reclamo del organismo emisor.}
+\rprobabilidad{3 --- Media}
+\rnivel{3 $\times$ 5 = 15 --- Cr\'itico}
+\rmitigacion{Ning\'un conjunto de datos se incorpora sin su entrada en la matriz
+de fuentes, que registra instituci\'on, URL, fecha de consulta, condiciones de
+uso, atribuci\'on requerida y usos permitidos. La verificaci\'on es fuente por
+fuente y se revisa peri\'odicamente. Toda m\'etrica derivada se identifica como
+elaboraci\'on propia y conserva la atribuci\'on a la fuente.}
+\rcontingencia{Se bloquea de inmediato el conjunto de datos afectado mediante la
+funci\'on administrativa prevista, se retira de la interfaz y de las
+exportaciones, y se contacta al organismo para solicitar autorizaci\'on expresa.}
+\rresponsable{\'Area de an\'alisis de requerimientos}
 \end{riesgo}
 
-\subsection*{Riesgos de mercado}
+\subsection*{Riesgos de dependencias externas}
+
+\begin{riesgo}{Dependencia del proveedor externo de cobros}
+\rdescripcion{El proveedor de pagos interrumpe su servicio, cambia sus
+condiciones o modifica su interfaz de integraci\'on.}
+\rcausa{El cobro se delega \'integramente a un tercero para no almacenar ni
+procesar datos de tarjetas, lo que traslada esa disponibilidad fuera del
+control del producto.}
+\rimpacto{No pueden contratarse ni renovarse suscripciones mientras dure la
+interrupci\'on. El acceso de los usuarios ya activos no se ve afectado.}
+\rprobabilidad{2 --- Baja}
+\rnivel{2 $\times$ 3 = 6 --- Medio}
+\rmitigacion{Integraci\'on acotada a \emph{checkout} alojado y notificaciones
+por \emph{webhook}, sin l\'ogica propia del proveedor dentro del producto, de
+modo que sustituirlo afecte una superficie reducida. Los eventos recibidos se
+registran para poder reconciliarlos.}
+\rcontingencia{Se suspende temporalmente la contrataci\'on en l\'inea
+manteniendo activo el acceso vigente, y se reconcilian los estados de
+suscripci\'on cuando el servicio se restablece.}
+\rresponsable{\'Area de desarrollo backend}
+\end{riesgo}
+
+\begin{riesgo}{Indisponibilidad o sobrecosto de la infraestructura}
+\rdescripcion{La infraestructura de nube deja de estar disponible dentro de las
+condiciones previstas, o su costo supera lo estimado.}
+\rcausa{Crecimiento del volumen de datos hist\'oricos, aumento de la frecuencia
+de ingesta, o cambios en los precios y las condiciones del proveedor.}
+\rimpacto{Degrada la disponibilidad del servicio o presiona la viabilidad
+econ\'omica de la operaci\'on.}
+\rprobabilidad{2 --- Baja}
+\rnivel{2 $\times$ 3 = 6 --- Medio}
+\rmitigacion{Despliegue en contenedores desacoplados, que permite dimensionar
+cada componente por separado y reduce el costo de migrar. Seguimiento del
+consumo real contra lo estimado.}
+\rcontingencia{Se reduce la frecuencia de ingesta de las fuentes menos
+cr\'iticas y se traslada el hist\'orico frio a almacenamiento de menor costo.}
+\rresponsable{\'Area de infraestructura}
+\end{riesgo}
+
+\begin{riesgo}{Costo del procesamiento con modelos de lenguaje superior al estimado}
+\rdescripcion{El consumo real de los componentes basados en LLM excede la
+estimaci\'on utilizada para dimensionar la operaci\'on.}
+\rcausa{El costo depende del n\'umero de fuentes, su frecuencia, el tama\~no de
+los documentos procesados, los reintentos ante fallas y las validaciones. Ese
+volumen todav\'ia no est\'a medido sobre el inventario real de fuentes.}
+\rimpacto{Eleva el costo operativo por encima de lo previsto y obliga a revisar
+la ecuaci\'on econ\'omica de la operaci\'on.}
+\rprobabilidad{3 --- Media}
+\rnivel{3 $\times$ 2 = 6 --- Medio}
+\rmitigacion{Restringir el uso del modelo a las fuentes que no pueden procesarse
+de forma determin\'istica, procesar solo el fragmento relevante de cada
+documento, y cachear los resultados por versi\'on de archivo para no reprocesar
+lo que no cambi\'o.}
+\rcontingencia{Se sustituye el extractor por reglas determin\'isticas en las
+fuentes de estructura estable y se reserva el modelo para las restantes.}
+\rresponsable{\'Area de procesamiento de datos con LLM}
+\end{riesgo}
+
+\subsection*{Riesgos de adopci\'on}
 
 \begin{riesgo}{Baja adopci\'on del p\'ublico objetivo}
-\rdescripcion{El producto puede ser percibido como \'util, pero no
-suficientemente necesario.}
-\rcausa{}
-\rimpacto{}
-\rprobabilidad{}
-\rnivel{}
-\rmitigacion{Se probar\'a el MVP con usuarios reales, se medir\'a el uso
-recurrente y se ajustar\'an las m\'etricas.}
-\rcontingencia{}
-\rresponsable{}
+\rdescripcion{El producto es percibido como \'util, pero no como
+suficientemente necesario para incorporarlo al trabajo habitual.}
+\rcausa{El trabajo manual que el producto reemplaza puede estar ya resuelto de
+forma aceptable mediante planillas y procesos internos, cuyo costo el usuario
+naturaliz\'o.}
+\rimpacto{El uso recurrente no se sostiene, y con \'el tampoco la
+justificaci\'on de las capacidades construidas sobre el uso peri\'odico.}
+\rprobabilidad{3 --- Media}
+\rnivel{3 $\times$ 4 = 12 --- Alto}
+\rmitigacion{Validaci\'on continua con usuarios reales del segmento objetivo,
+medici\'on del uso recurrente sobre las capacidades entregadas y ajuste de las
+m\'etricas y funcionalidades seg\'un lo observado.}
+\rcontingencia{Se concentra el esfuerzo en el segmento que s\'i muestra uso
+recurrente y se revisa la priorizaci\'on de capacidades a partir de esa
+evidencia.}
+\rresponsable{\'Area de an\'alisis de requerimientos}
 \end{riesgo}
 
 % ---------------------------------------------------------------------
-%  PLANTILLA: copiá este bloque para cada riesgo nuevo.
+%  PLANTILLA: copia este bloque para cada riesgo nuevo.
 % ---------------------------------------------------------------------
 %  \begin{riesgo}{Titulo del riesgo}
 %  \rdescripcion{}
@@ -266,21 +471,80 @@ recurrente y se ajustar\'an las m\'etricas.}
 % =====================================================================
 \section{Tabla de evaluaci\'on}
 
+La tabla siguiente resume la evaluaci\'on de todos los riesgos registrados,
+ordenados por su c\'odigo. El nivel resulta de multiplicar probabilidad por
+impacto seg\'un las escalas definidas.
+
 \begin{tabularx}{\textwidth}{@{}l X c c c@{}}
 \toprule
 \textbf{C\'odigo} & \textbf{Riesgo} & \textbf{Prob.} & \textbf{Impacto} & \textbf{Nivel} \\
 \midrule
-R-01 & Cambios en las fuentes oficiales     &  &  &  \\
-R-02 & Errores o inconsistencias en los datos &  &  &  \\
-R-03 & Riesgo legal por uso de fuentes      &  &  &  \\
-R-04 & Baja adopci\'on del p\'ublico objetivo &  &  &  \\
+R-01 & Cambios en las fuentes oficiales                       & 4 & 3 & 12 --- Alto \\
+R-02 & Discontinuaci\'on o reducci\'on de cobertura de una fuente & 2 & 4 & 8 --- Medio \\
+R-03 & Errores o inconsistencias en los datos                 & 3 & 4 & 12 --- Alto \\
+R-04 & Extracci\'on poco confiable en fuentes no estructuradas & 3 & 3 & 9 --- Medio \\
+R-05 & Condiciones de uso que no habilitan el uso previsto    & 3 & 5 & 15 --- Cr\'itico \\
+R-06 & Dependencia del proveedor externo de cobros           & 2 & 3 & 6 --- Medio \\
+R-07 & Indisponibilidad o sobrecosto de la infraestructura    & 2 & 3 & 6 --- Medio \\
+R-08 & Costo del procesamiento con modelos de lenguaje        & 3 & 2 & 6 --- Medio \\
+R-09 & Baja adopci\'on del p\'ublico objetivo                  & 3 & 4 & 12 --- Alto \\
 \bottomrule
 \end{tabularx}
 
 % =====================================================================
 \section{Matriz de riesgos}
 
+La matriz ubica cada riesgo seg\'un su probabilidad (filas) y su impacto
+(columnas), de modo que la concentraci\'on de casos quede visible de un vistazo.
+El extremo superior derecho corresponde a los riesgos de mayor exposici\'on.
+
+\begin{tabularx}{\textwidth}{@{}l *{5}{>{\centering\arraybackslash}X}@{}}
+\toprule
+\textbf{Prob.\textbackslash Impacto} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} \\
+\midrule
+\textbf{5 --- Muy alta} &  &  &  &  &  \\
+\addlinespace
+\textbf{4 --- Alta}     &  &  & R-01 &  &  \\
+\addlinespace
+\textbf{3 --- Media}    &  & R-08 & R-04 & R-03, R-09 & R-05 \\
+\addlinespace
+\textbf{2 --- Baja}     &  &  & R-06, R-07 & R-02 &  \\
+\addlinespace
+\textbf{1 --- Muy baja} &  &  &  &  &  \\
+\bottomrule
+\end{tabularx}
+
+\bigskip
+
+De los nueve riesgos registrados, uno es cr\'itico (R-05), tres son altos (R-01,
+R-03 y R-09) y cinco son medios. La concentraci\'on en la franja de impacto alto
+es coherente con la naturaleza del producto: lo que est\'a en juego en casi
+todos los casos es la confiabilidad de la informaci\'on entregada, no la
+disponibilidad del servicio.
+
 % =====================================================================
 \section{Seguimiento}
+
+El registro se revisa de forma peri\'odica. En cada revisi\'on se verifica si
+alg\'un riesgo cambi\'o de probabilidad o impacto, si apareci\'o alguno nuevo y
+si las mitigaciones previstas se implementaron efectivamente.
+
+Cada riesgo se encuentra en uno de cuatro estados:
+
+\begin{itemize}
+  \item \textbf{Abierto:} identificado, con mitigaci\'on definida pero a\'un no
+        implementada por completo.
+  \item \textbf{Mitigado:} la mitigaci\'on est\'a implementada y el nivel de
+        exposici\'on se redujo respecto de la evaluaci\'on inicial.
+  \item \textbf{Materializado:} el evento ocurri\'o; se aplic\'o la
+        contingencia y se registra qu\'e efecto tuvo.
+  \item \textbf{Cerrado:} la causa desapareci\'o y el riesgo ya no aplica. Se
+        conserva en el registro con su fecha de cierre.
+\end{itemize}
+
+Las evaluaciones de probabilidad e impacto de la tabla anterior corresponden a
+la valoraci\'on vigente y se ajustan cuando la evidencia lo justifica: una
+fuente que cambia dos veces de formato eleva la probabilidad de R-01, y una
+matriz de fuentes completa y verificada reduce la de R-05.
 
 \end{document}

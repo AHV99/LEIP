@@ -13,9 +13,9 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.0}
-\newcommand{\docTitulo}{Arquitectura y Dise\~no}
-\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\docVersion}{1.1}
+\newcommand{\docTitulo}{Notas de Arquitectura y Dise\~no}
+\newcommand{\docFecha}{Septiembre 2026}
 
 % ---------------------------------------------------------------------
 %  PREAMBULO
@@ -46,12 +46,16 @@
 \setlist{noitemsep,topsep=4pt}
 \usepackage{graphicx}
 \usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
 \usepackage[hidelinks]{hyperref}
 \usepackage{url}
 \urlstyle{same}
 
 \definecolor{leipAzul}{HTML}{1F4E79}
 \definecolor{leipGris}{HTML}{5A5A5A}
+\definecolor{leipAmbar}{HTML}{B8860B}
+\definecolor{leipAmbarBg}{HTML}{FFF8E1}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -66,10 +70,18 @@
 \titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
 
 % --- Portada -----------------------------------------------------------
+\newcommand{\logoUniversidad}{img/logo-ucu.png}
 \newcommand{\portada}[1]{%
   \begin{titlepage}
   \centering
-  \vspace*{2cm}
+  \vspace*{1.5cm}
+  \IfFileExists{\logoUniversidad}{%
+    \includegraphics[width=0.40\textwidth]{\logoUniversidad}\par
+    \vspace{1.2cm}%
+  }{%
+    \fbox{\parbox[c][3cm][c]{0.5\textwidth}{\centering\small\texttt{\logoUniversidad}}}\par
+    \vspace{1.2cm}%
+  }
   {\Large \proyectoUniversidad\par}
   {\large \proyectoFacultad\par}
   {\large \proyectoCarrera\par}
@@ -81,8 +93,6 @@
   {\large Versi\'on \docVersion\par}
   {\large \docFecha\par}
   \vfill
-  {\large\bfseries Integrantes\par}
-  \vspace{0.3cm}
   \begin{tabular}{c}
     Sebastian Forische \\
     Armando Hernandez de la Vega \\
@@ -106,6 +116,27 @@
   \end{tabular}
   \bigskip
 }
+
+% --- Marcador de contenido pendiente -----------------------------------
+\newif\ifpendientes
+\pendientestrue
+
+\makeatletter
+\newcommand{\listofpendientes}{%
+  \section*{Pendientes de este documento}
+  \addcontentsline{toc}{section}{Pendientes de este documento}
+  \@starttoc{pnd}%
+}
+\newcommand{\pendiente}[2]{%
+  \addcontentsline{pnd}{section}{\protect\numberline{}#1}%
+  \ifpendientes
+    \begin{tcolorbox}[breakable,colback=leipAmbarBg,colframe=leipAmbar,
+                      boxrule=0.6pt,left=6pt,right=6pt,top=4pt,bottom=4pt]
+      \textbf{\color{leipAmbar}PENDIENTE.}\ #2
+    \end{tcolorbox}
+  \fi
+}
+\makeatother
 
 % =====================================================================
 %  ENTORNO PARA DOCUMENTAR UNA DECISION DE ARQUITECTURA
@@ -163,13 +194,14 @@
 
 \begin{document}
 
-\portada{Arquitectura y Dise\~no}
+\portada{\docTitulo}
 
 \tableofcontents
 \bigskip
 
 \begin{historial}
 1.0 & 26/06/2026 & Contenido inicial derivado del anteproyecto & Equipo \\
+1.1 & 11/09/2026 & Se completan objetivo, alcance y convenciones, el modelo de datos, el modelo de revisiones, la estrategia de aislamiento, las decisiones de arquitectura y la bibliograf\'ia & Equipo \\
 \end{historial}
 \clearpage
 
@@ -178,17 +210,71 @@
 
 \subsection{Objetivo del documento}
 
+Este documento describe c\'omo est\'a construido \proyectoNombre{}: qu\'e
+componentes lo integran, c\'omo se organizan los datos que procesa, c\'omo se
+despliega y, sobre todo, por qu\'e se resolvi\'o de esa manera y no de otra.
+
+Donde la Especificaci\'on de Requerimientos enuncia qu\'e debe hacer el sistema
+y con qu\'e restricciones, este documento registra las decisiones t\'ecnicas que
+lo hacen posible. Cada decisi\'on relevante queda documentada con su contexto,
+las alternativas evaluadas y el requerimiento no funcional al que responde, de
+modo que pueda revisarse m\'as adelante sabiendo sobre qu\'e supuestos se tom\'o.
+
+Este documento es la versi\'on vigente de la arquitectura. No se considera
+cerrado: cada decisi\'on nueva se agrega como una ficha adicional y las
+decisiones revertidas se marcan como superadas en lugar de eliminarse, para
+conservar el razonamiento que llev\'o a ellas.
+
 \subsection{Alcance}
+
+El documento cubre la vista general de la arquitectura, los componentes de
+\emph{backend}, procesamiento, inteligencia y \emph{frontend}, la organizaci\'on
+de los datos y su modelo de revisiones, el uso de modelos de lenguaje dentro de
+la ingesta, la seguridad y el aislamiento entre organizaciones, la
+infraestructura de despliegue y el registro de decisiones de arquitectura.
+
+No cubre los requerimientos que estas decisiones satisfacen, que se enuncian en
+la Especificaci\'on de Requerimientos, ni las interacciones del usuario con el
+sistema, que se describen en la Especificaci\'on de Casos de Uso.
 
 \subsection{Convenciones}
 
+Las decisiones de arquitectura se identifican como \textbf{DA-nn} y se registran
+en la secci\'on \ref{sec:decisiones}. Los identificadores son estables: una
+decisi\'on superada conserva su c\'odigo y se marca como tal, indicando cu\'al
+la reemplaza.
+
+Cada decisi\'on indica, en su campo \emph{Responde a}, los requerimientos no
+funcionales (\textbf{RNF-nn}) de la Especificaci\'on de Requerimientos que la
+motivan.
+
+Las capas de datos se nombran seg\'un el patr\'on Medallion ---Bronze, Silver y
+Gold--- complementadas con una zona de cuarentena. El significado de cada una se
+define en la secci\'on \ref{sec:datos} y en el Glosario.
+
 % =====================================================================
 \section{Vista general de la arquitectura}
+
+\proyectoNombre{} se organiza como un conjunto de componentes desacoplados que
+siguen el recorrido de la informaci\'on: un m\'odulo de procesamiento obtiene y
+normaliza los datos de las fuentes oficiales, un m\'odulo de inteligencia
+calcula sobre ellos, un \emph{backend} centraliza el acceso y los permisos, y un
+\emph{frontend} presenta el resultado. Entre ellos, una base relacional y un
+almacenamiento de objetos conservan respectivamente los datos estructurados y
+los archivos originales.
+
+El diagrama siguiente presenta esos componentes y las relaciones entre ellos,
+incluidas las entidades externas con las que el sistema se comunica: las fuentes
+oficiales, el proveedor de pagos y los sistemas consumidores.
 
 \figuraLEIP{img/arquitectura.png}{Arquitectura de \proyectoNombre{}}{fig:arquitectura}{0.95}
 
 % =====================================================================
 \section{Componentes}
+
+Los componentes se describen a continuaci\'on en el orden en que participan del
+recorrido de la informaci\'on. Cada uno se despliega por separado, lo que
+permite dimensionarlos y actualizarlos de forma independiente.
 
 \subsection{Backend --- Node.js}
 
@@ -213,6 +299,11 @@ determin\'istico de m\'etricas y un grafo de dependencias para los cruces entre
 m\'odulos. Calcular\'a cambios, momentum, divergencias regionales, percentiles
 hist\'oricos, sorpresas, persistencia y distancia frente a metas.
 
+El grafo de dependencias cumple una funci\'on adicional a la de ordenar el
+c\'alculo: cuando una fuente publica una revisi\'on, determina exactamente
+qu\'e m\'etricas y qu\'e cruces quedan desactualizados, de modo que se
+recalcule solo lo afectado y no todo el conjunto.
+
 \subsection{Frontend --- React}
 
 El frontend ser\'a desarrollado con React y utilizar\'a componentes reutilizables
@@ -220,12 +311,22 @@ para construir \emph{dashboards}, comparadores, fichas por pa\'is, alertas,
 \emph{briefings} y paneles administrativos. La interfaz adaptar\'a las
 funcionalidades visibles seg\'un los permisos y m\'odulos contratados.
 
+La resoluci\'on de permisos es responsabilidad del backend: el frontend adapta
+lo que muestra, pero no es la barrera de acceso. Toda consulta se valida
+nuevamente del lado del servidor contra el \emph{entitlement} vigente de la
+cuenta.
+
 % =====================================================================
 \section{Arquitectura de datos}
+\label{sec:datos}
 
 \subsection{Patr\'on Medallion}
 
-La informaci\'on se organizar\'a mediante el patr\'on Medallion:
+La informaci\'on se organizar\'a mediante el patr\'on Medallion, que separa el
+dato en capas seg\'un su grado de elaboraci\'on. La separaci\'on cumple aqu\'i
+una funci\'on concreta: permite reprocesar desde el original cuando se detecta
+un error de interpretaci\'on, sin depender de que la fuente todav\'ia publique
+ese contenido.
 
 \begin{itemize}
   \item \textbf{Bronze:} conservar\'a archivos y respuestas originales e
@@ -252,10 +353,99 @@ de cada fuente sin sobrecargar la base de datos principal.
 
 \subsection{Modelo de datos}
 
+El modelo se organiza en torno a una distinci\'on central: una \emph{serie}
+identifica qu\'e se mide ---pa\'is, variable, unidad, frecuencia y horizonte---
+mientras que una \emph{observaci\'on} registra un valor concreto de esa serie
+para un per\'iodo determinado. Esta separaci\'on es la que permite que dos
+pa\'ises sean comparables aunque sus fuentes publiquen con nombres y estructuras
+distintas.
+
+La tabla siguiente resume las entidades principales y su papel dentro del
+sistema. Cada una se desarrolla en el modelo f\'isico junto con sus claves,
+\'indices y restricciones de integridad.
+
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\textbf{Entidad} & \textbf{Rol en el sistema} \\
+\midrule
+Organismo & Instituci\'on emisora: banco central, instituto de estad\'istica o ministerio. \\
+\addlinespace
+Conjunto de datos & Publicaci\'on concreta de un organismo, con su formato, frecuencia, condiciones de uso y atribuci\'on requerida. Es la unidad sobre la que opera la matriz de fuentes. \\
+\addlinespace
+Serie & Definici\'on de qu\'e se mide: pa\'is, variable, unidad, frecuencia y horizonte, bajo el modelo com\'un. Una serie puede alimentarse de m\'as de un conjunto de datos a lo largo del tiempo. \\
+\addlinespace
+Observaci\'on & Valor de una serie para un per\'iodo de referencia, en una versi\'on determinada. Es la unidad m\'inima de dato del sistema. \\
+\addlinespace
+Ejecuci\'on de ingesta & Registro de una corrida sobre un conjunto de datos: momento, duraci\'on, volumen procesado, \emph{checksum} del original e incidencias detectadas. \\
+\addlinespace
+Registro en cuarentena & Dato que no super\'o las validaciones, conservado con el motivo del rechazo a la espera de revisi\'on. \\
+\addlinespace
+M\'etrica & Resultado del c\'alculo determin\'istico sobre una o m\'as series, con sus par\'ametros y las versiones de las observaciones que lo originaron. \\
+\addlinespace
+Cruce & Relaci\'on calculada entre series de m\'odulos distintos, con las mismas exigencias de trazabilidad que una m\'etrica. \\
+\addlinespace
+Organizaci\'on & Cuenta corporativa que agrupa usuarios y concentra la suscripci\'on y los permisos. \\
+\addlinespace
+Usuario & Persona con acceso al sistema, perteneciente o no a una organizaci\'on. \\
+\addlinespace
+Entitlement & Conjunto de m\'odulos, pa\'ises y funcionalidades habilitados para una cuenta, derivado de su suscripci\'on vigente. \\
+\addlinespace
+Suscripci\'on & Estado de contrataci\'on de una cuenta, con su identificador externo en el proveedor de pagos y su vigencia. \\
+\addlinespace
+Registro de auditor\'ia & Asiento de una acci\'on relevante sobre datos, permisos o configuraci\'on, con su actor y su momento. \\
+\bottomrule
+\end{tabularx}
+
+\pendiente{Completar el modelo f\'isico de datos}{Definir el diagrama entidad-relaci\'on con claves primarias y
+for\'aneas, \'indices, restricciones de integridad y estrategia de particionado
+para las tablas de observaciones, que son las que crecen con el hist\'orico.}
+
 \subsection{Modelo de revisiones e hist\'oricos}
+
+Las fuentes oficiales revisan sus datos: un valor publicado para un per\'iodo
+puede corregirse en publicaciones posteriores, y el valor anterior deja de estar
+disponible en el sitio del organismo. Conservar esa historia es una capacidad
+central del producto, no un detalle de implementaci\'on, y condiciona c\'omo se
+almacenan las observaciones.
+
+El modelo distingue por lo tanto dos ejes temporales independientes para cada
+observaci\'on:
+
+\begin{itemize}
+  \item \textbf{Per\'iodo de referencia:} el momento al que el dato se refiere;
+        por ejemplo, la expectativa de inflaci\'on para diciembre de 2026.
+  \item \textbf{Momento de publicaci\'on:} cu\'ando el organismo public\'o ese
+        valor, y por lo tanto desde cu\'ando el sistema lo conoce.
+\end{itemize}
+
+De esta separaci\'on se derivan tres reglas de almacenamiento:
+
+\begin{itemize}
+  \item Las observaciones se escriben solo por agregado. Una revisi\'on no
+        modifica el registro anterior: agrega una versi\'on nueva y marca la
+        anterior como superada, conservando ambas.
+  \item Toda consulta resuelve por defecto la versi\'on vigente de cada
+        observaci\'on, pero puede reconstruir el estado de la informaci\'on tal
+        como se conoc\'ia en cualquier fecha pasada.
+  \item Las m\'etricas registran qu\'e versi\'on de cada observaci\'on
+        utilizaron, de modo que un resultado publicado pueda reproducirse
+        exactamente aunque las series hayan sido revisadas desde entonces.
+\end{itemize}
+
+Esta \'ultima regla es la que hace posible la m\'etrica de sorpresa y el
+seguimiento de revisiones: ambas comparan lo que se esperaba en un momento dado
+con lo que se sabe despu\'es, y ninguna de las dos puede calcularse si el
+sistema conserva solo el \'ultimo valor de cada serie.
 
 % =====================================================================
 \section{Uso de modelos de lenguaje}
+
+Los modelos de lenguaje se utilizan en dos puntos acotados del sistema, ambos
+con la misma restricci\'on: no producen datos ni conclusiones por s\'i mismos.
+El primero interpreta formatos heterog\'eneos que no pueden procesarse de forma
+determin\'istica; el segundo redacta, a partir de m\'etricas ya calculadas, el
+resumen que acompa\~na al radar. En ning\'un caso un valor num\'erico publicado
+por el producto proviene del modelo.
 
 \subsection{Extractor estructurado}
 
@@ -265,13 +455,46 @@ por el banco central, lo limpia y devuelve un JSON normalizado con las
 expectativas en el formato interno de \proyectoNombre{}, independientemente de
 c\'omo cada banco central publique su informaci\'on.
 
+El extractor se aplica \'unicamente a las fuentes cuya estructura no es estable
+o no admite un procesamiento por reglas. Cuando una fuente expone un servicio de
+datos o un formato tabular consistente, se procesa de forma determin\'istica y
+el modelo no interviene.
+
 \subsection{Generaci\'on del resumen del radar}
 
 Una vez calculadas las m\'etricas, un componente LLM recibe esos resultados ya
 procesados y genera autom\'aticamente el resumen descriptivo del radar de
 expectativas.
 
+El modelo recibe exclusivamente m\'etricas ya calculadas y validadas, nunca los
+datos crudos, y su salida es descriptiva: no introduce cifras propias ni
+interpretaciones que no se deriven de las m\'etricas recibidas.
+
 \subsection{Validaci\'on y manejo de errores}
+
+La salida de un modelo de lenguaje puede estar bien formada y ser incorrecta, y
+esa diferencia no se detecta por su forma. Por eso ninguna salida del extractor
+se publica directamente: atraviesa los mismos controles determin\'isticos que el
+resto de la ingesta.
+
+\begin{itemize}
+  \item \textbf{Validaci\'on de esquema:} la respuesta debe ajustarse al
+        esquema interno esperado en campos, tipos y unidades. Si no lo hace, se
+        descarta sin reintentar la interpretaci\'on.
+  \item \textbf{Validaci\'on de rango y continuidad:} los valores se contrastan
+        con el rango hist\'orico de la serie y con la publicaci\'on anterior.
+        Una desviaci\'on fuera de lo esperado env\'ia el registro a cuarentena.
+  \item \textbf{Reintentos acotados:} ante una falla de forma se reintenta un
+        n\'umero limitado de veces; agotados los reintentos, la ejecuci\'on se
+        registra como fallida y se notifica, en lugar de publicar un resultado
+        dudoso.
+  \item \textbf{Conservaci\'on del original:} el archivo o respuesta de origen
+        queda en la capa Bronze, de modo que cualquier extracci\'on pueda
+        rehacerse m\'as adelante sin depender de la fuente.
+  \item \textbf{Trazabilidad del componente:} cada dato extra\'ido registra que
+        su origen fue el extractor, con qu\'e versi\'on del modelo y con qu\'e
+        instrucci\'on, para poder reprocesar de forma selectiva ante un cambio.
+\end{itemize}
 
 % =====================================================================
 \section{Seguridad y aislamiento}
@@ -284,6 +507,39 @@ m\'odulo y pa\'is, adem\'as de aislamiento multi-\emph{tenant} para las fuentes
 privadas.
 
 \subsection{Estrategia de aislamiento multi-\emph{tenant}}
+
+El sistema maneja dos clases de informaci\'on con exigencias de aislamiento
+distintas, y la estrategia las trata por separado.
+
+La informaci\'on oficial es com\'un a todas las organizaciones: proviene de
+fuentes p\'ublicas y no hay raz\'on para duplicarla por cliente. Sobre ella, el
+aislamiento es de acceso y no de almacenamiento: las consultas se filtran por el
+\emph{entitlement} vigente de la cuenta, resuelto siempre del lado del servidor.
+
+Las fuentes privadas que aporta una organizaci\'on son propias de esa
+organizaci\'on y no deben mezclarse con las de ninguna otra. Sobre ellas el
+aislamiento es de almacenamiento: cada organizaci\'on tiene su propio espacio
+l\'ogico separado, tanto en la base de datos como en el almacenamiento de
+objetos, y ning\'un proceso de consulta puede abarcar m\'as de uno.
+
+\begin{itemize}
+  \item El identificador de organizaci\'on forma parte de la clave de todo dato
+        privado y de la ruta de todo archivo privado, de modo que no exista un
+        camino de acceso que lo omita.
+  \item Las credenciales de acceso a datos privados se emiten por organizaci\'on
+        y no permiten alcanzar el espacio de otra.
+  \item Los c\'alculos que combinan datos oficiales con fuentes privadas se
+        ejecutan dentro del espacio de la organizaci\'on y su resultado
+        permanece all\'i.
+  \item Toda consulta sobre datos privados queda asentada en la auditor\'ia con
+        su organizaci\'on, su usuario y su alcance.
+\end{itemize}
+
+\pendiente{Definir el mecanismo concreto de aislamiento en PostgreSQL}{Decidir entre esquema separado por organizaci\'on, seguridad a
+nivel de fila o base separada para las organizaciones que lo requieran por
+contrato, evaluando el costo operativo de cada opci\'on frente al n\'umero
+esperado de organizaciones. La decisi\'on se registrar\'a como ficha DA en la
+secci\'on de decisiones de arquitectura.}
 
 % =====================================================================
 \section{Infraestructura y despliegue}
@@ -308,28 +564,231 @@ los cambios realizados durante el desarrollo.
 
 \subsection{Diagrama de despliegue}
 
+El diagrama de despliegue presenta c\'omo se distribuyen los componentes sobre
+la infraestructura: qu\'e contenedores se ejecutan, c\'omo se comunican entre
+s\'i y con los servicios gestionados, y qu\'e queda expuesto p\'ublicamente.
+
+\figuraLEIP{img/despliegue.png}{Diagrama de despliegue de \proyectoNombre{}}{fig:despliegue}{0.95}
+
 % =====================================================================
 \section{Decisiones de arquitectura}
+\label{sec:decisiones}
 
-% ---------------------------------------------------------------------
-%  PLANTILLA: copiá este bloque para cada decisión.
-% ---------------------------------------------------------------------
-\begin{decision}{DA-00}{T\'itulo de la decisi\'on}
+Esta secci\'on registra las decisiones t\'ecnicas tomadas, con el contexto que
+las motiv\'o, las alternativas evaluadas y sus consecuencias. El prop\'osito es
+que una decisi\'on pueda revisarse m\'as adelante sabiendo sobre qu\'e supuestos
+se tom\'o: si un supuesto deja de ser v\'alido, la ficha indica qu\'e habr\'ia
+que reconsiderar.
 
-\dacontexto{}
-\dadecision{}
-\dajustificacion{}
-\dasupuestos{}
-\darnf{}
-\daalternativas{}
-\daconsecuencias{}
+\begin{decision}{DA-01}{Conservar los originales de forma inmutable}
+
+\dacontexto{Las fuentes oficiales revisan y retiran contenido sin aviso. Si el
+sistema conserva \'unicamente el dato ya interpretado, un error de
+interpretaci\'on es irrecuperable: el original ya no est\'a disponible en la
+fuente para volver a procesarlo.}
+\dadecision{Toda respuesta o archivo obtenido de una fuente se conserva sin
+modificaciones en la capa Bronze, con su \emph{checksum}, antes de cualquier
+procesamiento. Los datos interpretados se derivan siempre de ese original.}
+\dajustificacion{Separa el acto de obtener del acto de interpretar. Permite
+corregir un extractor y reprocesar todo el hist\'orico sin volver a depender de
+la fuente, y permite demostrar de d\'onde sali\'o cada valor publicado.}
+\dasupuestos{El volumen de originales conservados es manejable en costo de
+almacenamiento, por tratarse de publicaciones peri\'odicas de tama\~no acotado.}
+\darnf{RNF-01, RNF-02}
+\daalternativas{Conservar solo el dato normalizado: descartada porque hace
+irreversible cualquier error de interpretaci\'on. Conservar los originales por
+un per\'iodo limitado: descartada porque las revisiones de las fuentes pueden
+referirse a per\'iodos antiguos.}
+\daconsecuencias{Obliga a un almacenamiento de objetos separado de la base
+relacional y a una pol\'itica de nomenclatura y retenci\'on de archivos. A
+cambio, habilita el reprocesamiento selectivo como respuesta est\'andar ante
+cualquier incidente de calidad de datos.}
 
 \end{decision}
+
+\begin{decision}{DA-02}{Almacenar las observaciones por agregado, no por actualizaci\'on}
+
+\dacontexto{El producto debe poder responder no solo cu\'anto vale hoy una
+serie, sino cu\'anto val\'ia seg\'un lo que se sab\'ia en una fecha pasada. Las
+m\'etricas de sorpresa y el seguimiento de revisiones dependen de esa
+capacidad.}
+\dadecision{Una revisi\'on nunca sobrescribe la observaci\'on anterior: agrega
+una versi\'on nueva y marca la previa como superada. Cada observaci\'on lleva
+per\'iodo de referencia y momento de publicaci\'on como ejes independientes.}
+\dajustificacion{Es la \'unica forma de reconstruir el estado de la
+informaci\'on en un momento dado y de reproducir exactamente una m\'etrica ya
+publicada.}
+\dasupuestos{La frecuencia de revisi\'on de las fuentes es moderada, de modo que
+el n\'umero de versiones por observaci\'on se mantiene acotado.}
+\darnf{RNF-01, RNF-02}
+\daalternativas{Actualizar el valor en su lugar: descartada porque elimina la
+historia que el producto necesita exponer. Registrar solo la \'ultima revisi\'on
+anterior: descartada porque no permite reconstruir series con m\'as de una
+correcci\'on.}
+\daconsecuencias{Las tablas de observaciones crecen con el n\'umero de
+revisiones y requieren \'indices y particionado adecuados. Las consultas deben
+resolver expl\'icitamente qu\'e versi\'on piden, con la vigente como
+comportamiento por defecto.}
+
+\end{decision}
+
+\begin{decision}{DA-03}{Resolver los permisos en el servidor mediante \emph{entitlements}}
+
+\dacontexto{El acceso a m\'odulos, pa\'ises y funcionalidades depende de lo que
+cada cuenta tenga contratado, y ese alcance cambia con cada contrataci\'on,
+renovaci\'on o cancelaci\'on. Adem\'as, el mismo contenido puede quedar
+bloqueado por una restricci\'on regulatoria ajena a la contrataci\'on.}
+\dadecision{El backend resuelve, para cada solicitud, el \emph{entitlement}
+vigente de la cuenta y filtra el resultado antes de devolverlo. El frontend
+adapta lo que muestra, pero no constituye la barrera de acceso.}
+\dajustificacion{Concentra la decisi\'on de acceso en un \'unico lugar, aplicable
+por igual a la interfaz web y a la integraci\'on program\'atica, y permite que
+un bloqueo regulatorio tenga efecto inmediato sobre todas las v\'ias de acceso.}
+\dasupuestos{La resoluci\'on del \emph{entitlement} es suficientemente
+econ\'omica como para ejecutarse en cada solicitud o para cachearse por
+sesi\'on sin riesgo de quedar obsoleta.}
+\darnf{RNF-04, RNF-07}
+\daalternativas{Filtrar en el cliente: descartada por no ser una barrera real.
+Precalcular vistas por plan: descartada porque multiplica el almacenamiento y
+retrasa el efecto de los bloqueos.}
+\daconsecuencias{Todo nuevo camino de acceso a datos debe pasar por la misma
+resoluci\'on de permisos. Los cambios de contrataci\'on y los bloqueos se
+reflejan sin intervenci\'on adicional.}
+
+\end{decision}
+
+\begin{decision}{DA-04}{Delegar el cobro en un proveedor externo con \emph{checkout} alojado}
+
+\dacontexto{El producto necesita cobrar suscripciones, pero almacenar o procesar
+datos de tarjetas impondr\'ia exigencias de cumplimiento desproporcionadas
+respecto del volumen esperado.}
+\dadecision{El pago se resuelve \'integramente en el \emph{checkout} alojado del
+proveedor. El sistema conserva solo el identificador externo, el estado de la
+suscripci\'on y los datos necesarios para actualizar los \emph{entitlements}, y
+recibe los cambios de estado por \emph{webhook}.}
+\dajustificacion{Elimina los datos de tarjeta del alcance del sistema y reduce
+la superficie de cumplimiento al m\'inimo.}
+\dasupuestos{Existe un proveedor que ofrece \emph{checkout} alojado y
+notificaciones por \emph{webhook} en las plazas de inter\'es.}
+\darnf{RNF-08}
+\daalternativas{Integrar el cobro dentro de la aplicaci\'on: descartada por las
+exigencias de cumplimiento que traer\'ia. Cobro fuera de l\'inea: descartada por
+no sostener la renovaci\'on autom\'atica.}
+\daconsecuencias{Introduce una dependencia externa en el camino de
+contrataci\'on, registrada como riesgo R-06. Obliga a validar cada
+notificaci\'on recibida contra la intenci\'on registrada y a prever la
+reconciliaci\'on de estados.}
+
+\end{decision}
+
+\begin{decision}{DA-05}{Usar modelos de lenguaje solo para interpretar y describir, nunca para calcular}
+
+\dacontexto{Las fuentes publican en formatos que no siempre admiten
+procesamiento por reglas, y un modelo de lenguaje resuelve bien esa
+interpretaci\'on. Pero su salida puede ser incorrecta sin dejar se\~nales de
+serlo, y el producto entrega informaci\'on que el usuario cita.}
+\dadecision{El modelo se usa en dos puntos acotados: interpretar fuentes no
+estructuradas y redactar el resumen del radar a partir de m\'etricas ya
+calculadas. Ning\'un valor num\'erico publicado proviene del modelo, y toda
+salida atraviesa validaciones determin\'isticas antes de publicarse.}
+\dajustificacion{Aprovecha la capacidad del modelo donde aporta ---la
+heterogeneidad de formatos--- sin trasladarle la responsabilidad sobre las
+cifras, que es la base de la confianza en el producto.}
+\dasupuestos{Las validaciones determin\'isticas de esquema, rango y continuidad
+son suficientes para detectar las salidas incorrectas m\'as probables.}
+\darnf{RNF-01, RNF-10}
+\daalternativas{Procesar todo por reglas: descartada por el costo de mantener un
+extractor a medida por fuente inestable. Permitir que el modelo calcule o
+interprete m\'etricas: descartada por no poder garantizar reproducibilidad.}
+\daconsecuencias{Obliga a mantener el conjunto de validaciones como parte
+central de la ingesta y a registrar versi\'on de modelo e instrucci\'on junto a
+cada dato extra\'ido, para poder reprocesar de forma selectiva.}
+
+\end{decision}
+
+\begin{decision}{DA-06}{Desplegar los componentes en contenedores desacoplados}
+
+\dacontexto{Los componentes tienen perfiles de carga distintos: la ingesta se
+ejecuta por r\'afagas seg\'un el calendario de publicaci\'on de las fuentes,
+mientras que la aplicaci\'on web atiende consultas de forma continua.}
+\dadecision{Cada componente se empaqueta como contenedor y se despliega por
+separado sobre Azure Container Apps, con integraci\'on y despliegue continuo
+mediante GitHub Actions.}
+\dajustificacion{Permite dimensionar y actualizar cada componente de forma
+independiente, y evita que una ejecuci\'on de ingesta pesada degrade la
+respuesta de la aplicaci\'on web.}
+\dasupuestos{La infraestructura del proveedor se mantiene disponible dentro de
+las condiciones previstas.}
+\darnf{RNF-04}
+\daalternativas{Despliegue monol\'itico: descartada por acoplar los perfiles de
+carga. Funciones sin servidor para la ingesta: descartada por los l\'imites de
+tiempo de ejecuci\'on frente a procesamientos largos.}
+\daconsecuencias{Introduce la dependencia del proveedor de nube, registrada como
+riesgo R-07, y exige definir la comunicaci\'on y el manejo de errores entre
+componentes desplegados por separado.}
+
+\end{decision}
+
+\pendiente{Registrar las decisiones de arquitectura pendientes}{Quedan por documentar como fichas DA: el mecanismo concreto de
+aislamiento multi-\emph{tenant} en PostgreSQL, la estrategia de particionado de
+las tablas de observaciones, el mecanismo de programaci\'on de las ejecuciones
+de ingesta y el criterio de invalidaci\'on de cach\'e ante revisiones.}
 
 % =====================================================================
 \section{Dise\~no}
 
+Esta secci\'on desarrollar\'a el dise\~no interno de cada componente: la
+estructura de m\'odulos del backend, la organizaci\'on del motor de m\'etricas y
+su grafo de dependencias, la composici\'on del frontend y los contratos de
+comunicaci\'on entre componentes.
+
+\pendiente{Desarrollar el dise\~no interno de los componentes}{Documentar la estructura de m\'odulos del backend y sus contratos,
+la organizaci\'on del motor determin\'istico de m\'etricas y del grafo de
+dependencias, la composici\'on de componentes del frontend y el manejo de
+errores entre componentes desplegados por separado.}
+
 % =====================================================================
 \section{Bibliograf\'ia}
+
+Las referencias siguientes sustentan las decisiones registradas en este
+documento. Para cada una se indica para qu\'e se utiliz\'o.
+
+\begin{tabularx}{\textwidth}{@{}X X@{}}
+\toprule
+\textbf{Referencia} & \textbf{Para qu\'e se utiliza} \\
+\midrule
+Michael Nygard, \emph{Documenting Architecture Decisions} (2011). &
+Formato y criterio de las fichas de decisi\'on de la secci\'on
+\ref{sec:decisiones}: registrar contexto, decisi\'on, alternativas y
+consecuencias en lugar de solo el resultado. \\
+\addlinespace
+Documentaci\'on de la arquitectura Medallion, Databricks. &
+Definici\'on de las capas Bronze, Silver y Gold y del criterio de separaci\'on
+por grado de elaboraci\'on del dato. \\
+\addlinespace
+Documentaci\'on oficial de PostgreSQL. &
+Capacidades de indexado, particionado y control de integridad consideradas para
+el modelo de observaciones y revisiones. \\
+\addlinespace
+Documentaci\'on oficial de Azure Container Apps y Azure Blob Storage. &
+Modelo de despliegue en contenedores y caracter\'isticas del almacenamiento de
+objetos utilizado para la capa Bronze. \\
+\addlinespace
+Documentaci\'on oficial de Node.js, React y Pandas. &
+Capacidades de las tecnolog\'ias seleccionadas para \emph{backend},
+\emph{frontend} y procesamiento de datos. \\
+\addlinespace
+Documentaci\'on oficial de GitHub Actions. &
+Definici\'on del proceso de integraci\'on y despliegue continuo. \\
+\bottomrule
+\end{tabularx}
+
+\pendiente{Completar la bibliograf\'ia con URL y fechas de consulta}{Registrar para cada referencia su URL y su fecha de consulta,
+siguiendo el mismo criterio que la matriz de fuentes aplica a los conjuntos de
+datos.}
+
+% =====================================================================
+\clearpage
+\listofpendientes
 
 \end{document}

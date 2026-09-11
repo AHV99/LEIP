@@ -13,9 +13,9 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.2}
-\newcommand{\docTitulo}{Visi\'on}
-\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\docVersion}{1.3}
+\newcommand{\docTitulo}{Documento de Visi\'on}
+\newcommand{\docFecha}{Septiembre 2026}
 \newcommand{\equipoLista}{%
   Sebastian Forische \and
   Armando Hernandez de la Vega \and
@@ -103,15 +103,24 @@
 % =====================================================================
 
 % --- Portada estÃ¡ndar ---------------------------------------------------
-% Uso: \portada{VisiÃ³n}
+% Uso: \portada{\docTitulo}
+\newcommand{\logoUniversidad}{img/logo-ucu.png}
 \newcommand{\portada}[1]{%
   \begin{titlepage}
   \centering
-  \vspace*{2cm}
+  \vspace*{1.5cm}
+  \IfFileExists{\logoUniversidad}{%
+    \includegraphics[width=0.40\textwidth]{\logoUniversidad}\par
+    \vspace{1.2cm}%
+  }{%
+    \fbox{\parbox[c][3cm][c]{0.5\textwidth}{\centering\color{leipAmbar}%
+      \textbf{[Logo pendiente]}\\[4pt]\small\texttt{\logoUniversidad}}}\par
+    \vspace{1.2cm}%
+  }
   {\Large \proyectoUniversidad\par}
   {\large \proyectoFacultad\par}
   {\large \proyectoCarrera\par}
-  \vspace{3cm}
+  \vspace{2.5cm}
   {\Huge\bfseries\color{leipAzul} #1\par}
   \vspace{0.8cm}
   {\Large \proyectoNombre{} --- \proyectoNombreLargo\par}
@@ -119,8 +128,6 @@
   {\large Versi\'on \docVersion\par}
   {\large \docFecha\par}
   \vfill
-  {\large\bfseries Integrantes\par}
-  \vspace{0.3cm}
   \begin{tabular}{c}
     Sebastian Forische \\
     Armando Hernandez de la Vega \\
@@ -176,7 +183,7 @@
 \makeatother
 
 % --- Identificadores de requerimientos ---------------------------------
-% Se usan en alcance.tex; van acÃ¡ para que la numeraciÃ³n sea Ãºnica.
+% Se usan en requerimientos.tex; van acÃ¡ para que la numeraciÃ³n sea Ãºnica.
 \newcounter{rfcounter}
 \newcommand{\rf}[2]{% \rf{etiqueta}{texto}
   \refstepcounter{rfcounter}%
@@ -207,7 +214,7 @@
 \begin{document}
 
 
-\portada{Visi\'on}
+\portada{\docTitulo}
 
 \tableofcontents
 \clearpage
@@ -216,6 +223,7 @@
 1.0 & 26/06/2026 & Contenido inicial derivado del anteproyecto & Equipo \\
 1.1 & 28/08/2026 & Ajustes de validaci\'on, fuentes, monetizaci\'on y arquitectura de ingesta & Equipo \\
 1.2 & 28/08/2026 & Consolidaci\'on de secciones y depuraci\'on de pendientes & Equipo \\
+1.3 & 08/09/2026 & Reorganizaci\'on del documento en torno a los aspectos t\'ecnicos y funcionales del producto. Se incorporan acr\'onimos, introducciones de secci\'on y criterios de priorizaci\'on. El an\'alisis de mercado, la validaci\'on comercial y el modelo de negocio se trasladan al Documento de Negocio & Equipo \\
 \end{historial}
 
 % =====================================================================
@@ -223,42 +231,190 @@
 
 \subsection{Prop\'osito}
 
-Este documento re\'une, analiza y define las necesidades de alto nivel de los
-usuarios y las capacidades de \proyectoNombre{} (\proyectoNombreLargo).
-Se enfoca en \emph{qu\'e} necesitan los usuarios objetivo y \emph{por qu\'e}
-existen esas necesidades. El detalle de \emph{c\'omo} el sistema las satisface
-se especifica en el Documento de Alcance (requerimientos funcionales y no
-funcionales), en la Especificaci\'on de Casos de Uso y en las Notas de
-Arquitectura y Dise\~no.
+Este documento define el producto \proyectoNombre{} (\proyectoNombreLargo):
+qu\'e es, qu\'e problema resuelve, a qui\'enes est\'a dirigido y qu\'e
+capacidades generales ofrece. Se concentra en los aspectos t\'ecnicos y
+funcionales del producto: describe \emph{qu\'e} necesitan los usuarios y
+\emph{por qu\'e} existen esas necesidades, y deja el detalle de \emph{c\'omo}
+el sistema las satisface a la Especificaci\'on de Requerimientos, la
+Especificaci\'on de Casos de Uso y las Notas de Arquitectura y Dise\~no.
+
+Los aspectos de mercado, la validaci\'on comercial del problema, la definici\'on
+del negocio y los planes de contrataci\'on se desarrollan en el Documento de
+Negocio y no forman parte de este documento.
+
+Este documento constituye la versi\'on vigente de la definici\'on del producto.
+No se considera cerrado: se actualiza cada vez que una decisi\'on de producto,
+una nueva fuente de datos o un cambio de capacidades modifiquen su contenido, y
+cada modificaci\'on queda asentada en el historial de revisiones.
 
 \subsection{Alcance del documento}
 
-El documento cubre el posicionamiento del producto, el problema que resuelve,
-los usuarios e interesados, las capacidades previstas para el MVP, el modelo de
-negocio y las restricciones que condicionan el desarrollo. No incluye
-especificaci\'on t\'ecnica ni dise\~no de soluci\'on.
+Esta secci\'on delimita qu\'e cubre y qu\'e no cubre el documento, para que el
+lector sepa d\'onde buscar la informaci\'on que no encuentre aqu\'i.
 
+El documento cubre la definici\'on del producto y su perspectiva dentro del
+entorno de trabajo de los usuarios, el problema que resuelve, los usuarios,
+interesados y actores que interact\'uan con \'el, sus capacidades generales, las
+asunciones y dependencias sobre las que se apoya, las restricciones t\'ecnicas,
+operativas, legales y de integraci\'on que lo condicionan, y los criterios con
+los que se prioriza su construcci\'on.
 
+No cubre la especificaci\'on numerada de requerimientos, la descripci\'on
+detallada de los casos de uso ni el dise\~no y la arquitectura de la soluci\'on,
+que se desarrollan en sus documentos correspondientes. Tampoco cubre el
+an\'alisis de mercado ni el modelo de negocio.
+
+\subsection{Acr\'onimos}
+
+A continuaci\'on se presentan los acr\'onimos utilizados a lo largo del
+documento y una breve descripci\'on de cada uno. El Glosario contiene el
+listado completo de t\'erminos y siglas del producto.
+
+\begin{table}[htbp]
+\centering
+\caption{Acr\'onimos utilizados en el documento}
+\label{tab:acronimos}
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Acr\'onimo} & \textbf{Descripci\'on} \\
+\midrule
+API     & \emph{Application Programming Interface}. Interfaz mediante la cual un sistema consulta o intercambia informaci\'on con otro de forma program\'atica. \\
+Banxico & Banco de M\'exico. Banco central de M\'exico y fuente oficial de las expectativas de ese pa\'is. \\
+BCB     & Banco Central do Brasil. Banco central de Brasil y fuente oficial del Bolet\'in Focus. \\
+BCCh    & Banco Central de Chile. Banco central de Chile, fuente considerada para una etapa posterior. \\
+BCU     & Banco Central del Uruguay. Banco central de Uruguay y fuente oficial de sus encuestas de expectativas. \\
+BI      & \emph{Business Intelligence}. Conjunto de herramientas de an\'alisis y visualizaci\'on que los usuarios emplean en su entorno de trabajo. \\
+CSV     & \emph{Comma-Separated Values}. Formato de archivo de texto plano en el que algunos organismos publican sus series. \\
+HTML    & \emph{HyperText Markup Language}. Lenguaje de las p\'aginas web; algunas fuentes publican sus datos \'unicamente dentro de una p\'agina. \\
+INE     & Instituto Nacional de Estad\'istica de Uruguay. Organismo emisor de indicadores de precios y actividad. \\
+INEGI   & Instituto Nacional de Estad\'istica y Geograf\'ia de M\'exico. Organismo emisor de indicadores de precios y actividad. \\
+JSON    & \emph{JavaScript Object Notation}. Formato estructurado de intercambio de datos, habitual en las respuestas de las API oficiales. \\
+LLM     & \emph{Large Language Model}. Modelo de lenguaje utilizado como apoyo para interpretar fuentes heterog\'eneas y generar res\'umenes descriptivos a partir de m\'etricas ya calculadas. \\
+MEF     & Ministerio de Econom\'ia y Finanzas de Uruguay. Organismo emisor de informaci\'on fiscal. \\
+PDF     & \emph{Portable Document Format}. Formato de documento en el que varias fuentes publican sus informes y tablas. \\
+SaaS    & \emph{Software as a Service}. Modelo bajo el cual el producto se ofrece como servicio accesible por red, sin instalaci\'on por parte del usuario. \\
+SIE     & Sistema de Informaci\'on Econ\'omica de Banxico. Sistema desde el que se accede program\'aticamente a las series mexicanas. \\
+URL     & \emph{Uniform Resource Locator}. Direcci\'on que identifica el recurso publicado por una fuente y se conserva como parte de la trazabilidad. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 \subsection{Referencias}
 
-\begin{itemize}
-  \item Bolet\'in Focus --- Banco Central do Brasil (expectativas de mercado, frecuencia semanal).
-  \item Encuesta de expectativas / SIE --- Banco de M\'exico (frecuencia quincenal o mensual).
-  \item Encuestas de expectativas econ\'omicas --- Banco Central del Uruguay (frecuencia mensual).
-  \item Encuesta de Expectativas Econ\'omicas --- Banco Central de Chile (fuera del alcance del MVP).
-  \item Encuesta de validaci\'on del problema:
-        \url{https://docs.google.com/forms/d/e/1FAIpQLSe4jNRspwc_cyIJii9npmMjpXSXsAxOBzT6vkGCEi5vW80DEQ/viewform}
-\end{itemize}
+A continuaci\'on se presentan las referencias utilizadas para la elaboraci\'on
+del documento y el prop\'osito de cada una.
+
+\begin{table}[htbp]
+\centering
+\caption{Referencias y prop\'osito de cada una}
+\label{tab:referencias}
+\begin{tabularx}{\textwidth}{X X}
+\toprule
+\textbf{Referencia} & \textbf{Para qu\'e se utiliza} \\
+\midrule
+Bolet\'in Focus --- Banco Central do Brasil. Expectativas de mercado, frecuencia semanal. &
+Determina la cobertura y la frecuencia de actualizaci\'on del m\'odulo de expectativas para Brasil, y sirve de caso de referencia para el modelo com\'un de variable, unidad y horizonte. \\
+\addlinespace
+Encuesta de expectativas y Sistema de Informaci\'on Econ\'omica (SIE) --- Banco de M\'exico. Frecuencia quincenal o mensual. &
+Determina la cobertura de M\'exico y aporta el caso de acceso program\'atico a las series, que condiciona el dise\~no de la ingesta. \\
+\addlinespace
+Encuestas de expectativas econ\'omicas --- Banco Central del Uruguay. Frecuencia mensual. &
+Determina la cobertura de Uruguay y aporta el caso de publicaci\'on en archivos descargables, con la variabilidad de formato que la normalizaci\'on debe absorber. \\
+\addlinespace
+Encuesta de Expectativas Econ\'omicas --- Banco Central de Chile. Frecuencia mensual. &
+Se utiliza para delimitar el alcance geogr\'afico inicial y para ilustrar por qu\'e las condiciones de uso se verifican fuente por fuente antes de incorporar un pa\'is. \\
+\addlinespace
+Encuesta de relevamiento del problema.
+\url{https://docs.google.com/forms/d/e/1FAIpQLSe4jNRspwc_cyIJii9npmMjpXSXsAxOBzT6vkGCEi5vW80DEQ/viewform} &
+Instrumento con el que se releva la frecuencia y el costo operativo de las tareas que el producto automatiza. Sus resultados sustentan la definici\'on del problema y la priorizaci\'on de las capacidades. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 Las referencias anteriores corresponden al m\'odulo inicial de expectativas.
-Durante la incorporaci\'on de cada conjunto de datos se mantendr\'a un registro
-de fuentes que incluir\'a organismo, URL, fecha de consulta, m\'etodo de acceso,
-condiciones de uso y requisitos de atribuci\'on. La evaluaci\'on se realizar\'a
+Durante la incorporaci\'on de cada conjunto de datos se mantiene un registro de
+fuentes que incluye organismo, URL, fecha de consulta, m\'etodo de acceso,
+condiciones de uso y requisitos de atribuci\'on. La evaluaci\'on se realiza
 fuente por fuente y no mediante una licencia \'unica por pa\'is.
 
 % =====================================================================
+\section{Definici\'on del problema}
+
+Esta secci\'on describe la situaci\'on que da origen al producto: qu\'e
+dificultad enfrentan hoy quienes trabajan con informaci\'on econ\'omica oficial
+de Am\'erica Latina, a qui\'enes afecta, qu\'e consecuencias tiene y qu\'e
+deber\'ia resolver una soluci\'on adecuada.
+
+\subsection{Problema identificado}
+
+La informaci\'on econ\'omica oficial de Am\'erica Latina es p\'ublica, pero no
+es directamente comparable. Cada pa\'is la publica a trav\'es de organismos
+distintos ---bancos centrales, institutos de estad\'istica y ministerios---, en
+formatos heterog\'eneos ---API, Excel, CSV, PDF, HTML o JSON--- y bajo nombres,
+unidades, frecuencias, coberturas y metodolog\'ias que no siempre son
+equivalentes entre s\'i.
+
+Como consecuencia, quien necesita analizar la regi\'on repite un mismo trabajo
+previo antes de poder analizar: ingresar a cada organismo, localizar la
+publicaci\'on vigente, descargar el archivo, interpretar su estructura,
+homogeneizar variables y unidades, y reconciliar las series entre pa\'ises. Ese
+trabajo se rehace cada vez que una fuente publica una actualizaci\'on, y su
+resultado queda en planillas o \emph{scripts} propios que alguien debe
+mantener.
+
+A esto se suma que las fuentes revisan sus datos. Una expectativa o un
+indicador publicado en un per\'iodo puede corregirse en publicaciones
+posteriores, y la versi\'on anterior deja de estar disponible en el sitio del
+organismo. Reconstruir esa historia exige haber conservado cada versi\'on en el
+momento en que fue publicada, algo que los procesos manuales rara vez sostienen
+de forma sistem\'atica.
+
+El resultado es tiempo operativo recurrente dedicado a tareas que no son
+anal\'iticas, riesgo de error al comparar pa\'ises cuyas series no son
+equivalentes, e imposibilidad pr\'actica de seguir c\'omo evolucionaron las
+mediciones a lo largo del tiempo.
+
+\subsection{Enunciado formal}
+
+La tabla \ref{tab:problema} resume el problema en sus cuatro dimensiones: en
+qu\'e consiste, a qui\'enes alcanza, qu\'e consecuencias produce y qu\'e
+deber\'ia lograr una soluci\'on adecuada.
+
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+El problema de & la fragmentaci\'on de la informaci\'on econ\'omica oficial de
+Am\'erica Latina entre m\'ultiples organismos, formatos, unidades, frecuencias
+y metodolog\'ias no equivalentes. \\
+\addlinespace
+Afecta a & analistas macroecon\'omicos, equipos de investigaci\'on,
+tesorer\'ias, consultoras, fondos de inversi\'on, brokers, acad\'emicos e
+investigadores que trabajan de forma recurrente con datos de la regi\'on. \\
+\addlinespace
+Cuyo impacto es & tiempo operativo recurrente dedicado a buscar, descargar,
+limpiar y reconciliar datos; riesgo de error en la comparaci\'on entre
+pa\'ises; imposibilidad pr\'actica de seguir las revisiones hist\'oricas de
+cada serie; y dependencia de planillas o \emph{scripts} internos que hay que
+mantener. \\
+\addlinespace
+Una soluci\'on exitosa & entregar\'ia informaci\'on oficial ya normalizada y
+comparable entre pa\'ises, con trazabilidad de origen y versi\'on, seguimiento
+expl\'icito de revisiones, y m\'etricas y cruces listos para el an\'alisis, sin
+que el usuario deba mantener procesos propios de descarga y limpieza. \\
+\bottomrule
+\end{tabularx}
+\caption{Enunciado formal del problema}
+\label{tab:problema}
+\end{table}
+
+% =====================================================================
 \section{Oportunidad y contexto}
+
+Esta secci\'on explica de d\'onde surge el producto, c\'omo organiza el dominio
+econ\'omico que cubre y sobre qu\'e fuentes oficiales trabaja en una primera
+etapa.
 
 \subsection{Origen de la idea}
 
@@ -276,25 +432,30 @@ A partir de esta observaci\'on surge \proyectoNombre{}, una plataforma SaaS de
 inteligencia econ\'omica que transforma informaci\'on oficial, dispersa y
 heterog\'enea en m\'etricas comparables, trazables y listas para el an\'alisis.
 La infraestructura de ingesta y normalizaci\'on funciona como base habilitante,
-mientras que el valor diferencial se concentra en la capa de inteligencia, la
-navegaci\'on comparable y la distribuci\'on recurrente de se\~nales.
+mientras que la capa de inteligencia, la navegaci\'on comparable y la
+distribuci\'on recurrente de se\~nales son las que resuelven directamente la
+necesidad del usuario.
 
 \subsection{Organizaci\'on del dominio}
 
-La visi\'on organiza la informaci\'on en m\'odulos de expectativas
+El producto organiza la informaci\'on en m\'odulos de expectativas
 macroecon\'omicas, precios e inflaci\'on, actividad econ\'omica, riesgo fiscal,
 sector externo y condiciones monetarias y financieras, dejando los activos de
-mercado para una fase posterior. Los m\'odulos pueden relacionarse entre s\'i
+mercado para una etapa posterior. Los m\'odulos pueden relacionarse entre s\'i
 para comparar, por ejemplo, inflaci\'on esperada frente a observada, riesgo
 fiscal frente a tasas soberanas, o reservas frente a presi\'on cambiaria.
 
-\subsection{Contexto del proyecto y del negocio}
+\subsection{Cobertura inicial y fuentes}
 
-Para el MVP, \proyectoNombre{} se enfoca en informaci\'on oficial de Brasil,
-M\'exico y Uruguay, y desarrolla inicialmente los m\'odulos de expectativas
-macroecon\'omicas, precios e inflaci\'on y actividad econ\'omica. Chile se
-considera relevante, pero queda bloqueado comercialmente hasta obtener permiso
-de uso.
+Para una primera etapa, \proyectoNombre{} trabaja sobre informaci\'on oficial de
+Brasil, M\'exico y Uruguay, y desarrolla los m\'odulos de expectativas
+macroecon\'omicas, precios e inflaci\'on y actividad econ\'omica. Chile queda
+fuera de esa primera etapa: su incorporaci\'on depende de obtener autorizaci\'on
+expresa para el uso previsto de sus datos.
+
+La tabla \ref{tab:fuentes} resume, para cada pa\'is, la fuente de expectativas
+considerada, su frecuencia de publicaci\'on y su situaci\'on respecto del
+alcance inicial.
 
 \begin{table}[htbp]
 \centering
@@ -302,219 +463,235 @@ de uso.
 \label{tab:fuentes}
 \begin{tabularx}{\textwidth}{l l X}
 \toprule
-\textbf{Pa\'is} & \textbf{Fuente considerada} & \textbf{Frecuencia y estado} \\
+\textbf{Pa\'is} & \textbf{Fuente considerada} & \textbf{Frecuencia y situaci\'on} \\
 \midrule
-Brasil  & Bolet\'in Focus (BCB)            & Semanal. Mercado prioritario por escala institucional. \\
-M\'exico & Encuesta de expectativas / SIE (Banxico) & Quincenal o mensual. Segundo mercado objetivo. \\
-Uruguay & Encuestas de expectativas (BCU)  & Mensual. Laboratorio de adopci\'on y validaci\'on. \\
-Chile   & Encuesta de Expectativas Econ\'omicas (BCCh) & Mensual. Bloqueado sin permiso para redistribuci\'on comercial. \\
+Brasil  & Bolet\'in Focus (BCB)            & Semanal. Incluida en la primera etapa. \\
+M\'exico & Encuesta de expectativas / SIE (Banxico) & Quincenal o mensual. Incluida en la primera etapa. \\
+Uruguay & Encuestas de expectativas (BCU)  & Mensual. Incluida en la primera etapa. \\
+Chile   & Encuesta de Expectativas Econ\'omicas (BCCh) & Mensual. Fuera de la primera etapa; su incorporaci\'on depende de la autorizaci\'on de uso del organismo. \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 La tabla \ref{tab:fuentes} presenta solamente las fuentes iniciales del m\'odulo
 de expectativas. Los m\'odulos de precios, actividad y los cruces anal\'iticos
-incorporar\'an tambi\'en organismos estad\'isticos, ministerios y otras fuentes
-oficiales, como INE, INEGI, MEF y Secretar\'ia de Econom\'ia. La procedencia y
-las condiciones de uso se registrar\'an para cada conjunto de datos; ninguna
+incorporan tambi\'en organismos estad\'isticos, ministerios y otras fuentes
+oficiales, como INE, INEGI, MEF y la Secretar\'ia de Econom\'ia. La procedencia
+y las condiciones de uso se registran para cada conjunto de datos; ninguna
 instituci\'on representa por s\'i sola todas las fuentes de un pa\'is.
 
-El contexto competitivo incluye terminales financieras, bases macro
-especializadas, informes de terceros y planillas propias de analistas.
-\proyectoNombre{} no busca reemplazar estas herramientas, sino resolver la
-fragmentaci\'on regional mediante datos oficiales normalizados, m\'etricas
-comparables y cruces entre dominios econ\'omicos.
+% =====================================================================
+\section{Definici\'on del producto}
+
+Esta secci\'on presenta qu\'e es \proyectoNombre{}, qu\'e resuelve, c\'omo se
+inserta en el entorno de trabajo de sus usuarios y c\'omo garantiza que cada
+dato que entrega pueda rastrearse hasta su origen.
+
+\subsection{Definici\'on}
+
+\proyectoNombre{} es una plataforma SaaS que centraliza informaci\'on
+econ\'omica oficial de Am\'erica Latina y la entrega normalizada, comparable
+entre pa\'ises y trazable hasta la publicaci\'on que le dio origen.
+
+El producto resuelve el trabajo previo descrito en la secci\'on anterior. En
+lugar de que cada usuario recorra los organismos, descargue archivos y
+homogeneice series, la plataforma ejecuta esa ingesta de forma automatizada y
+continua, conserva cada versi\'on publicada y expone el resultado bajo un modelo
+com\'un de pa\'is, variable, unidad, frecuencia y horizonte. El usuario deja de
+mantener procesos propios de descarga, limpieza y actualizaci\'on.
+
+Sobre esa base, el producto ofrece tres capacidades generales:
+
+\begin{itemize}
+  \item \textbf{Consulta y comparaci\'on.} Acceso a series de varios pa\'ises
+        bajo criterios homog\'eneos, con hist\'oricos completos y con las
+        revisiones sucesivas de cada medici\'on conservadas y consultables.
+  \item \textbf{Inteligencia sobre los datos.} M\'etricas determin\'isticas
+        ---cambio, momentum, divergencia regional, percentiles hist\'oricos,
+        sorpresa, persistencia y distancia frente a metas--- y cruces entre
+        m\'odulos que relacionan lo esperado con lo observado.
+  \item \textbf{Distribuci\'on e integraci\'on.} Exportaciones auditables,
+        alertas, \emph{briefings} verificables y acceso program\'atico para que
+        las organizaciones incorporen los datos y las m\'etricas a sus propios
+        procesos.
+\end{itemize}
+
+Toda salida del producto ---un dato, una m\'etrica, un gr\'afico o una
+exportaci\'on--- conserva la referencia al organismo, el conjunto de datos, la
+fecha de publicaci\'on y la versi\'on de los que proviene.
+
+\subsection{Perspectiva del producto}
+
+\proyectoNombre{} es un sistema autocontenido que se ubica entre las fuentes
+oficiales y las herramientas con las que los usuarios ya trabajan. No reemplaza
+esas herramientas ni el criterio anal\'itico de quien las usa: se inserta antes
+del an\'alisis y entrega el insumo ya preparado, de modo que el usuario pueda
+comenzar por la interpretaci\'on y no por la recolecci\'on.
+
+Su funci\'on es operar de forma continua un ciclo que hoy los usuarios ejecutan
+a mano. La plataforma identifica la fuente, extrae la informaci\'on desde
+formatos diversos, valida su contenido, normaliza variables, unidades, fechas,
+frecuencias y metodolog\'ias, y almacena el resultado en un Data Hub organizado
+por pa\'is, variable, per\'iodo, unidad, fuente, fecha de publicaci\'on y
+versi\'on. Sobre ese repositorio se calculan las m\'etricas y los cruces que
+constituyen la capa de inteligencia.
+
+El producto se relaciona con tres tipos de sistemas externos:
+
+\begin{itemize}
+  \item \textbf{Fuentes oficiales.} Portales, API y archivos publicados por
+        bancos centrales, institutos de estad\'istica y ministerios de los
+        pa\'ises cubiertos. Son la \'unica entrada de datos econ\'omicos y
+        determinan la frecuencia de actualizaci\'on de cada serie.
+  \item \textbf{Herramientas de los usuarios.} Navegador web, planillas de
+        c\'alculo, entornos de an\'alisis como R o Python y herramientas de BI.
+        El producto llega a ellas mediante la aplicaci\'on web, las
+        exportaciones auditables y el acceso program\'atico.
+  \item \textbf{Servicios de terceros.} Un proveedor externo de cobros, que
+        expone \emph{checkout} alojado y notificaciones por \emph{webhook}, y
+        los mecanismos de autenticaci\'on y control de acceso de las
+        organizaciones cliente.
+\end{itemize}
+
+Desde el punto de vista funcional, el valor del producto est\'a en entregar
+comparabilidad regional lista para usar: el usuario obtiene en una consulta lo
+que antes requer\'ia recorrer varios organismos, y puede sostener un seguimiento
+peri\'odico sin rehacer el trabajo en cada publicaci\'on. Desde el punto de
+vista t\'ecnico, el valor est\'a en el versionado y la trazabilidad: la
+plataforma conserva la historia de cada medici\'on y el origen de cada n\'umero,
+lo que permite auditar un resultado y reproducirlo, algo que los procesos
+manuales no garantizan.
+
+Como primera hip\'otesis t\'ecnica, se definir\'a un boceto de arquitectura de
+agentes para los procesos de extracci\'on, cuyo objetivo ser\'a coordinar la
+obtenci\'on, interpretaci\'on y validaci\'on de fuentes heterog\'eneas
+manteniendo controles determin\'isticos de calidad y trazabilidad. La
+composici\'on de los agentes, sus herramientas y su orquestaci\'on se
+especifican en las Notas de Arquitectura y Dise\~no.
+
+\figuraLEIP{img/arquitectura-contexto.png}{Vista de contexto de \proyectoNombre{}}{fig:contexto}{0.9}
+
+La figura \ref{fig:contexto} presenta a \proyectoNombre{} como una caja \'unica
+y muestra las fuentes oficiales, el proveedor de pagos y los sistemas
+consumidores como entidades externas. El diagrama t\'ecnico completo, incluidas
+las capas internas de procesamiento, se desarrolla en las Notas de
+Arquitectura.
+
+\subsection{Trazabilidad metodol\'ogica}
+
+Un aspecto central del producto es la trazabilidad metodol\'ogica. Cada dato,
+m\'etrica y exportaci\'on conserva su organismo emisor, conjunto de datos, URL,
+fecha de publicaci\'on, versi\'on y criterio de procesamiento.
+
+\proyectoNombre{} distingue expl\'icitamente entre el dato oficial y la
+elaboraci\'on propia. Las series que los organismos publican se presentan
+siempre con atribuci\'on y enlace a la fuente original. Las m\'etricas,
+comparaciones y lecturas anal\'iticas calculadas por la plataforma se
+identifican como \emph{Elaboraci\'on LEIP con datos de} la fuente
+correspondiente, y no se presentan en ning\'un caso como indicadores oficiales
+del organismo emisor.
+
+Las condiciones de uso se eval\'uan por organismo y conjunto de datos, no por
+pa\'is ni exclusivamente por banco central. Esta trazabilidad es a la vez una
+capacidad funcional del producto y la principal mitigaci\'on de las
+restricciones descritas en la secci\'on \ref{sec:restricciones}.
 
 % =====================================================================
-\section{Declaraci\'on del problema}
+\section{Usuarios e interesados}
 
-\subsection{Problema identificado}
-
-Quienes trabajan con informaci\'on econ\'omica de Am\'erica Latina necesitan
-consultar fuentes oficiales de distintos pa\'ises sin ingresar manualmente a
-cada organismo. Tambi\'en requieren comparar variables y per\'iodos bajo
-criterios consistentes, seguir revisiones hist\'oricas y reducir el trabajo
-operativo de descarga, limpieza y ordenamiento.
-
-El problema principal es que las fuentes oficiales publican la informaci\'on en
-formatos diversos ---API, Excel, CSV, PDF, HTML o JSON--- y bajo nombres,
-unidades, frecuencias, coberturas y metodolog\'ias que no siempre son
-equivalentes. Por eso la informaci\'on debe validarse y normalizarse antes de
-poder compararla.
-
-Aunque existen herramientas de an\'alisis econ\'omico y financiero, muchas son
-costosas, generalistas o dependen de procesos manuales.
-
-\subsection{Enunciado formal}
-
-\begin{table}[htbp]
-\centering
-\begin{tabularx}{\textwidth}{>{\bfseries}l X}
-\toprule
-El problema de & la fragmentaci\'on de la informaci\'on econ\'omica oficial de
-Am\'erica Latina entre m\'ultiples fuentes, formatos, unidades, frecuencias y
-metodolog\'ias no equivalentes. \\
-\addlinespace
-Afecta a & analistas macroecon\'omicos, equipos de investigaci\'on, tesorer\'ias,
-consultoras, fondos de inversi\'on, brokers, acad\'emicos e investigadores que
-trabajan de forma recurrente con datos de la regi\'on. \\
-\addlinespace
-Cuyo impacto es & tiempo operativo recurrente dedicado a buscar, descargar,
-limpiar y reconciliar datos; riesgo de error en la comparaci\'on entre pa\'ises;
-imposibilidad pr\'actica de seguir revisiones hist\'oricas; y dependencia de
-planillas o \emph{scripts} internos que hay que mantener. \\
-\addlinespace
-Una soluci\'on exitosa & entregar\'ia informaci\'on oficial ya normalizada y
-comparable entre pa\'ises, con trazabilidad de origen y versi\'on, seguimiento
-expl\'icito de revisiones, y m\'etricas y cruces listos para el an\'alisis, sin
-que el usuario deba mantener procesos propios de descarga y limpieza. \\
-\bottomrule
-\end{tabularx}
-\caption{Declaraci\'on del problema}
-\label{tab:problema}
-\end{table}
-
-\subsection{Validez del problema}
-
-\begin{table}[htbp]
-\centering
-\caption{Condiciones de problema v\'alido}
-\label{tab:validez}
-\begin{tabularx}{\textwidth}{l X l}
-\toprule
-\textbf{Condici\'on} & \textbf{Aplicaci\'on en \proyectoNombre{}} & \textbf{Estado} \\
-\midrule
-Masivo dentro del nicho &
-Debe afectar a suficientes analistas, equipos de investigaci\'on, consultoras y
-tesorer\'ias que trabajen con expectativas macroecon\'omicas. &
-Pendiente de muestra suficiente \\
-\addlinespace
-Doloroso &
-Debe ser frecuente y costoso en tiempo como para justificar pago o adopci\'on
-institucional. &
-A validar con encuestas y entrevistas \\
-\addlinespace
-Mal resuelto &
-Las soluciones actuales existen, pero son caras, gen\'ericas, manuales o no
-est\'an centradas en expectativas oficiales. &
-Hip\'otesis con evidencia secundaria \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-Las condiciones \emph{masivo dentro del nicho}, \emph{doloroso} y
-\emph{mal resuelto} no pueden considerarse validadas con la muestra actual.
-La evaluaci\'on queda en pausa hasta reunir suficientes encuestas y entrevistas,
-con desagregaci\'on de perfiles institucionales. Mientras tanto, el modelo de
-negocio de la secci\'on \ref{sec:negocio} se mantiene como hip\'otesis.
-
-% =====================================================================
-\section{Posicionamiento del producto}
-
-\begin{table}[htbp]
-\centering
-\begin{tabularx}{\textwidth}{>{\bfseries}l X}
-\toprule
-Para & analistas, equipos de investigaci\'on, tesorer\'ias, consultoras y fondos
-que trabajan de forma recurrente con informaci\'on econ\'omica de Am\'erica Latina, \\
-\addlinespace
-Que & necesitan consultar, comparar y seguir expectativas y variables
-macroecon\'omicas de varios pa\'ises sin mantener procesos propios de descarga,
-limpieza y normalizaci\'on, \\
-\addlinespace
-\proyectoNombre{} es & una plataforma SaaS de inteligencia econ\'omica regional \\
-\addlinespace
-Que & transforma informaci\'on oficial dispersa en m\'etricas comparables y
-trazables, con seguimiento de revisiones y cruces entre dominios econ\'omicos, \\
-\addlinespace
-A diferencia de & las terminales financieras generalistas, las bases macro
-especializadas, los paneles privados en PDF y las planillas internas, \\
-\addlinespace
-Nuestro producto & se especializa en informaci\'on oficial de Am\'erica Latina y
-en la din\'amica de sus revisiones, entregando comparabilidad regional lista
-para usar a una fracci\'on del costo y la complejidad de las alternativas. \\
-\bottomrule
-\end{tabularx}
-\caption{Declaraci\'on de posicionamiento}
-\label{tab:posicionamiento}
-\end{table}
-
-% =====================================================================
-\section{Mercado, usuarios e interesados}
-
-\subsection{Mercado objetivo}
-
-El mercado objetivo de \proyectoNombre{} est\'a compuesto por analistas, equipos
-de investigaci\'on, tesorer\'ias, consultoras, fondos de inversi\'on, brokers,
-acad\'emicos, investigadores y organizaciones que trabajan de forma recurrente
-con informaci\'on econ\'omica y financiera de Am\'erica Latina.
-
-Este mercado necesita reducir el tiempo dedicado a buscar, descargar, limpiar y
-comparar informaci\'on de distintos organismos. Tambi\'en requiere seguir
-revisiones hist\'oricas, mantener trazabilidad y relacionar expectativas,
-inflaci\'on, actividad, riesgo fiscal, sector externo y condiciones financieras
-dentro de un mismo entorno de an\'alisis.
+Esta secci\'on identifica a quienes interact\'uan con el producto o se ven
+afectados por \'el: los interesados que condicionan su funcionamiento, los
+perfiles de usuario que lo utilizan, el entorno en el que trabajan y las
+necesidades que el producto debe atender.
 
 \subsection{Interesados}
+
+La tabla \ref{tab:interesados} presenta los interesados que participan en el
+funcionamiento del producto y el criterio con el que cada uno juzga su
+\'exito.
 
 \begin{table}[htbp]
 \centering
 \caption{Interesados principales}
+\label{tab:interesados}
 \begin{tabularx}{\textwidth}{l X X}
 \toprule
 \textbf{Interesado} & \textbf{Participaci\'on} & \textbf{Criterio de \'exito} \\
 \midrule
-Equipo del proyecto & Define, construye, opera y documenta el producto & MVP funcional, trazable y entregado dentro del calendario acad\'emico \\
-\addlinespace
-Tutores t\'ecnico y de negocio & Orientan y eval\'uan las decisiones del proyecto & Rigor t\'ecnico, viabilidad y coherencia entre problema y soluci\'on \\
-\addlinespace
 Organismos emisores & Publican datos, metodolog\'ias y condiciones de uso & Atribuci\'on correcta y uso conforme a sus condiciones \\
 \addlinespace
-Usuarios de validaci\'on & Aportan evidencia sobre problemas y necesidades & Utilidad comprobable y reducci\'on del trabajo manual \\
+Usuarios de la plataforma & Consultan, comparan y exportan informaci\'on en su trabajo diario & Reducci\'on del trabajo manual y confianza en el dato entregado \\
 \addlinespace
-Clientes institucionales & Consumen datos, m\'etricas, exportaciones o API & Informaci\'on confiable e integrable en sus procesos \\
+Organizaciones cliente & Incorporan datos y m\'etricas a sus procesos internos & Informaci\'on confiable, integrable y auditable \\
+\addlinespace
+Administradores de la organizaci\'on & Gestionan usuarios, roles y permisos de su instituci\'on & Control efectivo del acceso a m\'odulos, pa\'ises y funcionalidades \\
+\addlinespace
+Responsables t\'ecnicos de integraci\'on & Consumen la plataforma desde sistemas propios & Mecanismos de integraci\'on estables, documentados y versionados \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 \subsection{Perfiles de usuario}
 
-Los perfiles siguientes son una definici\'on inicial que permite derivar actores
-y casos de uso. Sus necesidades y criterios de \'exito se revisar\'an al cerrar
-la validaci\'on.
+Los perfiles de la tabla \ref{tab:perfiles} son la base de la que se derivan los
+actores y los casos de uso del sistema. Para cada uno se indica su objetivo
+principal y las capacidades del producto que utiliza con mayor frecuencia.
 
 \begin{table}[htbp]
 \centering
-\caption{Perfiles preliminares de usuario}
+\caption{Perfiles de usuario}
+\label{tab:perfiles}
 \begin{tabularx}{\textwidth}{l X X}
 \toprule
 \textbf{Perfil} & \textbf{Objetivo principal} & \textbf{Uso esperado} \\
 \midrule
 Analista macroecon\'omico & Seguir variables y expectativas regionales & Comparadores, hist\'oricos, revisiones y m\'etricas \\
 \addlinespace
-Equipo de investigaci\'on & Producir an\'alisis recurrente y verificable & Radar, consultas guardadas, exportaciones y API \\
+Equipo de investigaci\'on & Producir an\'alisis recurrente y verificable & Radar, consultas guardadas, exportaciones e integraci\'on program\'atica \\
 \addlinespace
 Tesorer\'ia o fondo & Incorporar contexto macro a decisiones internas & Alertas, cruces, escenarios y series comparables \\
 \addlinespace
-Consultora o broker & Preparar informes para clientes & Gr\'aficos, briefings y exportaciones auditables \\
+Consultora o broker & Preparar informes para clientes & Gr\'aficos, \emph{briefings} y exportaciones auditables \\
 \addlinespace
 Acad\'emico o investigador & Analizar series regionales con trazabilidad & Hist\'oricos, metadatos y descarga estructurada \\
 \addlinespace
-Administrador institucional & Gestionar el acceso de su organizaci\'on & Usuarios, roles, permisos y entitlements \\
+Administrador institucional & Gestionar el acceso de su organizaci\'on & Usuarios, roles, permisos y \emph{entitlements} \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\subsection{Entornos de los usuarios}
+\subsection{Entorno de los usuarios}
 
-Como hip\'otesis inicial, los usuarios trabajan desde navegadores web y utilizan
-Excel, R, Python o herramientas de inteligencia de negocios como Power BI para
-sus an\'alisis. Los usuarios individuales consumir\'an principalmente el
-\emph{dashboard} y las exportaciones, mientras que los equipos institucionales
-podr\'an integrar la API en procesos propios. La frecuencia, los tiempos actuales
-y las necesidades de integraci\'on se medir\'an durante la validaci\'on.
+Los usuarios de \proyectoNombre{} trabajan en \'areas de an\'alisis econ\'omico
+y financiero: mesas de tesorer\'ia, equipos de \emph{research}, consultoras,
+\'areas de estudios y grupos de investigaci\'on. Su entorno habitual combina el
+navegador web con planillas de c\'alculo, entornos de an\'alisis como R o Python
+y herramientas de BI como Power BI.
+
+En ese entorno realizan tareas recurrentes cuyo ritmo lo marca el calendario de
+publicaci\'on de los organismos: revisar qu\'e public\'o cada fuente, actualizar
+las series que mantienen, comparar la evoluci\'on entre pa\'ises, contrastar lo
+esperado con lo observado y preparar informes o seguimientos peri\'odicos, sea
+para clientes externos o para decisiones internas.
+
+De esas tareas se desprenden tres necesidades. La primera es disponer del dato
+ya normalizado y comparable, sin ejecutar cada vez el proceso de b\'usqueda,
+descarga y limpieza. La segunda es poder justificar el origen de cada n\'umero
+que publican, incluso cuando la fuente revis\'o su propia serie despu\'es de la
+consulta. La tercera es llevar esa informaci\'on a sus propias herramientas sin
+pasos manuales intermedios.
+
+El producto atiende esas necesidades en dos modos de uso. Quien trabaja de
+forma individual accede a trav\'es de la aplicaci\'on web, consulta y compara
+en el \emph{dashboard} y se lleva lo que necesita mediante exportaciones
+auditables. Las organizaciones con procesos propios consumen los mismos datos y
+m\'etricas de forma program\'atica e integran el resultado en sus flujos
+internos sin intervenci\'on manual.
 
 \subsection{Necesidades clave}
+
+La tabla \ref{tab:necesidades} relaciona cada necesidad identificada en los
+usuarios con la capacidad del producto que la atiende.
 
 \begin{table}[htbp]
 \centering
@@ -526,7 +703,7 @@ y las necesidades de integraci\'on se medir\'an durante la validaci\'on.
 \midrule
 Dejar de invertir tiempo en tareas repetitivas de descarga, limpieza y
 normalizaci\'on &
-Ingesta autom\'atica y normalizaci\'on centralizada de las fuentes oficiales \\
+Ingesta automatizada y normalizaci\'on centralizada de las fuentes oficiales \\
 \addlinespace
 Comparar pa\'ises, variables y horizontes bajo criterios homog\'eneos &
 Modelo com\'un de pa\'is, variable, unidad, frecuencia y horizonte \\
@@ -541,270 +718,47 @@ m\'etrica y exportaci\'on \\
 Producir reportes y seguimientos recurrentes sin rehacer el trabajo cada vez &
 Exportaciones auditables, consultas guardadas y radar peri\'odico \\
 \addlinespace
-Evaluar la herramienta antes de comprometer presupuesto &
-Radar gratuito como capa de entrada sin barrera de pago \\
-\addlinespace
 Detectar qu\'e movimientos merecen atenci\'on &
 M\'etricas de cambio, sorpresa, divergencia regional y distancia frente a metas \\
+\addlinespace
+Incorporar la informaci\'on a herramientas y procesos propios &
+Exportaciones en formatos estructurados y acceso program\'atico autenticado \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\subsection{Validaci\'on del problema}
-\label{sec:validacion}
-
-La prioridad inmediata es validar una pregunta central: si consolidar y comparar
-expectativas macroecon\'omicas es una tarea recurrente y costosa para el
-segmento que realmente paga, o si es una tarea espor\'adica que no justifica una
-plataforma.
-
-\subsubsection{Plan de validaci\'on}
-
-La validaci\'on se realiza mediante una encuesta dirigida a analistas
-macroecon\'omicos, equipos de investigaci\'on, tesorer\'ias, consultoras,
-fondos, acad\'emicos y perfiles que trabajen con expectativas econ\'omicas de
-Am\'erica Latina. El objetivo es entender si el problema existe en la
-pr\'actica: si consultar, comparar y seguir expectativas macro es una tarea
-frecuente, lenta y mal resuelta.
-
-La validaci\'on se enfoca en tres se\~nales:
-
-\begin{enumerate}
-  \item cu\'antas veces el usuario trabaj\'o con expectativas macro en los
-        \'ultimos meses;
-  \item cu\'anto tiempo le tom\'o conseguir y ordenar los datos;
-  \item si necesita seguir revisiones en el tiempo o s\'olo consultar el dato puntual.
-\end{enumerate}
-
-Los resultados se analizan por tipo de usuario. Las respuestas de perfiles
-institucionales tienen mayor peso, porque representan mejor al cliente que
-podr\'ia pagar por el producto. Las respuestas de academia o usuarios
-individuales sirven como aprendizaje, pero no son suficientes por s\'i solas
-para validar el negocio.
-
-\subsubsection{Estado de la validaci\'on}
-
-La recolecci\'on de respuestas se encuentra en curso. La muestra disponible no
-es suficiente para afirmar que el problema, la disposici\'on a pagar o el modelo
-de negocio est\'en validados. Por esta raz\'on no se presentan conclusiones
-cuantitativas ni comerciales en esta versi\'on.
-
-Al cerrar la recolecci\'on se reportar\'an el n\'umero de respuestas, la
-composici\'on por tipo de perfil y los tres indicadores del plan de validaci\'on.
-Las conclusiones distinguir\'an perfiles institucionales de usuarios acad\'emicos
-o individuales e incorporar\'an la ronda de entrevistas cualitativas.
-
 % =====================================================================
-\section{Alternativas y competencia}
+\section{Capacidades del producto}
 
-El an\'alisis competitivo muestra que existen alternativas para obtener datos de
-expectativas macroecon\'omicas, pero ninguna trabaja sobre expectativas
-oficiales con foco en revisi\'on, divergencia y comparabilidad regional
-exclusiva de Am\'erica Latina.
-
-\begin{table}[htbp]
-\centering
-\caption{Productos similares y alternativas}
-\label{tab:competencia}
-\begin{tabularx}{\textwidth}{l l X}
-\toprule
-\textbf{Alternativa} & \textbf{Tipo} & \textbf{Por qu\'e no resuelve el problema} \\
-\midrule
-Fuentes oficiales directas & Manual &
-Confiables, pero dispersas, heterog\'eneas y sin comparabilidad regional lista. \\
-\addlinespace
-Bloomberg, Refinitiv & Terminal financiera &
-Amplias y robustas, pero extremadamente costosas y no enfocadas en la capa de
-expectativas de Am\'erica Latina. \\
-\addlinespace
-CEIC, Macrobond, Haver & Bases macro especializadas &
-Fuertes en infraestructura de investigaci\'on, pero costosas y con un foco
-m\'as amplio. \\
-\addlinespace
-Consensus Economics & Panel privado de informes &
-Producto distinto: panel privado en PDF, no un \emph{dataset} din\'amico y
-explorable de expectativas. \\
-\addlinespace
-Trading Economics y similares & Datos macro observados &
-Foco en datos observados, no en la din\'amica de revisiones de encuestas oficiales. \\
-\addlinespace
-Planillas internas y agentes de IA & Soluci\'on artesanal &
-Resuelven parcialmente, pero requieren mantenimiento, control de calidad y
-responsabilidad interna que consumen tiempo y esfuerzo. \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\proyectoNombre{} se diferencia por transformar informaci\'on econ\'omica
-oficial de Am\'erica Latina en m\'odulos comparables y conectados. No se limita
-a visualizar datos: incorpora m\'etricas determin\'isticas, hist\'oricos,
-alertas, cruces entre expectativas, inflaci\'on y actividad, y una lectura
-recurrente sobre qu\'e se movi\'o en la regi\'on. Frente a herramientas
-generalistas ofrece menor costo y complejidad; frente a planillas internas o
-soluciones improvisadas con IA aporta trazabilidad, consistencia,
-actualizaci\'on continua, seguridad y una API institucional.
-
-% =====================================================================
-\section{Descripci\'on de la soluci\'on}
-
-\subsection{Perspectiva del producto}
-
-La soluci\'on propuesta es una plataforma SaaS de inteligencia econ\'omica para
-Am\'erica Latina. \proyectoNombre{} transforma informaci\'on oficial, dispersa y
-heterog\'enea en una capa comparable, trazable y actualizada, organizada en
-m\'odulos especializados.
-
-La plataforma obtiene datos desde fuentes oficiales mediante procesos de ingesta
-que identifican la fuente, extraen informaci\'on desde diferentes formatos,
-validan su contenido y normalizan variables, unidades, fechas, frecuencias y
-metodolog\'ias. De esta manera el usuario no necesita mantener procesos propios
-de descarga, limpieza y actualizaci\'on.
-
-Como primera hip\'otesis t\'ecnica, se definir\'a un boceto de arquitectura de
-agentes para los pipelines de extracci\'on. Su objetivo ser\'a coordinar la
-obtenci\'on, interpretaci\'on y validaci\'on de fuentes heterog\'eneas, manteniendo
-controles determin\'isticos de calidad y trazabilidad. La composici\'on de los
-agentes, sus herramientas y su orquestaci\'on se especificar\'an en las Notas de
-Arquitectura y Dise\~no, no en este documento de visi\'on.
-
-Los datos procesados se almacenan en un Data Hub y se organizan por pa\'is,
-variable, per\'iodo, unidad, fuente, fecha de publicaci\'on y versi\'on. Sobre
-esa base se construye una capa de inteligencia con m\'etricas determin\'isticas
-de cambio, momentum, divergencia regional, percentiles hist\'oricos, sorpresa,
-persistencia y distancia frente a metas, adem\'as de cruces entre m\'odulos.
-
-El usuario accede mediante una aplicaci\'on web con \emph{dashboards},
-comparadores, fichas por pa\'is, radar, alertas, \emph{briefings} verificables y
-exportaciones auditables. Las organizaciones tambi\'en pueden utilizar una API
-institucional autenticada para integrar datos y m\'etricas en sus propios
-procesos.
-
-\figuraLEIP{img/arquitectura-contexto.png}{Vista de contexto de \proyectoNombre{}}{fig:contexto}{0.9}
-
-La figura presenta a \proyectoNombre{} como una caja \'unica y muestra las
-fuentes oficiales, el proveedor de pagos y los consumidores de la API como
-entidades externas. El diagrama t\'ecnico completo, incluidas las capas
-Medallion y la arquitectura de agentes, se mantiene en las Notas de Arquitectura.
-
-\subsection{Trazabilidad metodol\'ogica}
-
-Un aspecto central de la soluci\'on es la trazabilidad metodol\'ogica. Cada
-dato, m\'etrica y exportaci\'on conserva su organismo emisor, conjunto de datos,
-URL, fecha de publicaci\'on, versi\'on y criterio de procesamiento.
-
-\proyectoNombre{} distingue expl\'icitamente entre el dato oficial y la
-elaboraci\'on propia. La capa gratuita ofrece acceso consolidado a series que
-los organismos ya publican, siempre con atribuci\'on y enlace a la fuente. La
-propuesta de valor comercial se concentra en los hist\'oricos versionados, la
-normalizaci\'on metodol\'ogica, las comparaciones regionales y las m\'etricas,
-se\~nales y lecturas anal\'iticas desarrolladas por \proyectoNombre{}. Toda
-m\'etrica derivada se identifica como \emph{Elaboraci\'on LEIP con datos de} la
-fuente correspondiente.
-
-Las condiciones de uso se eval\'uan por organismo y conjunto de datos, no por
-pa\'is ni exclusivamente por banco central. Esta trazabilidad forma parte del
-valor para el usuario y de la mitigaci\'on del riesgo regulatorio descrito en la
-secci\'on \ref{sec:restricciones}.
-
-% =====================================================================
-\section{Capacidades del MVP}
+Las capacidades siguientes constituyen el alcance funcional previsto para una
+primera etapa del producto:
 
 \begin{itemize}
-  \item \textbf{Pa\'ises iniciales:} Brasil, M\'exico y Uruguay, utilizando
+  \item \textbf{Pa\'ises cubiertos:} Brasil, M\'exico y Uruguay, utilizando
         fuentes oficiales sujetas a las condiciones de uso de cada organismo.
-  \item \textbf{M\'odulos iniciales:} \modMacro{}, \modPrecios{} y \modActividad{}.
+  \item \textbf{M\'odulos:} \modMacro{}, \modPrecios{} y \modActividad{}.
   \item \textbf{M\'etricas determin\'isticas:} cambios, momentum, divergencias
         regionales, percentiles hist\'oricos, distancia frente a metas,
         sorpresas y persistencia.
-  \item \textbf{Cruces iniciales:} inflaci\'on esperada frente a inflaci\'on
-        observada, y crecimiento esperado frente a actividad efectiva.
+  \item \textbf{Cruces:} inflaci\'on esperada frente a inflaci\'on observada, y
+        crecimiento esperado frente a actividad efectiva.
   \item \textbf{Aplicaci\'on web:} \emph{dashboards}, comparadores, fichas por
         pa\'is, radar, alertas, \emph{briefings} verificables y exportaciones
         auditables.
   \item \textbf{Control de acceso:} autenticaci\'on, roles, permisos y
-        \emph{entitlements} para controlar m\'odulos, pa\'ises y funcionalidades
-        contratadas.
-  \item \textbf{API institucional} autenticada para organizaciones que necesiten
-        integrar datos y m\'etricas en sus propios procesos.
+        \emph{entitlements} para controlar el acceso a m\'odulos, pa\'ises y
+        funcionalidades.
+  \item \textbf{Integraci\'on program\'atica:} acceso autenticado para
+        organizaciones que necesiten incorporar datos y m\'etricas a sus propios
+        procesos.
 \end{itemize}
-
-% =====================================================================
-\section{Modelo de negocio}
-\label{sec:negocio}
-
-El modelo combina acceso \emph{freemium}, contrataci\'on modular, planes
-institucionales y servicios profesionales. La versi\'on gratuita permite
-consultar las series oficiales que ya se encuentran disponibles p\'ublicamente,
-con trazabilidad hacia su origen. Los planes pagos no cobran por el dato oficial
-aislado, sino por el hist\'orico consolidado y versionado, las comparaciones, la
-normalizaci\'on, las m\'etricas propias, los cruces, las alertas, los
-\emph{briefings}, las exportaciones y la API institucional seg\'un corresponda.
-
-\subsection{Planes}
-
-\begin{table}[htbp]
-\centering
-\caption{Planes preliminares}
-\label{tab:planes}
-\begin{tabularx}{\textwidth}{l l X}
-\toprule
-\textbf{Plan} & \textbf{Precio mensual} & \textbf{Valor incluido} \\
-\midrule
-Free              & Sin costo        & Radar resumido y acceso limitado a indicadores y series seleccionadas. \\
-M\'odulo individual & USD 18 por m\'odulo & Acceso completo al m\'odulo elegido. Hasta tres m\'odulos contratables. \\
-Completo          & USD 59           & Todos los m\'odulos, m\'etricas y cruces disponibles. \\
-Team              & USD 349          & Cinco usuarios, plataforma completa, API institucional, administraci\'on centralizada y \emph{dashboard} configurable. \\
-Enterprise        & Desde USD 799    & Soluci\'on configurable, entorno aislado, SLA, soporte prioritario e integraciones espec\'ificas. \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-Los m\'odulos individuales pueden contratarse hasta un m\'aximo de tres; cuando
-el usuario necesita mayor cobertura, migra al plan Completo. Los cruces entre
-dominios est\'an disponibles cuando la cuenta tiene acceso a todos los m\'odulos
-involucrados. Los planes Team y Enterprise se orientan a organizaciones que
-necesitan m\'ultiples usuarios, API institucional, administraci\'on
-centralizada, aislamiento y soporte.
-
-\subsection{Costos y viabilidad}
-
-La estimaci\'on corresponde a un escenario MVP con hasta 500 usuarios, ocho
-actualizaciones mensuales, 50~GB de almacenamiento, 12 horas mensuales de
-mantenimiento t\'ecnico, 10 horas mensuales de administraci\'on y un valor
-estimado del trabajo de USD 15 por hora.
-
-\begin{table}[htbp]
-\centering
-\caption{Costos operativos estimados del MVP}
-\label{tab:costos}
-\begin{tabular}{l r r}
-\toprule
-\textbf{Concepto} & \textbf{Mensual} & \textbf{Anual} \\
-\midrule
-Infraestructura           & USD 90  & USD 1.080 \\
-LLM                       & Por estimar & Por estimar \\
-Mantenimiento t\'ecnico   & USD 180 & USD 2.160 \\
-Administraci\'on operativa & USD 150 & USD 1.800 \\
-\midrule
-\textbf{Subtotal sin LLM} & \textbf{USD 420} & \textbf{USD 5.040} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-La viabilidad b\'asica se eval\'ua con usuarios individuales y planes completos,
-sin depender de vender un contrato Enterprise.
-
-\pendiente{Estimar el costo del LLM a partir de la arquitectura y el volumen real}{Calcular el costo cuando est\'en definidos el primer boceto de
-arquitectura de agentes, los modelos candidatos y el inventario inicial de
-fuentes. La estimaci\'on debe considerar: ejecuciones por fuente y frecuencia,
-tokens de entrada y salida, llamadas por extracci\'on, reintentos, validaciones,
-generaci\'on de briefings y escenarios base, conservador y de estr\'es.}
 
 % =====================================================================
 \section{Asunciones y dependencias}
 
-El proyecto asume las siguientes condiciones. Si alguna no se cumple, el alcance
-del MVP debe revisarse.
+El producto se define bajo las asunciones que se enumeran a continuaci\'on. Si
+alguna de ellas no se cumple, el alcance previsto para la primera etapa debe
+revisarse.
 
 \begin{itemize}
   \item Los organismos oficiales mantienen la publicaci\'on de las series
@@ -813,78 +767,91 @@ del MVP debe revisarse.
         sus cambios son detectables por validaci\'on autom\'atica.
   \item Cada organismo y conjunto de datos habilita el uso previsto por
         \proyectoNombre{} conforme a sus condiciones espec\'ificas. Esta
-        verificaci\'on se mantiene en una matriz de fuentes y no se presume a
+        verificaci\'on se mantiene en la matriz de fuentes y no se presume a
         partir del pa\'is de origen (ver secci\'on \ref{sec:restricciones}).
   \item Existe un proveedor externo de cobros que expone \emph{checkout} alojado
         y notificaciones por \emph{webhook}.
-  \item La infraestructura del proveedor cloud est\'a disponible dentro de los
-        costos estimados en la tabla \ref{tab:costos}.
-  \item El equipo mantiene la dedicaci\'on prevista durante el per\'iodo del
-        proyecto.
+  \item La infraestructura del proveedor de nube est\'a disponible con la
+        capacidad y las condiciones de servicio previstas.
 \end{itemize}
 
-Cada asunci\'on se vincular\'a con su riesgo correspondiente en el documento de
-Lista de Riesgos, donde se registrar\'an probabilidad, impacto y mitigaci\'on.
+Cada asunci\'on se vincula con su riesgo correspondiente en la Lista de
+Riesgos, donde se registran probabilidad, impacto y mitigaci\'on.
 
 % =====================================================================
-\section{Restricciones}
+\section{Restricciones del producto}
 \label{sec:restricciones}
 
-El proyecto enfrenta dos riesgos regulatorios distintos. El riesgo de asesor\'ia
-financiera es bajo por dise\~no, ya que \proyectoNombre{} entrega informaci\'on
-agregada y descriptiva, sin recomendaciones personalizadas. El riesgo relevante
-es cumplir las condiciones de uso aplicables a cada fuente oficial.
+Esta secci\'on re\'une las condiciones t\'ecnicas, operativas, legales y de
+integraci\'on que limitan lo que el producto puede hacer con los datos que
+procesa y con la informaci\'on que entrega.
 
-No existe una licencia \'unica para los datos de un pa\'is ni una fuente \'unica
-que lo represente. Brasil, M\'exico, Uruguay y las futuras incorporaciones
-utilizan bancos centrales, institutos de estad\'istica, ministerios y otros
-organismos. Por ello, cada conjunto de datos debe contar con un registro de
-procedencia que incluya instituci\'on, URL, fecha de consulta, m\'etodo de acceso,
-condiciones de uso y requisitos de atribuci\'on.
+La restricci\'on principal es de origen legal y proviene de las condiciones de
+uso aplicables a cada fuente oficial. Un segundo riesgo regulatorio, el de ser
+interpretado como asesor\'ia financiera, es bajo por dise\~no:
+\proyectoNombre{} entrega informaci\'on agregada y descriptiva, sin
+recomendaciones personalizadas de inversi\'on.
 
-La estrategia de producto distingue tres capas:
+No existe una licencia \'unica para los datos de un pa\'is ni una fuente
+\'unica que lo represente. Brasil, M\'exico, Uruguay y las futuras
+incorporaciones utilizan bancos centrales, institutos de estad\'istica,
+ministerios y otros organismos. Por ello, cada conjunto de datos debe contar
+con un registro de procedencia que incluya instituci\'on, URL, fecha de
+consulta, m\'etodo de acceso, condiciones de uso y requisitos de atribuci\'on.
+
+Seg\'un su origen, la informaci\'on que maneja el producto se somete a
+restricciones distintas:
 
 \begin{itemize}
-  \item \textbf{Dato oficial disponible p\'ublicamente:} puede formar parte de
-        la versi\'on gratuita cuando sus condiciones lo permitan y siempre
-        conserva la referencia a la fuente original.
-  \item \textbf{Hist\'orico consolidado y versionado:} forma parte del valor
-        pago de \proyectoNombre{}, sujeto a que las condiciones de cada conjunto
-        de datos permitan su almacenamiento y presentaci\'on.
-  \item \textbf{M\'etricas y comparaciones propias:} son elaboraciones de
-        \proyectoNombre{} calculadas sobre datos trazables. Deben identificarse
-        como \emph{Elaboraci\'on LEIP con datos de} y no presentarse como
+  \item \textbf{Dato oficial publicado:} puede exponerse cuando las condiciones
+        del organismo lo permitan, y conserva siempre la referencia a la fuente
+        original.
+  \item \textbf{Hist\'orico consolidado y versionado:} su almacenamiento y su
+        presentaci\'on dependen de que las condiciones de cada conjunto de datos
+        habiliten conservar y mostrar versiones anteriores.
+  \item \textbf{M\'etricas y comparaciones propias:} son elaboraciones
+        calculadas sobre datos trazables. Deben identificarse como
+        \emph{Elaboraci\'on LEIP con datos de} y no presentarse como
         indicadores oficiales del organismo emisor.
 \end{itemize}
 
 Las restricciones se aplican fuente por fuente. Una limitaci\'on de un organismo
-afecta solamente los conjuntos de datos obtenidos de ese organismo y no bloquea
-autom\'aticamente todas las fuentes del pa\'is. Del mismo modo, que una serie sea
-p\'ublicamente accesible no sustituye la verificaci\'on de sus condiciones de
-uso para hist\'oricos, exportaciones o redistribuci\'on.
+afecta solamente a los conjuntos de datos obtenidos de ese organismo y no
+bloquea autom\'aticamente todas las fuentes del pa\'is. Del mismo modo, que una
+serie sea p\'ublicamente accesible no sustituye la verificaci\'on de sus
+condiciones de uso para hist\'oricos, exportaciones o redistribuci\'on.
 
 Otras restricciones del producto:
 
 \begin{itemize}
   \item \proyectoNombre{} no almacena ni procesa directamente datos de tarjetas
         de pago; el cobro se delega \'integramente a un proveedor externo.
-  \item Las fuentes privadas de clientes institucionales se procesan en entornos
-        aislados y no se mezclan con la informaci\'on de otros clientes.
-  \item Los activos de mercado quedan expl\'icitamente fuera del alcance
-        inicial.
+  \item Las fuentes privadas que aporten las organizaciones cliente se procesan
+        en entornos aislados y no se mezclan con la informaci\'on de otras
+        organizaciones.
+  \item La plataforma no genera datos propios ni completa vac\'ios de las
+        fuentes: si un organismo no publica una serie, esa serie no est\'a
+        disponible en el producto.
 \end{itemize}
 
-La matriz de fuentes ser\'a un registro vivo del producto. Para cada conjunto de
-datos documentar\'a instituci\'on, URL, fecha de consulta, condiciones de uso,
-atribuci\'on requerida y reglas aplicables al almacenamiento, transformaci\'on,
-hist\'oricos, exportaci\'on y redistribuci\'on. Su alcance no se limita a BCB,
-Banxico, BCU o BCCh.
+El cumplimiento de estas restricciones se apoya en la matriz de fuentes, un
+registro que se mantiene actualizado durante toda la vida del producto. Para
+cada conjunto de datos deja asentados la instituci\'on emisora, la URL, la
+fecha de consulta, las condiciones de uso, la atribuci\'on requerida y qu\'e
+est\'a permitido hacer con \'el en materia de almacenamiento, transformaci\'on,
+hist\'oricos, exportaci\'on y redistribuci\'on. Ning\'un conjunto de datos se
+incorpora al producto sin su entrada correspondiente en esa matriz.
 
 % =====================================================================
 \section{Rangos de calidad}
 
+Los rangos de calidad son los umbrales medibles que debe alcanzar el producto
+para considerarse aceptable en operaci\'on. Una vez definidos, se traducen en
+requerimientos no funcionales numerados en la Especificaci\'on de
+Requerimientos.
+
 \pendiente{Definir los rangos de calidad y sus umbrales medibles}{Secci\'on a completar. Definir los umbrales medibles que hacen
-aceptable al producto. Candidatos a discutir con el tutor:
+aceptable al producto. Dimensiones candidatas:
 \begin{itemize}
   \item \textbf{Frescura del dato:} m\'aximo de horas entre la publicaci\'on de
         la fuente y su disponibilidad en la plataforma.
@@ -897,36 +864,59 @@ aceptable al producto. Candidatos a discutir con el tutor:
   \item \textbf{Tiempo de respuesta} de una consulta comparativa en el
         \emph{dashboard}.
   \item \textbf{Disponibilidad} del servicio.
-\end{itemize}
-Estos umbrales se convierten despu\'es en requerimientos no funcionales
-numerados en el Documento de Alcance.}
+\end{itemize}}
 
 % =====================================================================
-\section{Prioridad y evoluci\'on posterior al MVP}
+\section{Criterios de priorizaci\'on}
 
-El desarrollo prioriza en el siguiente orden:
+El orden en que se construyen las capacidades del producto no es arbitrario:
+responde a los criterios que se enuncian a continuaci\'on, aplicados en el orden
+en que se presentan.
+
+\begin{itemize}
+  \item \textbf{Dependencia t\'ecnica.} Una capacidad no puede construirse antes
+        que aquellas de las que depende. La ingesta y la normalizaci\'on
+        preceden a toda la capa de inteligencia, porque sin datos comparables no
+        hay m\'etrica posible.
+  \item \textbf{Cobertura del n\'ucleo del problema.} Tiene prioridad lo que
+        resuelve directamente la dificultad descrita en la definici\'on del
+        problema, frente a lo que agrega alcance sobre un problema ya resuelto.
+  \item \textbf{Habilitaci\'on de capacidades posteriores.} Se adelanta aquello
+        que desbloquea varias funciones siguientes; un m\'odulo que habilita
+        cruces vale m\'as, en orden de construcci\'on, que uno que se agota en
+        s\'i mismo.
+  \item \textbf{Sostenimiento del uso recurrente.} Entre dos capacidades
+        equivalentes, se prioriza la que sostiene el uso peri\'odico del
+        producto sobre la que se utiliza de forma puntual.
+  \item \textbf{Relaci\'on entre esfuerzo y valor.} A igualdad de aporte, se
+        elige la alternativa de menor esfuerzo de construcci\'on y
+        mantenimiento.
+\end{itemize}
+
+Aplicando estos criterios, el orden de construcci\'on previsto es el siguiente:
 
 \begin{enumerate}
-  \item M\'odulo \modMacro{} sobre los tres pa\'ises del MVP, como n\'ucleo del
-        producto y base de la validaci\'on.
+  \item M\'odulo \modMacro{} sobre los tres pa\'ises cubiertos, como n\'ucleo
+        del producto.
   \item M\'odulos \modPrecios{} y \modActividad{}, que habilitan los dos cruces
         iniciales.
-  \item Radar, alertas y exportaciones, que sostienen el uso recurrente y la
-        conversi\'on desde el plan gratuito.
-  \item API institucional y aislamiento multi-\emph{tenant}, requeridos por los
-        planes Team y Enterprise.
+  \item Radar, alertas y exportaciones, que sostienen el uso recurrente.
+  \item Integraci\'on program\'atica y aislamiento multi-\emph{tenant},
+        requeridos por las organizaciones que incorporan el producto a sus
+        sistemas.
 \end{enumerate}
 
-Quedan fuera del MVP y se consideran para fases posteriores: los m\'odulos de
-riesgo fiscal, sector externo y condiciones monetarias y financieras; los
-activos de mercado; y la incorporaci\'on de Chile, condicionada a obtener
-permiso expl\'icito del BCCh.
+Quedan fuera de la primera etapa y se abordan en etapas posteriores: los
+m\'odulos de riesgo fiscal, sector externo y condiciones monetarias y
+financieras; los activos de mercado; y la incorporaci\'on de Chile,
+condicionada a obtener autorizaci\'on expresa del BCCh.
 
 % =====================================================================
 \section{Requerimientos de documentaci\'on}
 
-El producto estar\'a acompa\~nado por la documentaci\'on necesaria para que sus
-datos, m\'etricas y mecanismos de acceso puedan utilizarse y auditarse:
+El producto est\'a acompa\~nado por la documentaci\'on necesaria para que sus
+datos, m\'etricas y mecanismos de acceso puedan utilizarse y auditarse. Los
+documentos que se incluir\'an son los siguientes:
 
 \begin{itemize}
   \item \textbf{Gu\'ia de usuario:} navegaci\'on, consultas, comparaciones,
@@ -935,18 +925,22 @@ datos, m\'etricas y mecanismos de acceso puedan utilizarse y auditarse:
         frecuencia, fecha de consulta y condiciones de uso.
   \item \textbf{Diccionario de datos:} variables, unidades, frecuencias,
         horizontes, campos de trazabilidad y reglas de normalizaci\'on.
-  \item \textbf{Notas metodol\'ogicas:} definici\'on, f\'ormula, interpretaci\'on,
-        limitaciones y fuentes de cada m\'etrica propia.
-  \item \textbf{Documentaci\'on de API:} autenticaci\'on, endpoints, par\'ametros,
-        esquemas, l\'imites y ejemplos de respuesta.
-  \item \textbf{Historial de cambios:} nuevas fuentes, revisiones metodol\'ogicas
-        y modificaciones relevantes del producto.
+  \item \textbf{Notas metodol\'ogicas:} definici\'on, f\'ormula,
+        interpretaci\'on, limitaciones y fuentes de cada m\'etrica propia.
+  \item \textbf{Documento de integraci\'on con el sistema:} mecanismos de
+        comunicaci\'on e integraci\'on que el producto pone a disposici\'on de
+        sistemas externos, con sus condiciones de acceso, autenticaci\'on,
+        par\'ametros, esquemas de respuesta, l\'imites de uso y ejemplos, con
+        independencia de la tecnolog\'ia con la que se implementen.
+  \item \textbf{Historial de cambios:} nuevas fuentes, revisiones
+        metodol\'ogicas y modificaciones relevantes del producto.
 \end{itemize}
 
-Para el MVP son obligatorios la gu\'ia b\'asica, el cat\'alogo de fuentes, el
-diccionario de datos y las notas metodol\'ogicas de las m\'etricas implementadas.
-La documentaci\'on completa de la API se publica cuando se habilite el acceso
-institucional.
+Para la primera etapa son obligatorios la gu\'ia b\'asica, el cat\'alogo de
+fuentes, el diccionario de datos y las notas metodol\'ogicas de las m\'etricas
+implementadas. El documento de integraci\'on se publica cuando se habilite el
+acceso desde sistemas externos. Todos ellos se mantienen actualizados a medida
+que el producto evoluciona.
 
 % =====================================================================
 \clearpage

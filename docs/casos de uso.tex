@@ -14,8 +14,8 @@
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
 \newcommand{\docVersion}{1.0}
-\newcommand{\docTitulo}{Casos de Uso}
-\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\docTitulo}{Especificaci\'on de Casos de Uso}
+\newcommand{\docFecha}{Septiembre 2026}
 
 % ---------------------------------------------------------------------
 %  PREAMBULO
@@ -67,10 +67,18 @@
 \titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
 
 % --- Portada -----------------------------------------------------------
+\newcommand{\logoUniversidad}{img/logo-ucu.png}
 \newcommand{\portada}[1]{%
   \begin{titlepage}
   \centering
-  \vspace*{2cm}
+  \vspace*{1.5cm}
+  \IfFileExists{\logoUniversidad}{%
+    \includegraphics[width=0.40\textwidth]{\logoUniversidad}\par
+    \vspace{1.2cm}%
+  }{%
+    \fbox{\parbox[c][3cm][c]{0.5\textwidth}{\centering\small\texttt{\logoUniversidad}}}\par
+    \vspace{1.2cm}%
+  }
   {\Large \proyectoUniversidad\par}
   {\large \proyectoFacultad\par}
   {\large \proyectoCarrera\par}
@@ -82,8 +90,6 @@
   {\large Versi\'on \docVersion\par}
   {\large \docFecha\par}
   \vfill
-  {\large\bfseries Integrantes\par}
-  \vspace{0.3cm}
   \begin{tabular}{c}
     Sebastian Forische \\
     Armando Hernandez de la Vega \\
@@ -189,7 +195,7 @@
 
 \begin{document}
 
-\portada{Especificaci\'on de Casos de Uso}
+\portada{\docTitulo}
 
 \tableofcontents
 \bigskip
@@ -293,8 +299,8 @@ CU05.06 & Dashboard y An\'alisis & Visualizar ranking regional \\
 CU05.07 & Dashboard y An\'alisis & Guardar consulta o vista frecuente \\
 CU05.08 & Dashboard y An\'alisis & Configurar dashboard personalizado \\
 \midrule
-CU06.01 & Radar de Expectativas & Consultar radar resumido (plan Free) \\
-CU06.02 & Radar de Expectativas & Consultar radar completo (plan pago) \\
+CU06.01 & Radar de Expectativas & Consultar radar resumido (acceso sin suscripci\'on) \\
+CU06.02 & Radar de Expectativas & Consultar radar completo (acceso contratado) \\
 CU06.03 & Radar de Expectativas & Recibir alerta peri\'odica del radar \\
 CU06.04 & Radar de Expectativas & Consultar briefing verificable \\
 \midrule
@@ -307,7 +313,7 @@ CU08.03 & Exportaci\'on y Reportes & Consultar datos y m\'etricas v\'ia API para
 CU08.04 & Exportaci\'on y Reportes & Generar reporte recurrente programado \\
 \midrule
 CU09.01 & Administraci\'on & Gestionar organizaciones \\
-CU09.02 & Administraci\'on & Gestionar planes, m\'odulos y precios \\
+CU09.02 & Administraci\'on & Gestionar planes y m\'odulos contratables \\
 CU09.03 & Administraci\'on & Gestionar permisos y entitlements \\
 CU09.04 & Administraci\'on & Consultar registros de auditor\'ia \\
 CU09.05 & Administraci\'on & Gestionar bloqueo de pa\'ises o fuentes por restricci\'on regulatoria \\

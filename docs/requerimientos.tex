@@ -13,9 +13,9 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.0}
-\newcommand{\docTitulo}{Requerimientos}
-\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\docVersion}{1.1}
+\newcommand{\docTitulo}{Especificaci\'on de Requerimientos}
+\newcommand{\docFecha}{Septiembre 2026}
 \newcommand{\modMacro}{Macro Expectations Intelligence}
 \newcommand{\modPrecios}{Prices \& Inflation Intelligence}
 \newcommand{\modActividad}{Real Activity Intelligence}
@@ -74,10 +74,18 @@
 \titleformat{\subsubsection}{\normalsize\bfseries\color{leipGris}}{\thesubsubsection}{0.6em}{}
 
 % --- Portada -----------------------------------------------------------
+\newcommand{\logoUniversidad}{img/logo-ucu.png}
 \newcommand{\portada}[1]{%
   \begin{titlepage}
   \centering
-  \vspace*{2cm}
+  \vspace*{1.5cm}
+  \IfFileExists{\logoUniversidad}{%
+    \includegraphics[width=0.40\textwidth]{\logoUniversidad}\par
+    \vspace{1.2cm}%
+  }{%
+    \fbox{\parbox[c][3cm][c]{0.5\textwidth}{\centering\small\texttt{\logoUniversidad}}}\par
+    \vspace{1.2cm}%
+  }
   {\Large \proyectoUniversidad\par}
   {\large \proyectoFacultad\par}
   {\large \proyectoCarrera\par}
@@ -89,8 +97,6 @@
   {\large Versi\'on \docVersion\par}
   {\large \docFecha\par}
   \vfill
-  {\large\bfseries Integrantes\par}
-  \vspace{0.3cm}
   \begin{tabular}{c}
     Sebastian Forische \\
     Armando Hernandez de la Vega \\
@@ -137,14 +143,41 @@
 \portada{\docTitulo}
 
 \begin{historial}
-1.0 & 31/08/2026 & Versión inicial. Extracción de requerimientos desde Alcance & Armando \\
+1.0 & 31/08/2026 & Versión inicial. Extracción de requerimientos desde el Documento de Visión & Armando \\
+1.1 & 11/09/2026 & Se agregan introducción, alcance y convenciones. Se retira el término MVP y se reformulan los requerimientos que dependían de nombres comerciales de planes & Equipo \\
 \end{historial}
 
 \tableofcontents
 \clearpage
 
 % =====================================================================
-\section{Convención de identificadores}
+\section{Introducción}
+
+\subsection{Propósito}
+
+Este documento especifica, de forma numerada y verificable, qué debe hacer
+\proyectoNombre{} y bajo qué condiciones debe hacerlo. Traduce a requerimientos
+concretos las capacidades y restricciones descritas en el Documento de Visión, y
+constituye la referencia contra la cual se especifican los casos de uso, se
+diseña la arquitectura y se verifica el producto.
+
+Este documento es la versión vigente de los requerimientos. No se considera
+cerrado: se actualiza cada vez que se agrega, modifica o retira un
+requerimiento, y cada cambio queda asentado en el historial de revisiones.
+
+\subsection{Alcance del documento}
+
+El documento cubre los requerimientos funcionales del sistema de datos, la capa
+de inteligencia y la aplicación web, y los requerimientos no funcionales de
+trazabilidad, seguridad, aislamiento y cumplimiento.
+
+No cubre la descripción paso a paso de las interacciones, que corresponde a la
+Especificación de Casos de Uso, ni las decisiones técnicas con las que se
+satisfacen estos requerimientos, que corresponden a las Notas de Arquitectura y
+Diseño. Tampoco cubre los aspectos comerciales del producto, que se desarrollan
+en el Documento de Negocio.
+
+\subsection{Convención de identificadores}
 
 Los requerimientos se identifican como \textbf{RF-nn} (funcionales) y
 \textbf{RNF-nn} (no funcionales). Estos identificadores son estables: una vez
@@ -156,14 +189,24 @@ identificadores.
 \section{Requerimientos funcionales}
 \label{sec:rf}
 
+Los requerimientos funcionales describen qué debe hacer el sistema. Se agrupan
+en tres bloques que siguen el recorrido de la información dentro del producto:
+el sistema de datos, que obtiene y normaliza la información oficial; la capa de
+inteligencia, que calcula sobre ella; y la aplicación web, a través de la cual
+el usuario accede al resultado.
+
 % ---------------------------------------------------------------------
 \subsection{Sistema de datos}
+
+Este bloque cubre el recorrido de un dato desde la publicación del organismo
+emisor hasta quedar disponible para el cálculo: cómo se obtiene, cómo se lleva
+al modelo común y qué controles atraviesa antes de publicarse.
 
 \subsubsection{Ingesta de fuentes oficiales}
 
 \rf{ingesta-obtener}{El sistema debe obtener informaci\'on econ\'omica oficial
-para los m\'odulos incluidos en el MVP, desde las fuentes definidas para cada
-pa\'is.}
+para los m\'odulos incluidos en la primera etapa, desde las fuentes definidas
+para cada pa\'is.}
 
 \rf{ingesta-programada}{El sistema debe ejecutar actualizaciones autom\'aticas
 seg\'un la frecuencia de publicaci\'on de cada fuente.}
@@ -195,6 +238,10 @@ errores y correcciones.}
 
 % ---------------------------------------------------------------------
 \subsection{Capa de inteligencia}
+
+Este bloque cubre lo que el sistema calcula sobre los datos ya normalizados: las
+métricas propias, las comparaciones entre países y las señales analíticas
+derivadas de ambas.
 
 \subsubsection{Métricas}
 
@@ -236,6 +283,11 @@ resumen debe derivarse exclusivamente de m\'etricas ya calculadas y validadas.}
 
 % ---------------------------------------------------------------------
 \subsection{Aplicación web}
+
+Este bloque cubre aquello con lo que el usuario interactúa directamente: el
+acceso a su cuenta, el control de permisos según lo contratado, la consulta y
+visualización de la información, y las vías por las que se lleva el resultado
+fuera de la plataforma.
 
 \subsubsection{Autenticación y usuarios}
 
@@ -293,16 +345,17 @@ visualizada, su fuente, fecha, versi\'on y nota metodol\'ogica.}
 principales cambios econ\'omicos de Am\'erica Latina.}
 
 \rf{radar-free}{El sistema debe mostrar una versi\'on resumida del radar a los
-usuarios del plan Free, sin requerir contrataci\'on.}
+usuarios sin suscripci\'on vigente, sin requerir contrataci\'on.}
 
 \rf{radar-pago}{El sistema debe mostrar la versi\'on completa del radar, las
-alertas y los \emph{briefings} a los usuarios con plan de pago vigente.}
+alertas y los \emph{briefings} a los usuarios cuya suscripci\'on habilite esas
+funcionalidades.}
 
 \subsubsection{Exportación y uso de resultados}
 
-\rf{exp-resultados}{El sistema debe permitir a los usuarios de planes
-profesionales exportar resultados transformados para an\'alisis, estudio o
-reportes personales.}
+\rf{exp-resultados}{El sistema debe permitir exportar resultados transformados
+para an\'alisis, estudio o reportes a los usuarios cuya suscripci\'on habilite
+la exportaci\'on.}
 
 \rf{exp-formatos}{El sistema debe permitir descargar informaci\'on en formatos
 de uso corriente, como Excel y PDF.}
@@ -313,7 +366,7 @@ fecha, versi\'on y nota metodol\'ogica de los datos y m\'etricas exportados.}
 \rf{exp-consultas}{El sistema debe permitir guardar consultas frecuentes para
 facilitar el seguimiento recurrente de expectativas.}
 
-\subsubsection{API institucional y fuentes privadas}
+\subsubsection{Integración programática y fuentes privadas}
 
 \rf{api-consulta}{El sistema debe permitir a las instituciones consultar datos y
 m\'etricas mediante una API autenticada, con cuotas, l\'imites y permisos seg\'un
@@ -327,9 +380,16 @@ otros clientes.}
 \section{Requerimientos no funcionales}
 \label{sec:rnf}
 
-Los siguientes requerimientos condicionan las decisiones de arquitectura. Cada
-decisi\'on documentada en Notas de Arquitectura y Dise\~no debe indicar a
-cu\'al de estos responde.
+Los requerimientos no funcionales describen cómo debe comportarse el sistema al
+cumplir lo anterior: con qué nivel de trazabilidad, seguridad, aislamiento y
+cumplimiento normativo. No agregan funcionalidad visible, pero condicionan las
+decisiones de arquitectura: cada decisión documentada en las Notas de
+Arquitectura y Diseño debe indicar a cuál de estos responde.
+
+Los umbrales medibles de calidad ---frescura del dato, autonomía de la ingesta,
+cobertura de trazabilidad, tasa de cuarentena, tiempo de respuesta y
+disponibilidad--- se incorporarán a esta sección como requerimientos numerados
+una vez que queden definidos en el Documento de Visión.
 
 \subsection{Trazabilidad y auditoría}
 

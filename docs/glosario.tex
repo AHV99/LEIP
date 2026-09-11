@@ -13,9 +13,9 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.0}
+\newcommand{\docVersion}{1.1}
 \newcommand{\docTitulo}{Glosario y Acr\'onimos}
-\newcommand{\docFecha}{Agosto 2026}
+\newcommand{\docFecha}{Septiembre 2026}
 
 % ---------------------------------------------------------------------
 % PREAMBULO
@@ -38,6 +38,7 @@
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
+\usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 \usepackage{url}
@@ -57,10 +58,18 @@
 \titleformat{\section}{\Large\bfseries\color{leipAzul}}{\thesection}{0.6em}{}
 \titleformat{\subsection}{\large\bfseries\color{leipAzul}}{\thesubsection}{0.6em}{}
 
+\newcommand{\logoUniversidad}{img/logo-ucu.png}
 \newcommand{\portada}[1]{%
   \begin{titlepage}
   \centering
-  \vspace*{2cm}
+  \vspace*{1.5cm}
+  \IfFileExists{\logoUniversidad}{%
+    \includegraphics[width=0.40\textwidth]{\logoUniversidad}\par
+    \vspace{1.2cm}%
+  }{%
+    \fbox{\parbox[c][3cm][c]{0.5\textwidth}{\centering\small\texttt{\logoUniversidad}}}\par
+    \vspace{1.2cm}%
+  }
   {\Large \proyectoUniversidad\par}
   {\large \proyectoFacultad\par}
   {\large \proyectoCarrera\par}
@@ -72,8 +81,6 @@
   {\large Versi\'on \docVersion\par}
   {\large \docFecha\par}
   \vfill
-  {\large\bfseries Integrantes\par}
-  \vspace{0.3cm}
   \begin{tabular}{c}
     Sebastian Forische \\
     Armando Hernandez de la Vega \\
@@ -82,6 +89,20 @@
   \end{tabular}
   \vspace{1.5cm}
   \end{titlepage}
+}
+
+% --- Historial de revisiones -------------------------------------------
+\newenvironment{historial}{%
+  \section*{Historial de revisiones}
+  \addcontentsline{toc}{section}{Historial de revisiones}
+  \begin{tabular}{@{}l l p{0.52\textwidth} l@{}}
+  \toprule
+  \textbf{Versi\'on} & \textbf{Fecha} & \textbf{Descripci\'on} & \textbf{Autor} \\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+  \bigskip
 }
 
 \newenvironment{glosario}{%
@@ -104,13 +125,29 @@
 
 \begin{document}
 
-\portada{Glosario y Acr\'onimos}
+\portada{\docTitulo}
 
 \tableofcontents
 \clearpage
 
+\begin{historial}
+1.0 & 26/06/2026 & Versi\'on inicial del glosario & Equipo \\
+1.1 & 11/09/2026 & Alineaci\'on terminol\'ogica con el Documento de Visi\'on: se retira el t\'ermino MVP, se incorporan primera etapa, integraci\'on program\'atica y matriz de fuentes & Equipo \\
+\end{historial}
+\clearpage
 
 \section{Glosario general}
+
+Este glosario re\'une los t\'erminos, siglas y convenciones de nomenclatura que
+se utilizan en toda la documentaci\'on de \proyectoNombre{}. Su prop\'osito es
+que un mismo concepto se nombre siempre de la misma forma y tenga una \'unica
+definici\'on de referencia, evitando que cada documento la repita o la
+redefina. Se mantiene actualizado: cuando un documento incorpora un t\'ermino
+nuevo o cambia el significado de uno existente, el cambio se refleja aqu\'i.
+
+La tabla siguiente presenta los t\'erminos ordenados alfab\'eticamente, con su
+definici\'on y, cuando corresponde, el contexto de \proyectoNombre{} en el que
+se aplica.
 
 \begin{glosario}
 
@@ -156,7 +193,7 @@ Banxico & Banco de M\'exico. Fuente oficial considerada para informaci\'on econ\
 BCB & Banco Central do Brasil. Fuente oficial considerada para informaci\'on econ\'omica de Brasil. \\
 \addlinespace
 
-BCCh & Banco Central de Chile. Fuente considerada para Chile; su incorporaci\'on comercial queda fuera del MVP mientras no exista permiso expl\'icito suficiente para el uso previsto. \\
+BCCh & Banco Central de Chile. Fuente considerada para Chile; su incorporaci\'on queda fuera de la primera etapa mientras no exista autorizaci\'on expresa suficiente para el uso previsto. \\
 \addlinespace
 
 BCU & Banco Central del Uruguay. Fuente oficial considerada para informaci\'on econ\'omica de Uruguay. \\
@@ -207,7 +244,7 @@ CP-nn & Identificador secuencial de un caso de prueba, por ejemplo CP-01 o CP-02
 Criterio de aceptaci\'on & Condici\'on verificable que debe cumplirse para considerar aceptado un requerimiento, tarea, entregable o funcionalidad. \\
 \addlinespace
 
-Cruce entre m\'odulos & Relaci\'on anal\'itica calculada entre informaci\'on de dominios diferentes. En el MVP se contemplan inflaci\'on esperada frente a observada y crecimiento esperado frente a actividad efectiva. \\
+Cruce entre m\'odulos & Relaci\'on anal\'itica calculada entre informaci\'on de dominios diferentes. En la primera etapa se contemplan inflaci\'on esperada frente a observada y crecimiento esperado frente a actividad efectiva. \\
 \addlinespace
 
 CSV & \emph{Comma-Separated Values}. Uno de los formatos que el sistema puede ingerir y transformar hacia el modelo com\'un. \\
@@ -309,6 +346,9 @@ INEGI & Instituto Nacional de Estad\'istica y Geograf\'ia de M\'exico. Organismo
 Inmutable & Propiedad de un archivo o respuesta original que se conserva sin modificaciones posteriores, especialmente en la capa Bronze. \\
 \addlinespace
 
+Integraci\'on program\'atica & Mecanismo por el cual un sistema externo consulta datos y m\'etricas de \proyectoNombre{} de forma automatizada, sin intervenci\'on manual. En la arquitectura propuesta se implementa mediante la API institucional. \\
+\addlinespace
+
 Issue & Unidad de trabajo registrada en Jira. Puede representar una tarea, seguimiento, correcci\'on u otro elemento operativo del backlog. \\
 \addlinespace
 
@@ -333,6 +373,9 @@ LLM & \emph{Large Language Model}. Modelo de lenguaje utilizado en la arquitectu
 Macro Expectations Intelligence & M\'odulo inicial orientado al tratamiento y an\'alisis de expectativas macroecon\'omicas. \\
 \addlinespace
 
+Matriz de fuentes & Registro vivo que documenta, para cada conjunto de datos incorporado, la instituci\'on emisora, la URL, la fecha de consulta, el m\'etodo de acceso, las condiciones de uso, la atribuci\'on requerida y qu\'e est\'a permitido hacer con \'el en materia de almacenamiento, transformaci\'on, hist\'oricos, exportaci\'on y redistribuci\'on. Ning\'un conjunto de datos se incorpora al producto sin su entrada correspondiente. \\
+\addlinespace
+
 Matriz de trazabilidad & Relaci\'on documentada entre casos de uso, requerimientos y casos de prueba para verificar que el alcance especificado pueda ser comprobado. \\
 \addlinespace
 
@@ -352,9 +395,6 @@ M\'odulo individual & Plan que brinda acceso completo al m\'odulo contratado; el
 \addlinespace
 
 Momentum & M\'etrica de aceleraci\'on o desaceleraci\'on de una serie respecto de su tendencia. \\
-\addlinespace
-
-MVP & \emph{Minimum Viable Product}. Alcance m\'inimo del producto que entrega valor al usuario y permite validar la propuesta. \\
 \addlinespace
 
 Nivel de riesgo & Resultado de la evaluaci\'on conjunta de probabilidad e impacto. La plantilla de riesgos lo plantea como probabilidad multiplicada por impacto. \\
@@ -394,6 +434,9 @@ Precondici\'on & Estado o condici\'on que debe cumplirse antes de iniciar un cas
 \addlinespace
 
 Prices \& Inflation Intelligence & M\'odulo inicial orientado a precios e inflaci\'on. \\
+\addlinespace
+
+Primera etapa & Alcance inicial del producto: los pa\'ises, m\'odulos y capacidades que se construyen primero, definidos en el Documento de Visi\'on. Lo que queda fuera se aborda en etapas posteriores; la expresi\'on sustituye al t\'ermino MVP en toda la documentaci\'on. \\
 \addlinespace
 
 Probabilidad & Estimaci\'on de la posibilidad de ocurrencia de un riesgo. \\
@@ -480,7 +523,7 @@ Trazabilidad metodol\'ogica & Registro que vincula cada dato o m\'etrica con su 
 URL & \emph{Uniform Resource Locator}. Direcci\'on utilizada para identificar la ubicaci\'on de una fuente o recurso y conservar su procedencia. \\
 \addlinespace
 
-USD & D\'olar estadounidense. Moneda utilizada en las estimaciones preliminares de precios y costos del proyecto. \\
+USD & D\'olar estadounidense. Moneda utilizada en las estimaciones preliminares de precios y costos del Documento de Negocio. \\
 \addlinespace
 
 Webhook & Notificaci\'on enviada autom\'aticamente por un sistema externo cuando ocurre un evento. En \proyectoNombre{} se utiliza para recibir cambios de estado de una suscripci\'on desde el proveedor de pagos. \\
