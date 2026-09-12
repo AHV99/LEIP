@@ -13,7 +13,7 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.1}
+\newcommand{\docVersion}{1.2}
 \newcommand{\docTitulo}{Glosario y Acr\'onimos}
 \newcommand{\docFecha}{Septiembre 2026}
 
@@ -133,6 +133,7 @@
 \begin{historial}
 1.0 & 26/06/2026 & Versi\'on inicial del glosario & Equipo \\
 1.1 & 11/09/2026 & Alineaci\'on terminol\'ogica con el Documento de Visi\'on: se retira el t\'ermino MVP, se incorporan primera etapa, integraci\'on program\'atica y matriz de fuentes & Equipo \\
+1.2 & 12/09/2026 & Revisi\'on de redacci\'on: se retiran los atenuantes de las entradas cuya decisi\'on ya est\'a tomada & Equipo \\
 \end{historial}
 \clearpage
 
@@ -142,12 +143,10 @@ Este glosario re\'une los t\'erminos, siglas y convenciones de nomenclatura que
 se utilizan en toda la documentaci\'on de \proyectoNombre{}. Su prop\'osito es
 que un mismo concepto se nombre siempre de la misma forma y tenga una \'unica
 definici\'on de referencia, evitando que cada documento la repita o la
-redefina. Se mantiene actualizado: cuando un documento incorpora un t\'ermino
-nuevo o cambia el significado de uno existente, el cambio se refleja aqu\'i.
+redefina.
 
 La tabla siguiente presenta los t\'erminos ordenados alfab\'eticamente, con su
-definici\'on y, cuando corresponde, el contexto de \proyectoNombre{} en el que
-se aplica.
+definici\'on y el contexto de \proyectoNombre{} en el que se aplica.
 
 \begin{glosario}
 
@@ -175,10 +174,10 @@ API REST & API expuesta por el backend siguiendo el estilo REST (\emph{Represent
 Auditor\'ia / registro de auditor\'ia & Registro de acciones, ejecuciones y cambios relevantes que permite reconstruir qu\'e ocurri\'o sobre los datos o el sistema. \\
 \addlinespace
 
-Azure Blob Storage & Servicio de almacenamiento de objetos previsto para conservar archivos originales, documentos hist\'oricos, datos en cuarentena y exportaciones. \\
+Azure Blob Storage & Servicio de almacenamiento de objetos donde se conservan los archivos originales, documentos hist\'oricos, datos en cuarentena y exportaciones. \\
 \addlinespace
 
-Azure Container Apps & Servicio previsto para desplegar los contenedores Docker de los distintos componentes de \proyectoNombre{}, facilitando su desacoplamiento, despliegue y escalabilidad. \\
+Azure Container Apps & Servicio sobre el que se despliegan los contenedores Docker de los distintos componentes de \proyectoNombre{}, facilitando su desacoplamiento, despliegue y escalabilidad. \\
 \addlinespace
 
 Backend & Parte del sistema que concentra la l\'ogica de negocio, autenticaci\'on, permisos, suscripciones y comunicaci\'on con la base de datos y los servicios de procesamiento. En la arquitectura propuesta se implementa con Node.js. \\
@@ -187,16 +186,16 @@ Backend & Parte del sistema que concentra la l\'ogica de negocio, autenticaci\'o
 Backlog & Conjunto priorizado de tareas y trabajo pendiente del proyecto. Jira es la fuente oficial para su administraci\'on. \\
 \addlinespace
 
-Banxico & Banco de M\'exico. Fuente oficial considerada para informaci\'on econ\'omica de M\'exico. \\
+Banxico & Banco de M\'exico. Fuente oficial de la informaci\'on econ\'omica de M\'exico. \\
 \addlinespace
 
-BCB & Banco Central do Brasil. Fuente oficial considerada para informaci\'on econ\'omica de Brasil. \\
+BCB & Banco Central do Brasil. Fuente oficial de la informaci\'on econ\'omica de Brasil. \\
 \addlinespace
 
-BCCh & Banco Central de Chile. Fuente considerada para Chile; su incorporaci\'on queda fuera de la primera etapa mientras no exista autorizaci\'on expresa suficiente para el uso previsto. \\
+BCCh & Banco Central de Chile. Fuente oficial de la informaci\'on econ\'omica de Chile; queda fuera de la primera etapa hasta obtener autorizaci\'on expresa para el uso previsto. \\
 \addlinespace
 
-BCU & Banco Central del Uruguay. Fuente oficial considerada para informaci\'on econ\'omica de Uruguay. \\
+BCU & Banco Central del Uruguay. Fuente oficial de la informaci\'on econ\'omica de Uruguay. \\
 \addlinespace
 
 BI & \emph{Business Intelligence}. Conjunto de herramientas de inteligencia de negocios utilizadas para analizar y visualizar informaci\'on; Power BI se menciona como ejemplo en los documentos. \\
@@ -226,7 +225,7 @@ Checksum & Valor de verificaci\'on registrado durante la ingesta para ayudar a i
 Checkout & Interfaz de pago alojada por un proveedor externo. \proyectoNombre{} delega all\'i el procesamiento de pagos y no almacena ni procesa directamente datos de tarjetas. \\
 \addlinespace
 
-CI/CD & \emph{Continuous Integration / Continuous Delivery or Deployment}. Proceso de integraci\'on y despliegue continuo previsto mediante GitHub Actions. \\
+CI/CD & \emph{Continuous Integration / Continuous Delivery or Deployment}. Proceso de integraci\'on y despliegue continuo, implementado con GitHub Actions. \\
 \addlinespace
 
 Completo & Plan que brinda acceso a todos los m\'odulos, m\'etricas y cruces disponibles. \\
@@ -319,7 +318,7 @@ Gantt de Iteraci\'on & Artefacto de planificaci\'on que representa la distribuci
 GitHub & Sistema utilizado para control de versiones, colaboraci\'on, revisi\'on de c\'odigo, incidencias y conservaci\'on del historial de cambios. \\
 \addlinespace
 
-GitHub Actions & Herramienta prevista para implementar el proceso de CI/CD del proyecto. \\
+GitHub Actions & Herramienta con la que se implementa el proceso de CI/CD. \\
 \addlinespace
 
 Gold & Capa del patr\'on Medallion que contiene m\'etricas, cruces y se\~nales preparadas para dashboards, alertas, briefings, exportaciones y APIs. \\
@@ -391,7 +390,7 @@ Microsoft Teams & Herramienta utilizada para comunicaci\'on, videollamadas, grab
 Mitigaci\'on & Acci\'on destinada a reducir la probabilidad de ocurrencia de un riesgo o disminuir su impacto. \\
 \addlinespace
 
-M\'odulo individual & Plan que brinda acceso completo al m\'odulo contratado; el modelo preliminar permite contratar hasta tres m\'odulos individuales antes de migrar al plan Completo. \\
+M\'odulo individual & Plan que brinda acceso completo al m\'odulo contratado; se pueden contratar hasta tres m\'odulos individuales antes de migrar al plan Completo. \\
 \addlinespace
 
 Momentum & M\'etrica de aceleraci\'on o desaceleraci\'on de una serie respecto de su tendencia. \\
@@ -409,7 +408,7 @@ Normalizaci\'on & Proceso de estandarizaci\'on de pa\'ises, variables, unidades,
 Organismo oficial emisor & Instituci\'on que publica la informaci\'on econ\'omica original consumida por la plataforma. \\
 \addlinespace
 
-Pandas & Biblioteca de Python prevista para el procesamiento y transformaci\'on de datos. \\
+Pandas & Biblioteca de Python utilizada para el procesamiento y la transformaci\'on de datos. \\
 \addlinespace
 
 PDF & \emph{Portable Document Format}. Formato que puede utilizarse como fuente de ingesta y tambi\'en como formato de exportaci\'on. \\
@@ -427,7 +426,7 @@ Plan de Iteraci\'on & Artefacto elaborado al inicio de cada sprint con objetivo,
 Postcondici\'on & Estado o condici\'on que debe cumplirse al finalizar correctamente un caso de uso. \\
 \addlinespace
 
-PostgreSQL & Base de datos prevista para almacenar datos normalizados, m\'etricas, hist\'oricos, revisiones, usuarios, organizaciones, permisos y registros de auditor\'ia. \\
+PostgreSQL & Base de datos donde se almacenan los datos normalizados, m\'etricas, hist\'oricos, revisiones, usuarios, organizaciones, permisos y registros de auditor\'ia. \\
 \addlinespace
 
 Precondici\'on & Estado o condici\'on que debe cumplirse antes de iniciar un caso de uso. \\
@@ -496,7 +495,7 @@ SIE & Sistema de Informaci\'on Econ\'omica de Banxico. \\
 Silver & Capa del patr\'on Medallion que almacena datos validados, normalizados y trazables. \\
 \addlinespace
 
-SLA & \emph{Service Level Agreement}. Compromiso de nivel de servicio contemplado como parte del plan Enterprise. \\
+SLA & \emph{Service Level Agreement}. Compromiso de nivel de servicio incluido en el plan Enterprise. \\
 \addlinespace
 
 Sorpresa & Diferencia entre el valor esperado por el mercado y el valor efectivamente observado. \\
@@ -523,7 +522,7 @@ Trazabilidad metodol\'ogica & Registro que vincula cada dato o m\'etrica con su 
 URL & \emph{Uniform Resource Locator}. Direcci\'on utilizada para identificar la ubicaci\'on de una fuente o recurso y conservar su procedencia. \\
 \addlinespace
 
-USD & D\'olar estadounidense. Moneda utilizada en las estimaciones preliminares de precios y costos del Documento de Negocio. \\
+USD & D\'olar estadounidense. Moneda de las estimaciones de precios y costos del Documento de Negocio. \\
 \addlinespace
 
 Webhook & Notificaci\'on enviada autom\'aticamente por un sistema externo cuando ocurre un evento. En \proyectoNombre{} se utiliza para recibir cambios de estado de una suscripci\'on desde el proveedor de pagos. \\

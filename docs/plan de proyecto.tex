@@ -14,7 +14,7 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.1}
+\newcommand{\docVersion}{1.2}
 \newcommand{\docTitulo}{Plan de Proyecto}
 \newcommand{\docFecha}{Septiembre 2026}
 
@@ -121,6 +121,7 @@
 \begin{historial}
 1.0 & 31/08/2026 & Versi\'on inicial del Plan de Proyecto & Equipo LEIP \\
 1.1 & 11/09/2026 & Alineaci\'on terminol\'ogica con el Documento de Visi\'on: se retira el t\'ermino MVP y se unifica la referencia a la Lista de Riesgos & Equipo LEIP \\
+1.2 & 12/09/2026 & Revisi\'on de redacci\'on: se elimina la escritura defensiva en metodolog\'ia, ceremonias y criterio de aceptaci\'on & Equipo LEIP \\
 \end{historial}
 \clearpage
 
@@ -130,11 +131,7 @@
 Este documento tiene como finalidad establecer el plan a utilizar durante el desarrollo del proyecto \proyectoNombre{} -- \proyectoNombreLargo{}. El mismo servir\'a de gu\'ia para establecer las tareas a realizar en cada etapa del proyecto, distribuir responsabilidades entre los integrantes del equipo y definir los hitos que permitir\'an construir y validar la primera etapa del
 producto.
 
-Este documento es la versi\'on vigente del plan. No se considera cerrado: se
-actualiza cuando cambian el alcance, el cronograma o la organizaci\'on del
-trabajo, y cada cambio queda asentado en el historial de revisiones.
-
-El equipo trabajar\'a bajo una metodolog\'ia \'agil (Scrum modificado), con iteraciones cortas (sprints) para la planificaci\'on, desarrollo, validaci\'on y revisi\'on continua del proyecto, manteniendo un tablero de backlog compartido. Las tareas ser\'an divididas y distribuidas entre los integrantes seg\'un las \'areas de responsabilidad de cada uno. Es responsabilidad de cada integrante seguir el cronograma acordado; no obstante, este podr\'a tener variaciones durante la ejecuci\'on de cada sprint, en cuyo caso ser\'a de suma importancia documentar todo cambio y redistribuir los roles de ser necesario.
+El equipo trabajar\'a bajo una metodolog\'ia \'agil (Scrum modificado), con iteraciones cortas (sprints) para la planificaci\'on, desarrollo, validaci\'on y revisi\'on continua del proyecto, manteniendo un tablero de backlog compartido. Las tareas ser\'an divididas y distribuidas entre los integrantes seg\'un las \'areas de responsabilidad de cada uno. Cada integrante sigue el cronograma acordado. Cuando la ejecuci\'on de un sprint obliga a modificarlo, el cambio se documenta y los roles se redistribuyen.
 
 El alcance funcional planificado en este documento corresponde a la primera etapa del producto definida en el Documento de Visi\'on, y comprende: pa\'ises iniciales Brasil, M\'exico y Uruguay; m\'odulos Macro Expectations Intelligence, Prices \& Inflation Intelligence y Real Activity Intelligence; y las capacidades de ingesta, normalizaci\'on, inteligencia anal\'itica, aplicaci\'on web, pagos/suscripciones y API institucional.
 
@@ -174,9 +171,9 @@ El resto del equipo participa como equipo de desarrollo multifuncional en las di
 \begin{itemize}
   \item \textbf{Sprint Planning}: al inicio de cada sprint, para seleccionar y estimar los \'items del backlog a desarrollar.
   \item \textbf{Seguimiento semanal} (daily/weekly stand-up): revisi\'on breve de avance, bloqueos y coordinaci\'on entre \'areas.
-  \item \textbf{Sprint Review}: al cierre de cada sprint, demostraci\'on del incremento funcional al equipo (y al tutor, cuando corresponda).
+  \item \textbf{Sprint Review}: al cierre de cada sprint, demostraci\'on del incremento funcional al equipo y al tutor.
   \item \textbf{Retrospectiva}: identificaci\'on de mejoras al proceso de trabajo y actualizaci\'on del registro de riesgos.
-  \item \textbf{Reuni\'on de avance con el tutor de tesis}: con frecuencia semanal; podr\'a espaciarse a cada dos semanas si baja la carga de trabajo, siempre que se acuerde previamente con el tutor.
+  \item \textbf{Reuni\'on de avance con el tutor de tesis}: semanal. Pasa a quincenal cuando baja la carga de trabajo, acord\'andolo con el tutor.
 \end{itemize}
 
 \subsection{Gesti\'on del backlog y priorizaci\'on}
@@ -189,7 +186,7 @@ Todo cambio de alcance, requerimiento o prioridad se documenta como un nuevo \'i
 
 \subsection{Estimaci\'on}
 
-Los \'items del backlog se estiman en Story Points mediante Planning Poker (o t\'ecnica an\'aloga) durante la Sprint Planning. Al finalizar cada sprint se revisa la velocity del equipo, utiliz\'andola como referencia para ajustar el alcance de los sprints siguientes y la proyecci\'on de los hitos definidos en la secci\'on~\ref{sec:hitos}.
+Los \'items del backlog se estiman en Story Points mediante Planning Poker durante la Sprint Planning. Al finalizar cada sprint se revisa la velocity del equipo, utiliz\'andola como referencia para ajustar el alcance de los sprints siguientes y la proyecci\'on de los hitos definidos en la secci\'on~\ref{sec:hitos}.
 
 \subsection{Gesti\'on de riesgos}
 
@@ -275,7 +272,7 @@ A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto
   \item Pruebas end-to-end de los flujos cr\'iticos (ingesta $\rightarrow$ normalizaci\'on $\rightarrow$ inteligencia $\rightarrow$ visualizaci\'on $\rightarrow$ exportaci\'on).
   \item Validaci\'on del producto con usuarios reales del segmento objetivo (continuaci\'on del plan de validaci\'on iniciado con la encuesta a analistas).
   \item Ajustes finales de producto, seguridad y performance seg\'un resultados de QA y validaci\'on.
-  \item Actualizaci\'on de toda la documentaci\'on a su versi\'on vigente y preparaci\'on de la defensa de tesis.
+  \item Actualizaci\'on de la documentaci\'on con el estado final del producto y preparaci\'on de la defensa de tesis.
 \end{itemize} \\
 
 \end{longtable}
@@ -284,9 +281,9 @@ A continuaci\'on se definen los objetivos a alto nivel de cada hito del proyecto
 % =====================================================================
 \section{Criterio de Aceptaci\'on del Proyecto}
 
-El criterio de aceptaci\'on del proyecto se define en base al alcance de la primera etapa del producto y al plan de validaci\'on. Este criterio deber\'a validarse formalmente con el tutor de tesis y, de corresponder, con usuarios/organizaciones que participen de la validaci\'on del producto.
+El criterio de aceptaci\'on del proyecto se define en base al alcance de la primera etapa del producto y al plan de validaci\'on. Este criterio se valida con el tutor de tesis y con las organizaciones que participen de la validaci\'on del producto.
 
-\textbf{El proyecto se considerar\'a aceptado cuando se cumplan las siguientes condiciones:}
+\textbf{El proyecto se acepta cuando se cumplen las siguientes condiciones:}
 
 \begin{enumerate}
   \item Ingesta y normalizaci\'on funcionando de forma automatizada para las fuentes oficiales de Brasil, M\'exico y Uruguay, para los m\'odulos Macro Expectations Intelligence, Prices \& Inflation Intelligence y Real Activity Intelligence.

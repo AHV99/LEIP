@@ -13,7 +13,7 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{1.3}
+\newcommand{\docVersion}{1.4}
 \newcommand{\docTitulo}{Documento de Visi\'on}
 \newcommand{\docFecha}{Septiembre 2026}
 \newcommand{\equipoLista}{%
@@ -224,6 +224,7 @@
 1.1 & 28/08/2026 & Ajustes de validaci\'on, fuentes, monetizaci\'on y arquitectura de ingesta & Equipo \\
 1.2 & 28/08/2026 & Consolidaci\'on de secciones y depuraci\'on de pendientes & Equipo \\
 1.3 & 08/09/2026 & Reorganizaci\'on del documento en torno a los aspectos t\'ecnicos y funcionales del producto. Se incorporan acr\'onimos, introducciones de secci\'on y criterios de priorizaci\'on. El an\'alisis de mercado, la validaci\'on comercial y el modelo de negocio se trasladan al Documento de Negocio & Equipo \\
+1.4 & 12/09/2026 & Revisi\'on de redacci\'on: se elimina la escritura defensiva ---atenuantes, futuros evasivos, descargos repetidos y los p\'arrafos que declaraban el estado del propio documento--- y se afirman en presente las decisiones ya tomadas & Equipo \\
 \end{historial}
 
 % =====================================================================
@@ -243,15 +244,9 @@ Los aspectos de mercado, la validaci\'on comercial del problema, la definici\'on
 del negocio y los planes de contrataci\'on se desarrollan en el Documento de
 Negocio y no forman parte de este documento.
 
-Este documento constituye la versi\'on vigente de la definici\'on del producto.
-No se considera cerrado: se actualiza cada vez que una decisi\'on de producto,
-una nueva fuente de datos o un cambio de capacidades modifiquen su contenido, y
-cada modificaci\'on queda asentada en el historial de revisiones.
-
 \subsection{Alcance del documento}
 
-Esta secci\'on delimita qu\'e cubre y qu\'e no cubre el documento, para que el
-lector sepa d\'onde buscar la informaci\'on que no encuentre aqu\'i.
+Esta secci\'on delimita qu\'e cubre y qu\'e no cubre el documento.
 
 El documento cubre la definici\'on del producto y su perspectiva dentro del
 entorno de trabajo de los usuarios, el problema que resuelve, los usuarios,
@@ -282,7 +277,7 @@ listado completo de t\'erminos y siglas del producto.
 API     & \emph{Application Programming Interface}. Interfaz mediante la cual un sistema consulta o intercambia informaci\'on con otro de forma program\'atica. \\
 Banxico & Banco de M\'exico. Banco central de M\'exico y fuente oficial de las expectativas de ese pa\'is. \\
 BCB     & Banco Central do Brasil. Banco central de Brasil y fuente oficial del Bolet\'in Focus. \\
-BCCh    & Banco Central de Chile. Banco central de Chile, fuente considerada para una etapa posterior. \\
+BCCh    & Banco Central de Chile. Banco central de Chile; su encuesta de expectativas queda fuera de la primera etapa. \\
 BCU     & Banco Central del Uruguay. Banco central de Uruguay y fuente oficial de sus encuestas de expectativas. \\
 BI      & \emph{Business Intelligence}. Conjunto de herramientas de an\'alisis y visualizaci\'on que los usuarios emplean en su entorno de trabajo. \\
 CSV     & \emph{Comma-Separated Values}. Formato de archivo de texto plano en el que algunos organismos publican sus series. \\
@@ -453,9 +448,8 @@ macroecon\'omicas, precios e inflaci\'on y actividad econ\'omica. Chile queda
 fuera de esa primera etapa: su incorporaci\'on depende de obtener autorizaci\'on
 expresa para el uso previsto de sus datos.
 
-La tabla \ref{tab:fuentes} resume, para cada pa\'is, la fuente de expectativas
-considerada, su frecuencia de publicaci\'on y su situaci\'on respecto del
-alcance inicial.
+La tabla \ref{tab:fuentes} resume, para cada pa\'is, la fuente de expectativas,
+su frecuencia de publicaci\'on y su situaci\'on respecto del alcance inicial.
 
 \begin{table}[htbp]
 \centering
@@ -463,12 +457,12 @@ alcance inicial.
 \label{tab:fuentes}
 \begin{tabularx}{\textwidth}{l l X}
 \toprule
-\textbf{Pa\'is} & \textbf{Fuente considerada} & \textbf{Frecuencia y situaci\'on} \\
+\textbf{Pa\'is} & \textbf{Fuente} & \textbf{Frecuencia y situaci\'on} \\
 \midrule
 Brasil  & Bolet\'in Focus (BCB)            & Semanal. Incluida en la primera etapa. \\
 M\'exico & Encuesta de expectativas / SIE (Banxico) & Quincenal o mensual. Incluida en la primera etapa. \\
 Uruguay & Encuestas de expectativas (BCU)  & Mensual. Incluida en la primera etapa. \\
-Chile   & Encuesta de Expectativas Econ\'omicas (BCCh) & Mensual. Fuera de la primera etapa; su incorporaci\'on depende de la autorizaci\'on de uso del organismo. \\
+Chile   & Encuesta de Expectativas Econ\'omicas (BCCh) & Mensual. Fuera de la primera etapa: su incorporaci\'on requiere la autorizaci\'on de uso del organismo. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -562,10 +556,9 @@ plataforma conserva la historia de cada medici\'on y el origen de cada n\'umero,
 lo que permite auditar un resultado y reproducirlo, algo que los procesos
 manuales no garantizan.
 
-Como primera hip\'otesis t\'ecnica, se definir\'a un boceto de arquitectura de
-agentes para los procesos de extracci\'on, cuyo objetivo ser\'a coordinar la
-obtenci\'on, interpretaci\'on y validaci\'on de fuentes heterog\'eneas
-manteniendo controles determin\'isticos de calidad y trazabilidad. La
+Los procesos de extracci\'on se apoyan en una arquitectura de agentes que
+coordina la obtenci\'on, interpretaci\'on y validaci\'on de fuentes
+heterog\'eneas bajo controles determin\'isticos de calidad y trazabilidad. La
 composici\'on de los agentes, sus herramientas y su orquestaci\'on se
 especifican en las Notas de Arquitectura y Dise\~no.
 
@@ -730,8 +723,8 @@ Exportaciones en formatos estructurados y acceso program\'atico autenticado \\
 % =====================================================================
 \section{Capacidades del producto}
 
-Las capacidades siguientes constituyen el alcance funcional previsto para una
-primera etapa del producto:
+Las capacidades siguientes constituyen el alcance funcional de la primera etapa
+del producto:
 
 \begin{itemize}
   \item \textbf{Pa\'ises cubiertos:} Brasil, M\'exico y Uruguay, utilizando
@@ -757,14 +750,13 @@ primera etapa del producto:
 \section{Asunciones y dependencias}
 
 El producto se define bajo las asunciones que se enumeran a continuaci\'on. Si
-alguna de ellas no se cumple, el alcance previsto para la primera etapa debe
-revisarse.
+alguna de ellas no se cumple, el alcance de la primera etapa debe revisarse.
 
 \begin{itemize}
   \item Los organismos oficiales mantienen la publicaci\'on de las series
         cubiertas, con frecuencia y cobertura equivalentes a las actuales.
-  \item Los formatos de publicaci\'on se mantienen razonablemente estables, o
-        sus cambios son detectables por validaci\'on autom\'atica.
+  \item Los formatos de publicaci\'on se mantienen estables, o sus cambios son
+        detectables por validaci\'on autom\'atica.
   \item Cada organismo y conjunto de datos habilita el uso previsto por
         \proyectoNombre{} conforme a sus condiciones espec\'ificas. Esta
         verificaci\'on se mantiene en la matriz de fuentes y no se presume a
@@ -893,7 +885,7 @@ en que se presentan.
         mantenimiento.
 \end{itemize}
 
-Aplicando estos criterios, el orden de construcci\'on previsto es el siguiente:
+Aplicando estos criterios, el orden de construcci\'on es el siguiente:
 
 \begin{enumerate}
   \item M\'odulo \modMacro{} sobre los tres pa\'ises cubiertos, como n\'ucleo

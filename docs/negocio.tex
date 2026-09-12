@@ -13,7 +13,7 @@
 \newcommand{\proyectoUniversidad}{Universidad Cat\'olica del Uruguay}
 \newcommand{\proyectoFacultad}{Facultad de Ingenier\'ia y Tecnolog\'ias}
 \newcommand{\proyectoCarrera}{Ingenier\'ia en Inform\'atica}
-\newcommand{\docVersion}{0.1}
+\newcommand{\docVersion}{0.2}
 \newcommand{\docTitulo}{Documento de Negocio}
 \newcommand{\docFecha}{Septiembre 2026}
 \newcommand{\equipoLista}{%
@@ -221,6 +221,7 @@
 
 \begin{historial}
 0.1 & 08/09/2026 & Versi\'on inicial. Re\'une el contenido de mercado, validaci\'on comercial y modelo de negocio trasladado desde el Documento de Visi\'on & Equipo \\
+0.2 & 12/09/2026 & Revisi\'on de redacci\'on: se elimina la escritura defensiva; el estado de la validaci\'on se enuncia una sola vez, en su propia secci\'on & Equipo \\
 \end{historial}
 
 % =====================================================================
@@ -235,18 +236,8 @@ alternativas existentes y el modelo de negocio con el que se sostiene.
 
 La definici\'on del producto, sus capacidades, sus usuarios y sus restricciones
 t\'ecnicas se desarrollan en el Documento de Visi\'on. Este documento parte de
-esa definici\'on y no la repite.
-
-Esta es la versi\'on vigente del an\'alisis comercial. Se actualiza a medida que
-avanza la validaci\'on y que se toman decisiones sobre precios, planes y
-segmentos.
-
-\subsection{Estado de esta versi\'on}
-
-El contenido de este documento proviene de la reorganizaci\'on del Documento de
-Visi\'on. Se recoge aqu\'i tal como estaba planteado, para servir de punto de
-partida al trabajo posterior. Las cifras de precios y costos son preliminares y
-deben revisarse antes de darlas por definitivas.
+esa definici\'on y no la repite. El contenido de partida proviene del Documento
+de Visi\'on, de donde se traslad\'o sin modificaciones.
 
 % =====================================================================
 \section{Mercado}
@@ -310,11 +301,10 @@ Hip\'otesis con evidencia secundaria \\
 \end{tabularx}
 \end{table}
 
-Las condiciones \emph{masivo dentro del nicho}, \emph{doloroso} y
-\emph{mal resuelto} no pueden considerarse validadas con la muestra actual. La
-evaluaci\'on queda en pausa hasta reunir suficientes encuestas y entrevistas,
-con desagregaci\'on de perfiles institucionales. Mientras tanto, el modelo de
-negocio de la secci\'on \ref{sec:negocio} se mantiene como hip\'otesis.
+Ninguna de las tres condiciones est\'a validada: la muestra actual no alcanza.
+La validaci\'on contin\'ua hasta reunir suficientes encuestas y entrevistas,
+desagregadas por perfil institucional. Hasta entonces, el modelo de negocio de
+la secci\'on \ref{sec:negocio} es una hip\'otesis.
 
 \subsection{Plan de validaci\'on}
 
@@ -346,15 +336,14 @@ El instrumento utilizado es la encuesta disponible en
 
 \subsection{Estado de la validaci\'on}
 
-La recolecci\'on de respuestas se encuentra en curso. La muestra disponible no
-es suficiente para afirmar que el problema, la disposici\'on a pagar o el modelo
-de negocio est\'en validados. Por esta raz\'on no se presentan conclusiones
-cuantitativas ni comerciales en esta versi\'on.
+La recolecci\'on de respuestas est\'a en curso y la muestra disponible no
+alcanza para validar el problema, la disposici\'on a pagar ni el modelo de
+negocio. Esta versi\'on no presenta conclusiones cuantitativas.
 
-Al cerrar la recolecci\'on se reportar\'an el n\'umero de respuestas, la
-composici\'on por tipo de perfil y los tres indicadores del plan de validaci\'on.
-Las conclusiones distinguir\'an perfiles institucionales de usuarios acad\'emicos
-o individuales e incorporar\'an la ronda de entrevistas cualitativas.
+Al cerrar la recolecci\'on, este documento reporta el n\'umero de respuestas, su
+composici\'on por perfil y los tres indicadores del plan de validaci\'on. Las
+conclusiones separan los perfiles institucionales de los acad\'emicos e
+individuales, e incorporan la ronda de entrevistas cualitativas.
 
 % =====================================================================
 \section{Posicionamiento}
@@ -448,17 +437,16 @@ consultar las series oficiales que ya se encuentran disponibles p\'ublicamente,
 con trazabilidad hacia su origen. Los planes pagos no cobran por el dato oficial
 aislado, sino por el hist\'orico consolidado y versionado, las comparaciones, la
 normalizaci\'on, las m\'etricas propias, los cruces, las alertas, los
-\emph{briefings}, las exportaciones y el acceso program\'atico seg\'un
-corresponda.
+\emph{briefings}, las exportaciones y el acceso program\'atico.
 
 \subsection{Planes}
 
-La tabla \ref{tab:planes} presenta los planes preliminares, su precio de
-referencia y el valor que incluye cada uno.
+La tabla \ref{tab:planes} presenta los planes, su precio de referencia y el
+valor que incluye cada uno.
 
 \begin{table}[htbp]
 \centering
-\caption{Planes preliminares}
+\caption{Planes y precios de referencia}
 \label{tab:planes}
 \begin{tabularx}{\textwidth}{l l X}
 \toprule
@@ -495,8 +483,7 @@ entrada hacia los planes pagos.
 
 \subsection{Costos y viabilidad}
 
-La estimaci\'on corresponde a un escenario de primera etapa con hasta 500
-usuarios, ocho actualizaciones mensuales, 50~GB de almacenamiento, 12 horas
+La estimaci\'on supone una primera etapa con hasta 500 usuarios, ocho actualizaciones mensuales, 50~GB de almacenamiento, 12 horas
 mensuales de mantenimiento t\'ecnico, 10 horas mensuales de administraci\'on y
 un valor estimado del trabajo de USD 15 por hora.
 
