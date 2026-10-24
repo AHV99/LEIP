@@ -1,2 +1,82 @@
-# LaTeX build output
-/docs/build/
+# Python: entornos virtuales y bytecode
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+__pypackages__/
+
+# Empaquetado
+/build/
+/dist/
+*.egg-info/
+.eggs/
+
+# Cachés, pruebas y cobertura
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.ipynb_checkpoints/
+
+# Descargas reales, modelos Docling/Hugging Face y resultados temporales.
+# El proyecto configura estas cachés y los informes de pruebas dentro de work/.
+/work/
+/outputs/
+/logs/
+.cache/
+
+# Configuración local y secretos; las plantillas sí se comparten
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Sistema operativo y archivos temporales del editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+*.swp
+*.swo
+*~
+
+# Auxiliares de compilación LaTeX (se conservan fuentes, imágenes y PDF)
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+*.idx
+*.ind
+*.ilg
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.ist

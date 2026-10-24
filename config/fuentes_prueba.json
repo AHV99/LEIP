@@ -1,0 +1,37 @@
+{
+  "description": "Fuentes oficiales para probar los tres lectores con descargas reales. No es un motor de flujos.",
+  "banks": {
+    "BCU": {
+      "country": "Uruguay",
+      "entry_url": "https://www.bcu.gub.uy/Politica-Economica-y-Mercados/Paginas/Expectativas-de-los-agentes.aspx",
+      "discovery": "Leer siteUrl, libraryName, viewName y handler desde los scripts de la página; consultar listados HTML y Publicar por POST.",
+      "regression_files": ["Monitor_trimestral_set26.html", "IEES05I2.xlsx", "IEES05I2.csv", "Informe expectativas de mercado SETIEMBRE 2026.pdf"],
+      "docling_pdf_options": {"backend": "docling", "pages": [1], "ocr": false},
+      "docling_validation": {"status": "passed", "date": "2026-10-23", "version": "2.142.1", "sample_period": "2026-09", "tables": 2, "ocr": false},
+      "readers": ["read_html", "read_spreadsheet", "read_pdf"]
+    },
+    "BCB": {
+      "country": "Brasil",
+      "entry_url": "https://www.bcb.gov.br/publicacoes/focus",
+      "sample_url": "https://bcb.gov.br/content/focus/focus/R20260430.pdf",
+      "sample_period": "2026-04-30",
+      "discovery": "La página es una aplicación JavaScript. Se comprueba acceso a la página y un informe histórico encontrado en el sitio oficial; aún no se automatiza su listado.",
+      "readers": ["read_pdf"]
+    },
+    "BCRP": {
+      "country": "Perú",
+      "entry_url": "https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/expectativas-macroeconomicas",
+      "series_code": "PD12912AM",
+      "table_selector": "table.series",
+      "discovery": "Seguir el enlace de resultados HTML que la página publica para la serie PD12912AM.",
+      "readers": ["read_html"]
+    },
+    "BCP": {
+      "country": "Paraguay",
+      "entry_url": "https://www.bcp.gov.py/en/encuesta-de-expectativas-de-variables-economicas-eve",
+      "sample_url": "https://www.bcp.gov.py/documents/20117/2746057/Informe_EVE-octubre_2026.pdf/a741d12c-5617-1b25-ecb5-ec6284f061fd?t=1792417908303",
+      "status": "blocked_http_403_in_python",
+      "note": "Página e informe identificados mediante navegación web. Las descargas Python devolvieron 403; no se considera lector validado para este banco."
+    }
+  }
+}
