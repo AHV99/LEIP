@@ -1,0 +1,27 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{Historial de revisiones}{1}{Doc-Start}%
+\contentsline {section}{\numberline {1}Introducción}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Propósito}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Alcance del documento}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Convención de identificadores}{3}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Requerimientos funcionales}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Sistema de datos}{3}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Ingesta de fuentes oficiales}{3}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Normalización de datos}{4}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Control de calidad y trazabilidad}{4}{subsubsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.2}Capa de inteligencia}{4}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Métricas}{4}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Comparación regional}{4}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Señales analíticas}{4}{subsubsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.3}Aplicación web}{5}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Autenticación y usuarios}{5}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Pagos y suscripciones}{5}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}Dashboard de análisis}{5}{subsubsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.4}Radar de expectativas}{6}{subsubsection.2.3.4}%
+\contentsline {subsubsection}{\numberline {2.3.5}Exportación y uso de resultados}{6}{subsubsection.2.3.5}%
+\contentsline {subsubsection}{\numberline {2.3.6}Integración programática y fuentes privadas}{6}{subsubsection.2.3.6}%
+\contentsline {section}{\numberline {3}Requerimientos no funcionales}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Trazabilidad y auditoría}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Seguridad}{7}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Aislamiento}{7}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Cumplimiento}{7}{subsection.3.4}%

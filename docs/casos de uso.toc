@@ -1,0 +1,11 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{Historial de revisiones}{1}{Doc-Start}%
+\contentsline {section}{\numberline {1}Introducci\'on}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Objetivo del documento}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Alcance}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Convenciones}{2}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Actores}{2}{section.2}%
+\contentsline {section}{\numberline {3}Diagrama de casos de uso}{2}{section.3}%
+\contentsline {section}{\numberline {4}Listado de casos de uso}{2}{section.4}%
+\contentsline {section}{\numberline {5}Especificaci\'on de los casos de uso}{4}{section.5}%
+\contentsline {subsection}{CU00.00\hskip 1em\relax Nombre del caso de uso}{4}{section*.1}%

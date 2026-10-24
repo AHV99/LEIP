@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leip-readers"
+version = "0.1.0"
+description = "Lectores reutilizables de fuentes estadísticas para LEIP"
+requires-python = ">=3.11"
+dependencies = ["beautifulsoup4>=4.12,<5", "pdfplumber>=0.11,<0.12", "openpyxl>=3.1,<4", "xlrd>=2,<3"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+docling = ["docling>=2.142.1,<3"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+markers = ["bcu: pruebas con descargas reales del BCU (requieren --bcu o --live)", "live: integración con otros bancos (requiere --live)", "docling: conversión real con modelos Docling (requiere --docling)"]
