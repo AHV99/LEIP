@@ -5,9 +5,9 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "leip-readers"
 version = "0.1.0"
-description = "Lectores reutilizables de fuentes estadísticas para LEIP"
+description = "Tools del motor de extracción de LEIP: consulta, enlaces y lectores"
 requires-python = ">=3.11"
-dependencies = ["beautifulsoup4>=4.12,<5", "pdfplumber>=0.11,<0.12", "openpyxl>=3.1,<4", "xlrd>=2,<3"]
+dependencies = ["requests>=2.31,<3", "lxml>=5,<7", "beautifulsoup4>=4.12,<5", "pdfplumber>=0.11,<0.12", "openpyxl>=3.1,<4", "xlrd>=2,<3"]
 
 [project.optional-dependencies]
 test = ["pytest>=8,<10"]

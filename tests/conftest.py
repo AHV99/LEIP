@@ -1,9 +1,12 @@
+from http.server import ThreadingHTTPServer
 import json
+import threading
 from urllib.parse import unquote
 
 import pytest
 
 from tests.live_sources import LiveSources, ROOT
+from tests.local_server import Handler
 
 
 def pytest_addoption(parser):
@@ -31,6 +34,15 @@ def pytest_collection_modifyitems(config, items):
         for item in items:
             if "docling" in item.keywords:
                 item.add_marker(pytest.mark.skip(reason="Usar --docling; requiere modelos locales"))
+
+
+@pytest.fixture(scope="session")
+def server():
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=srv.serve_forever, daemon=True)
+    thread.start()
+    yield f"http://127.0.0.1:{srv.server_port}"
+    srv.shutdown()
 
 
 @pytest.fixture(scope="session")
