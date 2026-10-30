@@ -1,6 +1,6 @@
 # Tools de lectura: primera prueba de concepto
 
-Implementación en `src/leip_tools/readers.py`. Exporta únicamente `read_pdf`,
+Implementación en `src/leip_tools/readers.py`. Exporta `read_pdf`,
 `read_spreadsheet`, `read_html` y la excepción `ReadError`.
 
 Las funciones reciben una ruta local o bytes y un `source` opcional para
@@ -14,10 +14,39 @@ Hay tres funciones reutilizables de lectura. Las pruebas separadas permiten
 detectar pérdida de filas, cambios de columna o mezcla de tablas y gráficos
 antes de conectar el resto del sistema. No acreditan un flujo completo de LEIP.
 
-Todavía faltan `http_request` y `find_publications` como tools del paquete,
-y el ejecutor que combine los pasos. La navegación y descarga existentes están
-en el soporte de pruebas; no constituyen esas tools de producción.
+`http_request` y `extract_links` ya son tools del paquete (ver la sección
+siguiente). Todavía falta el ejecutor que combine los pasos según la
+configuración. La navegación de `tests/live_sources.py` sigue siendo soporte de
+pruebas y no usa esas tools.
 Tampoco existe integración con agentes ni interpretación de variables A/B.
+
+## Consulta y enlaces: http_request y extract_links
+
+`http_request` hace GET o POST y devuelve un `HttpResult` (status, URL final,
+tipo de contenido y `text` o `file`). `extract_links` saca enlaces y metadatos de
+un HTML o JSON según la configuración, sin abrirlos ni decidir qué falta procesar.
+La configuración completa está en el docstring de cada módulo.
+
+Los lectores reciben una ruta o bytes, y un `str` siempre es una ruta. Por eso el
+contenido a leer se descarga con `save="always"` y se pasa `file.path`, con la URL
+final como `source`:
+
+```python
+from leip_tools import extract_links, http_request, new_session, read_spreadsheet
+
+s = new_session()
+listado = http_request(URL_HANDLER, "POST", data=FORMULARIO, session=s)
+enlaces = extract_links(listado.text, listado.final_url,
+                        {"filters": [{"on": "filename", "equals": "IEES05I2.csv"}]},
+                        content_type=listado.content_type)
+csv = http_request(enlaces[0].url, save="always", session=s)
+tabla = read_spreadsheet(csv.file.path, source=csv.final_url, header_row=1)
+```
+
+`tests/test_recorridos.py` cubre los cuatro recorridos del documento de
+herramientas contra un servidor local. Los errores de estas tools siguen las ramas
+del pipeline: `TechnicalError` notifica y `ContentError` va a investigación. Los
+lectores siguen lanzando `ReadError`, que hoy no se distingue en esas ramas.
 
 ## Instalar y probar (PowerShell, desde la raíz del repositorio)
 
